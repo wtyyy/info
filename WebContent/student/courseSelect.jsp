@@ -45,6 +45,8 @@
 				<td>教师</td>
 				<td>星期</td>
 				<td>第几节</td>
+				<td>容量</td>
+				<td>选课人数</td>
 			</tr>
 			<%
 				if (session.getAttribute("privilege").equals("student")) {

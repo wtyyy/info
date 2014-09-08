@@ -7,8 +7,7 @@
 </head>
 <body>
 	<form method="post" action="registration.jsp">
-		<center>
-			<table border="1" width="30%" cellpadding="5">
+			<table border="1">
 				<thead>
 					<tr>
 						<th colspan="2">Enter Information Here</th>
@@ -29,7 +28,7 @@
 					</tr>
 					<tr>
 						<td>phone</td>
-						<td><input type="text" name="tel" value="" /></td>
+						<td><input type="number" name="tel" value="" /></td>
 					</tr>
 					<tr>
 						<td>Password</td>
@@ -45,7 +44,6 @@
 					</tr>
 				</tbody>
 			</table>
-		</center>
 	</form>
 </body>
 </html>

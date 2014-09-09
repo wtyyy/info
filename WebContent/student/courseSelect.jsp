@@ -5,6 +5,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="java.sql.*"%>
+<jsp:useBean id="user" class="util.UserTable" scope="session"/>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -16,16 +17,13 @@
 		if (request.getAttribute("message") != null) {
 			out.println(request.getAttribute("message"));
 		}
-		out.println("你的情况是:");
-		out.println(session.getAttribute("privilege"));
-		out.println(session.getAttribute("id"));
-		out.println(session.getAttribute("email"));
+		out.println(user);
 		Class.forName("com.mysql.jdbc.Driver");
 		Connection con = Conn.getConn();
 		ResultSet selectedCourseSet = null;
-		if (session.getAttribute("privilege").equals("student")) {
-			String email = (String) session.getAttribute("email");
-			int id = (int) session.getAttribute("id");
+		if (user.getPrivilege().equals("student")) {
+			String email = user.getEmail();
+			int id = user.getId();
 			Statement st = con.createStatement();
 			selectedCourseSet = st
 					.executeQuery("select * from studentChooseCourse where studentId='"
@@ -49,7 +47,7 @@
 				<td>选课人数</td>
 			</tr>
 			<%
-				if (session.getAttribute("privilege").equals("student")) {
+				if (user.getPrivilege().equals("student")) {
 					for (; selectedCourseSet.next();) {
 
 						Statement st = con.createStatement();

@@ -6,6 +6,7 @@
 <% request.setCharacterEncoding("UTF-8");
 response.setCharacterEncoding("UTF-8");
 %>
+<jsp:useBean id="user" class="util.UserTable" scope="session"/>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -13,13 +14,8 @@ response.setCharacterEncoding("UTF-8");
 <title>课程管理</title>
 </head>
 <%
-	out.println("你的情况是:");
-	String privilege = (String) session.getAttribute("privilege");
-	int id = (int) session.getAttribute("id");
-
-	out.println(privilege);
-	out.println(id);
-	if (!"admin".equals(privilege)) {
+	out.println(user);
+	if (!"admin".equals(user.getPrivilege())) {
 		response.sendRedirect("../index.jsp");
 	}
 %>

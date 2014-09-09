@@ -8,6 +8,7 @@
 	request.setCharacterEncoding("UTF-8");
 	response.setCharacterEncoding("UTF-8");
 %>
+<jsp:useBean id="user" class="util.UserTable" scope="session" />
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -15,13 +16,8 @@
 </head>
 <body>
 	<%
-		out.println("你的情况是:");
-		String privilege = (String) session.getAttribute("privilege");
-		int id = (int) session.getAttribute("id");
-
-		out.println(privilege);
-		out.println(id);
-		if ((!"admin".equals(privilege))) {
+		out.println(user);
+		if ((!"admin".equals(user.getPrivilege()))) {
 			response.sendRedirect("../index.jsp");
 		} else if ("delete".equals((String) request.getParameter("oper"))) {
 			out.println("别拿那种眼神看着我，我知道你想删东西");

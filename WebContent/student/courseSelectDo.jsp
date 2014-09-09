@@ -2,6 +2,7 @@
 <%@page import="java.sql.*"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<jsp:useBean id="user" class="util.UserTable" scope="session"/>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -10,12 +11,8 @@
 </head>
 <body>
 	<%
-		out.println("你的情况是:");
-		String privilege = (String) session.getAttribute("privilege");
-		int id = (int) session.getAttribute("id");
+		out.println(user);
 
-		out.println(privilege);
-		out.println(id);
 		int courseId = Integer.parseInt(request.getParameter("courseId"));
 		Connection con = Conn.getConn();
 		if (con == null) {
@@ -31,7 +28,7 @@
 			try {
 				ResultSet myCourses = con.prepareStatement(
 						"select * from studentChooseCourse where studentId='"
-								+ id + "'").executeQuery();
+								+ user.getId() + "'").executeQuery();
 				ResultSet wantedCourse = con
 						.prepareStatement(
 								"select * from courses where id='"
@@ -71,7 +68,7 @@
 					if (chosedNumber < capacity) {
 						con.createStatement().executeUpdate(
 								"insert into studentChooseCourse(studentId, courseId) values('"
-										+ id + "','" + courseId + "')");
+										+ user.getId() + "','" + courseId + "')");
 						response.sendRedirect("courseSelect.jsp");
 					} else {
 						notCommmit = true;
@@ -96,7 +93,7 @@
 			out.println("你想删课");
 			int result = con.createStatement().executeUpdate(
 					"delete from studentChooseCourse where studentId='"
-							+ id + "' and courseId='" + courseId + "'");
+							+ user.getId() + "' and courseId='" + courseId + "'");
 			out.println("删除了" + result + "个");
 		}
 	%>

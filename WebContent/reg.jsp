@@ -10,6 +10,7 @@
 %>
 <body>
 	<form method="post" action="registration.jsp">
+		<input type="hidden" name="oper" value="reg">
 			<table border="1">
 				<thead>
 					<tr>

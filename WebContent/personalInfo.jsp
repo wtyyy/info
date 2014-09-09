@@ -19,6 +19,7 @@
 		}
 	%>
 	<form method="post" action="registration.jsp">
+		<input type="hidden" name="oper" value="update">
 		<table border="1">
 			<thead>
 				<tr>
@@ -40,7 +41,7 @@
 				</tr>
 				<tr>
 					<td>Email</td>
-					<td><input type="email" name="email" value="<%=user.getEmail() %>" /></td>
+					<td><input type="email" name="email" value="<%=user.getEmail() %>" readonly /></td>
 				</tr>
 				<tr>
 					<td>date of birth</td>

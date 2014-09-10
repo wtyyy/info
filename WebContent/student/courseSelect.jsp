@@ -1,3 +1,4 @@
+<%@page import="util.StudentChooseCourseHistory"%>
 <%@page import="util.CourseInfo"%>
 <%@page import="org.apache.commons.dbutils.BeanProcessor"%>
 <%@page import="util.CourseTable"%>
@@ -7,6 +8,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="java.sql.*"%>
+<%@ page import="java.util.*"%>
 <jsp:useBean id="user" class="util.UserInfo" scope="session" />
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -84,7 +86,30 @@
 		%>
 		<input type="submit" value="Submit" />
 	</form>
-
+	选课历史纪录：
+	<table>
+		<tr>
+			<td>课程id</td>
+			<td>课程名</td>
+			<td>操作</td>
+			<td>时间</td>
+		</tr>
+		<%
+			ResultSet rs = Conn
+					.getConn()
+					.prepareStatement(
+							"select * from studentChooseCourseHistory where studentId ="
+									+ user.getId()).executeQuery();
+			List<StudentChooseCourseHistory> historyList = new BeanProcessor()
+					.toBeanList(rs, StudentChooseCourseHistory.class);
+			for (StudentChooseCourseHistory history : historyList) {
+				out.println("<tr><td>" + history.getCourseId() + "</td><td>"
+						+ CourseInfo.getById(history.getCourseId()).getName()
+						+ "</td><td>" + history.getOperation() + "</td><td>"
+						+ history.getTime() + "</td></tr>");
+			}
+		%>
+	</table>
 
 </body>
 </html>

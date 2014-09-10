@@ -1,6 +1,22 @@
 package util;
 
+import java.io.IOException;
+import java.sql.*;
+
+import org.apache.commons.dbutils.BeanProcessor;
+
+import jdbc.Conn;
+
 public class CourseInfo {
+	
+	static public CourseInfo getById(int courseId) throws SQLException, IOException, ClassNotFoundException {
+		ResultSet rs = Conn.getConn().prepareStatement("select * from courses where id=" + courseId).executeQuery();
+		if (rs.next()) {
+			return (CourseInfo)new BeanProcessor().toBean(rs, CourseInfo.class);
+		}else {
+			throw new SQLException();
+		}
+	}
 	
 	@Override
 	public String toString() {

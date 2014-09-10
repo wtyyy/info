@@ -1,6 +1,23 @@
 package util;
 
+import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import jdbc.Conn;
+
+import org.apache.commons.dbutils.BeanProcessor;
+
 public class UserInfo {
+	static public UserInfo getById(int userId) throws SQLException, IOException, ClassNotFoundException {
+		ResultSet rs = Conn.getConn().prepareStatement("select * from users where id=" + userId).executeQuery();
+		if (rs.next()) {
+			return (UserInfo)new BeanProcessor().toBean(rs, UserInfo.class);
+		}else {
+			throw new SQLException();
+		}
+	}
+	
 	int id;
 
 	String email;

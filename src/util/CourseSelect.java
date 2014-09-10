@@ -9,6 +9,9 @@ import jdbc.Conn;
 public class CourseSelect {
 	public static String select(int studentId, int courseId)
 			throws SQLException, IOException, ClassNotFoundException {
+		
+
+		
 		Connection con = Conn.getConn();
 		try {
 			con.setAutoCommit(false);
@@ -59,6 +62,14 @@ public class CourseSelect {
 				return "人满";
 			}
 			con.commit();
+			
+			PreparedStatement st = Conn.getConn().prepareStatement("insert into studentChooseCourseHistory(studentId, courseId, operation,time) values(?,?,?,?)");
+			st.setInt(1, studentId);
+			st.setInt(2, courseId);
+			st.setString(3, "select");
+			st.setTimestamp(4, Timestamp.from(Calendar.getInstance().toInstant()));
+			st.executeUpdate();
+			
 			return null;
 
 		} catch (SQLException e) {
@@ -68,6 +79,14 @@ public class CourseSelect {
 	}
 
 	public static String deselect(int studentId, int courseId) throws ClassNotFoundException, SQLException {
+		
+		PreparedStatement st = Conn.getConn().prepareStatement("insert into studentChooseCourseHistory(studentId, courseId, operation,time) values(?,?,?,?)");
+		st.setInt(1, studentId);
+		st.setInt(2, courseId);
+		st.setString(3, "deselect");
+		st.setTimestamp(4, Timestamp.from(Calendar.getInstance().toInstant()));
+		st.executeUpdate();
+		
 		int result = Conn.getConn().createStatement().executeUpdate(
 			"delete from studentChooseCourse where studentId='"
 					+ studentId + "' and courseId='" + courseId + "'");

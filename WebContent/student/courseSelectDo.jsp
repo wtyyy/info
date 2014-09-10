@@ -52,8 +52,9 @@
 							notCommmit = true;
 							break;
 						}
-						if (wantedCourse.getInt("time") == thisCourseInfo
-								.getInt("time")) {
+						if (wantedCourse.getInt("day") == thisCourseInfo
+								.getInt("day") && wantedCourse.getInt("block") == thisCourseInfo
+										.getInt("block")) {
 							out.println("时间冲突");
 							notCommmit = true;
 							break;
@@ -95,6 +96,7 @@
 					"delete from studentChooseCourse where studentId='"
 							+ user.getId() + "' and courseId='" + courseId + "'");
 			out.println("删除了" + result + "个");
+			response.sendRedirect("courseSelect.jsp");
 		}
 	%>
 </body>

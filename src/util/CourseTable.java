@@ -24,9 +24,8 @@ public class CourseTable {
 		out.println("<td>" + course.getDay() + "</td>");
 		out.println("<td>" + course.getBlock() + "</td>");
 		out.println("<td>" + course.getCapacity() + "</td>");
-		out.println("<td>" + course.getStartTime() + "</td>");
-		out.println("<td>" + course.getEndTime() + "</td>");
-		out.println("<td>" + course.getText() + "</td>");
+		
+		
 
 		ResultSet whoChosedThisCourse = Conn
 				.getConn()
@@ -41,14 +40,19 @@ public class CourseTable {
 		}
 		out.println("<td>" + chosedNumber + "</td>");
 
+		
+		out.println("<td>" + course.getStartTime() + "</td>");
+		out.println("<td>" + course.getEndTime() + "</td>");
+		out.println("<td>" + course.getText() + "</td>");
+
 		out.println("</tr>");
 	}
 
 	public static void printTable(java.util.List<CourseInfo> courseList,
 			JspWriter out, boolean haveChooser) throws IOException,
 			SQLException, ClassNotFoundException {
-		out.println("<table border=\"1\">"
-				+ (haveChooser ? "<tr><td>选择</td>" : "")
+		out.println("<table border=\"1\"><tr>"
+				+ (haveChooser ? "<td>选择</td>" : "")
 				+ "<td>课程id</td><td>名称</td><td>教师</td><td>星期</td>"
 				+ "<td>第几节</td><td>课容量</td><td>选课人数</td>" +""
 						+ "<td>起始日期</td><td>结束日期</td><td>更多信息</td></tr>");

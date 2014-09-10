@@ -50,8 +50,7 @@
 				</tr>
 				<tr>
 					<td>phone</td>
-					<td><input type="number" name="tel"
-						value="<%=user.getTel()%>" /></td>
+					<td><input type="number" name="tel" value="<%=user.getTel()%>" /></td>
 				</tr>
 				<tr>
 					<td>紧急联系人</td>

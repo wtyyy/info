@@ -26,14 +26,18 @@
 		int userId = Integer.parseInt(request.getParameter("userId"));
 		UserInfo userInfo = UserInfo.getById(userId);
 		if ("delete".equals(request.getParameter("oper"))) {
-			if (Conn.getConn().prepareStatement("delete from users where id=" + userId).executeUpdate() > 0) {
+			if (Conn.getConn()
+					.prepareStatement(
+							"delete from users where id=" + userId)
+					.executeUpdate() > 0) {
 				response.sendRedirect("userManage.jsp");
 				return;
 			} else {
 				out.println("删除失败");
 			}
 		} else if ("changeBlock".equals(request.getParameter("oper"))) {
-			PreparedStatement st = Conn.getConn().prepareStatement("update users set blocked=? where id=" + userId);
+			PreparedStatement st = Conn.getConn().prepareStatement(
+					"update users set blocked=? where id=" + userId);
 			st.setInt(1, 1 - userInfo.getBlocked());
 			if (st.executeUpdate() > 0) {
 				response.sendRedirect("userManage.jsp");
@@ -42,8 +46,11 @@
 				out.println("更改封禁情况失败");
 			}
 		} else if ("changePrivilege".equals(request.getParameter("oper"))) {
-			PreparedStatement st = Conn.getConn().prepareStatement("update users set privilege=? where id=" + userId);
-			st.setString(1, userInfo.getPrivilege().equals("admin") ? "student" : "admin");
+			PreparedStatement st = Conn.getConn().prepareStatement(
+					"update users set privilege=? where id=" + userId);
+			st.setString(1,
+					userInfo.getPrivilege().equals("admin") ? "student"
+							: "admin");
 			if (st.executeUpdate() > 0) {
 				response.sendRedirect("userManage.jsp");
 				return;

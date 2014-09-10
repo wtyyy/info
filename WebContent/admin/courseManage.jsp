@@ -114,7 +114,7 @@
 		</table>
 	</form>
 	删除/修改课程：
-	<form method="post" action="courseManageDo.jsp">
+	<form method="get" action="courseManageDo.jsp">
 		<input type="hidden" name="oper" value="delete">
 		<%
 			CourseTable.printTable(

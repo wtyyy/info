@@ -52,7 +52,8 @@
 	%>
 	删除成员:
 	<form method="post" action="courseManageDo.jsp">
-		<input type="hidden" name="oper" value="deselect"> <input
+		<input type="hidden" name="redirect" value="<%=request.getRequestURL().toString() + "?" + request.getQueryString() %>"/>
+		<input type="hidden" name="oper" value="deselect" /> <input
 			type="hidden" name="courseId" value="<%=courseId%>" />
 		<%
 			UserTable.printUsers(memberList, out, true);
@@ -61,7 +62,8 @@
 	</form>
 	添加成员：
 	<form method="post" action="courseManageDo.jsp">
-		<input type="hidden" name="oper" value="select"> <input
+		<input type="hidden" name="redirect" value="<%=request.getRequestURL().toString() + "?" + request.getQueryString() %>"/>
+		<input type="hidden" name="oper" value="select" /> <input
 			type="hidden" name="courseId" value="<%=courseId%>" />
 		<%
 			UserTable
@@ -71,8 +73,8 @@
 											Conn.getConn()
 													.prepareStatement(
 															"select * from users where privilege='student'")
-													.executeQuery(), UserInfo.class),
-							out, true);
+													.executeQuery(),
+											UserInfo.class), out, true);
 		%>
 		<input type="submit" value="添加" />
 	</form>

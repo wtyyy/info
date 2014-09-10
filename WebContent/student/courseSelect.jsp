@@ -50,7 +50,6 @@
 				<td>起始日期</td>
 				<td>结束日期</td>
 				<td>更多信息</td>
-				
 			</tr>
 			<%
 				if (user.getPrivilege().equals("student")) {

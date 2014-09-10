@@ -1,10 +1,81 @@
 package util;
 
+import java.util.*;
+import java.io.IOException;
+import java.sql.*;
+
+import jdbc.Conn;
+
 public class CourseSelect {
-	public static boolean select(int studentId, int courseId) {
-		return true;
+	public static String select(int studentId, int courseId)
+			throws SQLException, IOException, ClassNotFoundException {
+		Connection con = Conn.getConn();
+		try {
+			con.setAutoCommit(false);
+
+			ResultSet myCourses = con.prepareStatement(
+					"select * from studentChooseCourse where studentId='"
+							+ studentId + "'").executeQuery();
+			ResultSet wantedCourse = con.prepareStatement(
+					"select * from courses where id='" + courseId + "'")
+					.executeQuery();
+			ResultSet whoChosedThisCourse = con.createStatement().executeQuery(
+					"select count(*) from studentChooseCourse where courseId="
+							+ courseId);
+
+			int chosedNumber = 0;
+			if (whoChosedThisCourse.next()) {
+				chosedNumber = whoChosedThisCourse.getInt(1);
+			} else {
+				return "获取选课人数失败";
+			}
+			int capacity = 0;
+			if (wantedCourse.next()) {
+				capacity = wantedCourse.getInt("capacity");
+				for (; myCourses.next();) {
+					ResultSet thisCourseInfo = con.prepareStatement(
+							"select * from courses where id='"
+									+ myCourses.getInt("courseId") + "'")
+							.executeQuery();
+					if (!thisCourseInfo.next()) {
+						return "sql挂了不关我事";
+					}
+					if (wantedCourse.getInt("day") == thisCourseInfo
+							.getInt("day")
+							&& wantedCourse.getInt("block") == thisCourseInfo
+									.getInt("block")) {
+						return "时间冲突";
+					}
+				}
+			} else {
+				return "没这个课";
+			}
+
+			if (chosedNumber < capacity) {
+				con.createStatement().executeUpdate(
+						"insert into studentChooseCourse(studentId, courseId) values('"
+								+ studentId + "','" + courseId + "')");
+			} else {
+				return "人满";
+			}
+			con.commit();
+			return null;
+
+		} catch (SQLException e) {
+			con.rollback();
+			throw e;
+		}
 	}
-	public static boolean deselect(int studentId, int courseId) {
-		return true;
+
+	public static String deselect(int studentId, int courseId) throws ClassNotFoundException, SQLException {
+		int result = Conn.getConn().createStatement().executeUpdate(
+			"delete from studentChooseCourse where studentId='"
+					+ studentId + "' and courseId='" + courseId + "'");
+		if (result > 0) {
+			return null;
+		}else {
+			return "你没选这门课";
+		}
+		
 	}
 }

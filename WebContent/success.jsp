@@ -1,18 +1,20 @@
+<%@page import="org.apache.commons.dbutils.BeanProcessor"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.util.Calendar"%>
+<%@page import="java.util.Date"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page import="java.sql.*"%>
+<%@ page import="jdbc.*"%>
 <%
-	if ((session.getAttribute("email") == null)
-			|| (session.getAttribute("email") == "")) {
+	request.setCharacterEncoding("UTF-8");
+	response.setCharacterEncoding("UTF-8");
 %>
-You are not logged in
-<br />
-<a href="index.jsp">Please Login</a>
+<jsp:useBean id="user" class="util.UserInfo" scope="session" />
 <%
-	} else {
-%>
-Welcome
-<%=session.getAttribute("email")%>
-<a href='student/index.jsp'>学生主页 </a>
-<a href='logout.jsp'>Log out</a>
-<%
+	if (user.getPrivilege().equals("admin")) {
+		response.sendRedirect("admin/index.jsp");
+	} else if (user.getPrivilege().equals("student")){
+		response.sendRedirect("student/index.jsp");
+		
 	}
 %>

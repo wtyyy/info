@@ -19,7 +19,6 @@
 <body>
 	<%
 		out.println(user);
-		out.println(request.getParameter("isModify"));
 		if ((!"admin".equals(user.getPrivilege()))) {
 			response.sendRedirect("../index.jsp");
 		} else if ("delete".equals((String) request.getParameter("oper"))) {
@@ -47,7 +46,7 @@
 				out.println("没有这个课呦");
 			}
 
-		} else if ("add".equals((String) request.getParameter("oper"))) {
+		} else if ("add".equals(request.getParameter("oper"))) {
 			out.println("别拿那种眼神看着我，我知道你想加东西");
 			out.println(course);
 			if (CourseTime.fromDayAndBlock(course.getDay(),
@@ -88,6 +87,26 @@
 					out.println("课程名称不能重复哦亲");
 				} else
 					throw e;
+			}
+		}else if ("select".equals(request.getParameter("oper"))) {
+			out.println("拉人啦!");
+			int studentId = Integer.parseInt(request.getParameter("userId"));
+			int courseId = Integer.parseInt(request.getParameter("courseId"));
+			String errorMessage = CourseSelect.select(studentId, courseId);
+			if ( errorMessage == null) {
+				response.sendRedirect(request.getParameter("redirect"));
+			} else {
+				out.println(errorMessage);
+			}
+		}else if ("deselect".equals(request.getParameter("oper"))) {
+			out.println("踢人啦!");
+			int studentId = Integer.parseInt(request.getParameter("userId"));
+			int courseId = Integer.parseInt(request.getParameter("courseId"));
+			String errorMessage = CourseSelect.deselect(studentId, courseId);
+			if ( errorMessage == null) {
+				response.sendRedirect(request.getParameter("redirect"));
+			} else {
+				out.println(errorMessage);
 			}
 		}
 		//

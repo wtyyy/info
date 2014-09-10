@@ -7,6 +7,6 @@
 <title>studentIndex</title>
 </head>
 <body>
-<a href="courseSelect.jsp">烦烦烦烦烦烦烦烦烦 </a> 
+<a href="courseSelect.jsp">选课 </a> 
 </body>
 </html>

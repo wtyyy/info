@@ -1,3 +1,5 @@
+<%@page import="util.CourseInfo"%>
+<%@page import="org.apache.commons.dbutils.BeanProcessor"%>
 <%@page import="util.CourseTable"%>
 <%@page import="util.CourseTime"%>
 <%@page import="com.sun.crypto.provider.RSACipher"%>
@@ -5,7 +7,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="java.sql.*"%>
-<jsp:useBean id="user" class="util.UserTable" scope="session"/>
+<jsp:useBean id="user" class="util.UserInfo" scope="session" />
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -45,6 +47,10 @@
 				<td>第几节</td>
 				<td>容量</td>
 				<td>选课人数</td>
+				<td>起始日期</td>
+				<td>结束日期</td>
+				<td>更多信息</td>
+				
 			</tr>
 			<%
 				if (user.getPrivilege().equals("student")) {
@@ -56,7 +62,10 @@
 										+ selectedCourseSet.getInt("courseId")
 										+ "'");
 						if (thisCourse.next()) {
-							CourseTable.printSingleCourse(thisCourse, out, true);
+							CourseTable.printSingleCourse(
+									(CourseInfo) (new BeanProcessor().toBean(
+											thisCourse, CourseInfo.class)), out,
+									true);
 						} else {
 							out.println("搞错了");
 						}
@@ -70,9 +79,9 @@
 	<form method="post" action="courseSelectDo.jsp">
 		<input type="hidden" name="oper" value="add">
 		<%
-			CourseTable.printTable(con
+			CourseTable.printTable(new BeanProcessor().toBeanList(con
 					.prepareStatement("select * from courses").executeQuery(),
-					out, true);
+					CourseInfo.class), out, true);
 		%>
 		<input type="submit" value="Submit" />
 	</form>

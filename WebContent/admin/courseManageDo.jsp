@@ -8,7 +8,9 @@
 	request.setCharacterEncoding("UTF-8");
 	response.setCharacterEncoding("UTF-8");
 %>
-<jsp:useBean id="user" class="util.UserTable" scope="session" />
+<jsp:useBean id="course" class="util.CourseInfo" scope="request" />
+<jsp:setProperty name="course" property="*" />
+<jsp:useBean id="user" class="util.UserInfo" scope="session" />
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -20,6 +22,10 @@
 		if ((!"admin".equals(user.getPrivilege()))) {
 			response.sendRedirect("../index.jsp");
 		} else if ("delete".equals((String) request.getParameter("oper"))) {
+			if ("delete".equals((String) request.getParameter("isModify"))) {
+				response.sendRedirect("couseManage.jsp?courseId=" + request
+						.getParameter("courseId"));
+			}
 			out.println("别拿那种眼神看着我，我知道你想删东西");
 			out.println("你想删课");
 
@@ -42,30 +48,26 @@
 
 		} else if ("add".equals((String) request.getParameter("oper"))) {
 			out.println("别拿那种眼神看着我，我知道你想加东西");
-			String name = request.getParameter("name");
-			String teacher = request.getParameter("teacher");
-			int day = Integer.parseInt(request.getParameter("day"));
-			int timeInDay = Integer.parseInt(request
-					.getParameter("timeInDay"));
-			int capacity = Integer.parseInt(request
-					.getParameter("capacity"));
-			out.println(name + teacher + day + " " + timeInDay + " "
-					+ capacity);
-			String text = request.getParameter("text");
-			if (CourseTime.fromDayAndBlock(day, timeInDay) == null) {
+			out.println(course);
+			if (CourseTime.fromDayAndBlock(course.getDay(), course.getBlock()) == null) {
 				out.println("时间不对");
 			} else {
-				int time = CourseTime.fromDayAndBlock(day, timeInDay)
-						.getEncodedTime();
-				out.println(time);
 				try {
-					Conn.getConn()
-							.prepareStatement(
-									"insert into courses(name, teacher,time, text, capacity) values('"
-											+ name + "','" + teacher
-											+ "','" + time + "','" + text
-											+ "','" + capacity + "') ")
-							.executeUpdate();
+					PreparedStatement st = Conn.getConn().prepareStatement(
+							"insert into courses(name, teacher,day,block, text, capacity, startTime, endTime)"
+									+ "values(?,?,?,?,?,?,?,?)");
+					st.setString(1, course.getName());
+					st.setString(2, course.getTeacher());
+					st.setInt(3, course.getDay());
+					st.setInt(4, course.getBlock());
+					st.setString(5, course.getText());
+					st.setInt(6, course.getCapacity());
+					st.setDate(7, Date.valueOf(course.getStartTime()));
+					st.setDate(8, Date.valueOf(course.getEndTime()));
+					int i = st.executeUpdate();
+					if (i > 0) {
+						out.println("成功啦");
+					}
 				} catch (SQLException e) {
 					if (e.getErrorCode() == 1062) {
 						out.println("课程名称不能重复哦亲");

@@ -5,7 +5,7 @@
 <%@page import="jdbc.*"%>
 <%@page import="util.*"%>
 <%@page import="org.apache.commons.dbutils.*"%>
-<jsp:useBean id="user" class="util.UserTable" scope="session" />
+<jsp:useBean id="user" class="util.UserInfo" scope="session" />
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -29,8 +29,7 @@
 			<tbody>
 				<tr>
 					<td>name</td>
-					<td><input type="text" name="name"
-						value="<%=user.getName()%>" /></td>
+					<td><input type="text" name="name" value="<%=user.getName()%>" /></td>
 				</tr>
 				<tr>
 					<td>gender</td>
@@ -41,35 +40,42 @@
 				</tr>
 				<tr>
 					<td>Email</td>
-					<td><input type="email" name="email" value="<%=user.getEmail() %>" readonly /></td>
+					<td><input type="email" name="email"
+						value="<%=user.getEmail()%>" readonly /></td>
 				</tr>
 				<tr>
 					<td>date of birth</td>
-					<td><input type="date" name="dateBorn" value="<%=user.getDateBorn() %>" /></td>
+					<td><input type="date" name="dateBorn"
+						value="<%=user.getDateBorn()%>" /></td>
 				</tr>
 				<tr>
 					<td>phone</td>
-					<td><input type="number" name="tel" value="<%=user.getTel() %>" /></td>
+					<td><input type="number" name="tel"
+						value="<%=user.getTel()%>" /></td>
 				</tr>
 				<tr>
 					<td>紧急联系人</td>
-					<td><input type="text" name="emergencyContactName" value="<%=user.getEmergencyContactName() %>" /></td>
+					<td><input type="text" name="emergencyContactName"
+						value="<%=user.getEmergencyContactName()%>" /></td>
 				</tr>
 				<tr>
 					<td>紧急联系人电话</td>
-					<td><input type="number" name="emergencyContactTel" value="<%=user.getEmergencyContactTel() %>" /></td>
+					<td><input type="number" name="emergencyContactTel"
+						value="<%=user.getEmergencyContactTel()%>" /></td>
 				</tr>
 				<tr>
 					<td>家庭住址</td>
-					<td><input type="text" name="address" value="<%=user.getAddress() %>" /></td>
+					<td><input type="text" name="address"
+						value="<%=user.getAddress()%>" /></td>
 				</tr>
 				<tr>
 					<td>QQ</td>
-					<td><input type="number" name="qq" value="<%=user.getQq() %>" /></td>
+					<td><input type="number" name="qq" value="<%=user.getQq()%>" /></td>
 				</tr>
 				<tr>
 					<td>Password</td>
-					<td><input type="password" name="password" value="<%=user.getPassword() %>" /></td>
+					<td><input type="password" name="password"
+						value="<%=user.getPassword()%>" /></td>
 				</tr>
 				<tr>
 					<td><input type="submit" value="Submit" /></td>

@@ -9,7 +9,7 @@
 	request.setCharacterEncoding("UTF-8");
 	response.setCharacterEncoding("UTF-8");
 %>
-<jsp:useBean id="user" class="util.UserTable" scope="session" />
+<jsp:useBean id="user" class="util.UserInfo" scope="session" />
 <jsp:setProperty name="user" property="*" />
 <%
 	out.println(user);

@@ -1,6 +1,6 @@
 package util;
 
-public class UserTable {
+public class UserInfo {
 	int id;
 
 	String email;

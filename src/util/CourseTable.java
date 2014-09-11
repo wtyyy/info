@@ -82,7 +82,7 @@ public class CourseTable {
 	public static void printTable(java.util.List<CourseInfo> courseList,
 			JspWriter out, boolean haveChooser) throws IOException,
 			SQLException, ClassNotFoundException, ParseException {
-		out.println("<table border=\"1\"><tr>"
+		out.println("<table id=\"customers\"><tr>"
 				+ (haveChooser ? "<td>选择</td>" : "")
 				+ "<td>课程id</td><td>名称</td><td>教师</td><td>星期</td>"
 				+ "<td>第几节</td><td>课容量</td><td>选课人数</td>" + ""

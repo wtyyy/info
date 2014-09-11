@@ -31,7 +31,7 @@ public class UserTable {
 
 	public static void printUsers(List<UserInfo> userInfoList, JspWriter out,
 			boolean showOper) throws IOException, SQLException {
-		out.println("<table><tr>" + (showOper ? "<td>选择</td>" : "")
+		out.println("<table id=\"customers\"><tr>" + (showOper ? "<td>选择</td>" : "")
 				+ "<td>id</td>" + "<td>邮箱</td>" + "<td>名字</td>" + "<td>性别</td>"
 				+ "<td>出生日期</td>" + "<td>电话</td>" + "<td>紧急联系人</td>"
 				+ "<td>紧急联系人电话</td>" + "<td>地址</td>" + "<td>qq</td>"

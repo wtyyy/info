@@ -70,12 +70,12 @@ $(document).ready(function(){
       <div class="logo"><a href="#"><img src="images/logo.gif" width="338" height="70" border="0" alt="" /></a></div>
       <div class="menu">
         <ul>
-          <li><a href="index.jsp" class="active"><span>登陆首页</span></a></li>
-          <li><a href="portfolio.html"><span>公共资源页面 </span></a></li>
-          <li><a href="about.html"><span> 课程管理页面</span></a></li>
-          <li><a href="contact.html"><span>讨论区</span></a></li>
-          <li><a href="contact.html"><span> 师资力量</span></a></li>
-          <li><a href="contact.html"><span> 网站简介</span></a></li>
+          <li><a href="/Test/index.jsp" class="active" ><span>登陆首页</span></a></li>
+          <li><a href="/Test/publicResource/" ><span>公共资源页面 </span></a></li>
+          <li><a href="/Test/student/courseSelect.jsp"><span> 课程管理页面</span></a></li>
+          <li><a href="/Test/discussion/"><span>讨论区</span></a></li>
+          <li><a href="/Test/teachers.jsp"><span> 师资力量</span></a></li>
+          <li><a href="/Test/about.jsp"><span> 网站简介</span></a></li>
         </ul>
       </div>
       <div class="clr"></div>
@@ -143,9 +143,17 @@ $(document).ready(function(){
   <div class="body">
     <div class="body_resize">
       <div class="left">
+      	<%if("admin".equals(user.getPrivilege())) { %>
+      		<h2>管理中心</h2>
+      		<table id="customers">
+      		<tr><td><a href="admin/courseManage.jsp">课程管理</a></td></tr>
+      		<tr><td><a href="admin/userManage.jsp">用户管理</a></td></tr>
+      		<tr><td><a href="admin/infoManage.jsp">公共资源管理</a></td></tr>
+      		<tr><td><a href="">讨论区管理</a></td></tr>
+      		</table>
+      	<%} else if("student".equals(user.getPrivilege())){ %>
         <h2>你的课表</h2>
         <%
-        	if (user.getEmail() != null) {
         		List<CourseInfo> courseList = CourseInfo.getStudentCourseList(user.getId());
         %>
         <table border="1" id="customers">

@@ -120,7 +120,7 @@ $(document).ready(function(){
         <div class="bg"></div>
         <p>用户注册就像查户口本<br />
          	请提前准备好充足的个人信息  </p>
-        <a href="reg.jsp"><img src="images/fbg_read_more.gif" alt="" width="87" height="31" border="0" /></a></div>
+        <a href="register.jsp"><img src="images/fbg_read_more.gif" alt="" width="87" height="31" border="0" /></a></div>
       <div class="block"> <img src="images/fbg_2.gif" alt="" width="49" height="49" />
         <h2>我想更加了解自己。。<br />
           <span>查看/修改个人信息 </span></h2>

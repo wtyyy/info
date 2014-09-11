@@ -28,7 +28,7 @@
 	int code = Integer.parseInt(request.getParameter("code"));
 	UserInfo user = UserInfo.getById(id);
 	if (user.getEmail().hashCode() == code) {
-		Conn.getConn().prepareStatement("update users set validated=1 where id=" + id);
+		Conn.getConn().prepareStatement("update users set validated=1 where id=" + id).execute();
 		out.println("验证成功，<a href=\"signin.jsp\">去登录</a>");
 	} else {
 		out.println(user.getEmail().hashCode() + "\n"+  code);

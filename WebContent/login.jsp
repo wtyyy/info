@@ -40,7 +40,7 @@
 		} else {
 			session.setAttribute("user", tempUser);
 			
-			response.sendRedirect("success.jsp");
+			response.sendRedirect("index.jsp");
 			return;
 		}
 	} else {

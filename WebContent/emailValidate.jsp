@@ -21,18 +21,18 @@
 <body>
 <%
 	if (request.getParameter("id")==null || request.getParameter("code") == null) {
-		out.println("少参数呦");
+		out.println("数据格式错误");
 		return;
 	}
 	int id = Integer.parseInt(request.getParameter("id"));
 	int code = Integer.parseInt(request.getParameter("code"));
 	UserInfo user = UserInfo.getById(id);
 	if (user.getEmail().hashCode() == code) {
-		out.println("验证成功");
 		Conn.getConn().prepareStatement("update users set validated=1 where id=" + id);
+		out.println("验证成功，<a href=\"signin.jsp\">去登录</a>");
 	} else {
 		out.println(user.getEmail().hashCode() + "\n"+  code);
-		out.println("验证失败");
+		out.println("验证码错误");
 	}
 %>
 

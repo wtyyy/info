@@ -1,7 +1,7 @@
 package util;
 
 public class CourseTime {
-	static int BLOCKS_IN_DAY = 14;
+	static int BLOCKS_IN_DAY = 5;
 	int time;
 
 	private CourseTime(int time) {

@@ -29,7 +29,10 @@ response.setCharacterEncoding("UTF-8");
 	while (set.next()) {
 		DiscussionInfo di = ((DiscussionInfo) (new BeanProcessor().toBean(
 				set, DiscussionInfo.class)));
-		di.printContent(out);
+		if (user.getName()==null)
+			di.printContent(out, false, false);
+		else 
+			di.printContent(out, di.getUserid()==user.getId(), user.getPrivilege().equals("admin"));
 	}
 	
 	int i = 2;
@@ -40,10 +43,15 @@ response.setCharacterEncoding("UTF-8");
 	while (set2.next()) {
 		DiscussionReplyInfo dri = ((DiscussionReplyInfo) (new BeanProcessor().toBean(
 				set2, DiscussionReplyInfo.class)));
-		dri.printContent(out, i++);
+		if (user.getName()==null)
+			dri.printContent(out, i++, false, false);
+		else 
+			dri.printContent(out, i++, dri.getUserid()==user.getId(), user.getPrivilege().equals("admin"));
 	}
 	
 	out.println("</table>");
+	
+	session.setAttribute("lastURL", "/Test/discussion/postReply.jsp?topicid="+topicid);
 %>
 
 <div>

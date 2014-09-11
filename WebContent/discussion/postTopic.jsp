@@ -20,7 +20,6 @@ response.setCharacterEncoding("UTF-8");
 <table border="1">
 <%
 	
-	
 	Connection con = Conn.getConn();
 	ResultSet set = null;
 	
@@ -38,6 +37,8 @@ response.setCharacterEncoding("UTF-8");
 				set, DiscussionInfo.class)));
 		di.printTitle(out, i++);
 	}
+	
+	session.setAttribute("lastURL", "/Test/discussion/postTopic.jsp?zone="+zone);
 %>
 </table>
 </div>

@@ -4,6 +4,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="java.sql.*"%>
+<%@ page import="java.util.*"%>
 <% request.setCharacterEncoding("UTF-8");
 response.setCharacterEncoding("UTF-8");
 %>
@@ -16,19 +17,10 @@ response.setCharacterEncoding("UTF-8");
 <title>Insert title here</title>
 </head>
 <body>
-
 <%
-	Connection con = Conn.getConn();
-	ResultSet set = null;
-	
-	Statement st = con.createStatement();
-	set = st.executeQuery("select * from discussion where discussType='T' order by postDate DESC ");
-	while (set.next()) {
-		DiscussionInfo di = ((DiscussionInfo) (new BeanProcessor().toBean(
-				set, DiscussionInfo.class)));
-		di.printTitle(out, 0);
-	}
-	
+	int id = Integer.valueOf(request.getParameter("id"));
+	Conn.getConn().prepareStatement("delete from discussReply where id="+id).execute();
+	response.sendRedirect((String)session.getAttribute("lastURL"));
 %>
 </body>
 </html>

@@ -4,6 +4,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="java.sql.*"%>
+<%@ page import="java.util.*"%>
 <% request.setCharacterEncoding("UTF-8");
 response.setCharacterEncoding("UTF-8");
 %>
@@ -16,19 +17,19 @@ response.setCharacterEncoding("UTF-8");
 <title>Insert title here</title>
 </head>
 <body>
-
 <%
-	Connection con = Conn.getConn();
-	ResultSet set = null;
-	
-	Statement st = con.createStatement();
-	set = st.executeQuery("select * from discussion where discussType='T' order by postDate DESC ");
-	while (set.next()) {
-		DiscussionInfo di = ((DiscussionInfo) (new BeanProcessor().toBean(
-				set, DiscussionInfo.class)));
-		di.printTitle(out, 0);
-	}
-	
+PreparedStatement st = Conn.getConn().prepareStatement("select * from Discussion where id=?");
+st.setInt(1, Integer.valueOf(request.getParameter("id")));
+ResultSet rs = st.executeQuery();
+if (rs.next()) {
+	int cons = rs.getInt("cons")+1;
+	PreparedStatement st2 = Conn.getConn().prepareStatement("update Discussion set cons=? where id=?");
+	st2.setInt(1, cons);
+	st2.setInt(2, Integer.valueOf(request.getParameter("id")));
+	st2.executeUpdate();
+}
+response.sendRedirect((String)session.getAttribute("lastURL")==null?"/Test/index.jsp":(String)session.getAttribute("lastURL"));
+
 %>
 </body>
 </html>

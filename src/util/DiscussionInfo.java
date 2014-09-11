@@ -42,6 +42,19 @@ public class DiscussionInfo {
 		return lastReplyName;
 	}
 	
+	public String getDeletePrint() {
+		return "<a href="+"/Test/discussion/deleteTDO.jsp?id="+id+">删</a>";
+	}
+	
+	public String getForbiddenPrint() {
+		return "<a href="+"/Test/discussion/forbidDO.jsp?id="+userid+">封</a>";
+	}
+	
+	public String getZanCaiPrint() {
+		return "<a href="+"/Test/discussion/zanTDO.jsp?id="+id+">赞("+pros+")</a>"
+				+ "<a href="+"/Test/discussion/caiTDO.jsp?id="+id+">踩("+cons+")</a>";
+	}
+	
 	public void printTitle(JspWriter out, int i) throws IOException {
 		out.println(
 				"<tr><td>"+i
@@ -52,14 +65,18 @@ public class DiscussionInfo {
 				+ "</tr>");
 	}
 	
-	public void printContent(JspWriter out) throws IOException {
+	public void printContent(JspWriter out, boolean isSelf, boolean isAdmin) throws IOException {
 		out.println(
-				"<tr>" + "<td>" + topic + "</td>"
+				"<tr><td>"+topic+"</td></tr>"
+				+ "<tr>"
 				+ "<td>"+1+"</td>"
 				+ "<td>"+getNamePrint()+"</td>"
 				+ "<td>"+DateTimePrint.dateTimePrint(postDate)+"</td></tr>"
 				+ "<tr><td>"+content+"</td>"
-				+ "</tr>");
+				+ "</tr>"
+				+ "<tr><td>"+((isSelf||isAdmin)?getDeletePrint():"")+"</td>"
+				+"<td>"+(isAdmin?getForbiddenPrint():"")+"</td>"
+				+"<td>"+getZanCaiPrint()+"</td></tr>");
 	}
 	
 	public int getId() {

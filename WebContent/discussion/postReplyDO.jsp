@@ -15,12 +15,37 @@ response.setCharacterEncoding("UTF-8");
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
 <title>Insert title here</title>
 </head>
 <body>
 <%
-	PreparedStatement st = Conn.getConn().prepareStatement(
-		"insert into discussion(content, appendixURL, userid, discussType, pros, cons, postDate, belongs, zone, userName)"
+
+	if (user.getName()==null) {
+		
+		out.println("<script language=\"javascript\">");
+		out.println("if(confirm(\"您尚未注册，不能发言。现在注册？\"))");
+		out.println("{");
+		out.println("location.href=\"/Test/reg.jsp\";");
+		out.println("}");
+		out.println("else");
+		out.println("{");
+		out.println("location.href=\"/Test/discussion/postReply.jsp?topicid="+(int)session.getAttribute("topicid")+"\";");
+		out.println("}</script>");
+	} else {
+	
+	PreparedStatement st =  Conn.getConn().prepareStatement("select * from Forbidden where id=?");
+	st.setInt(1, user.getId());
+	ResultSet rs = st.executeQuery();
+	if (rs.next()) {
+		out.println("<script language=\"javascript\">");
+		out.println("alert(\"你已被禁言，尚不能发言\");");
+		out.println("location.href=\"/Test/discussion/postReply.jsp?topicid="+(int)session.getAttribute("topicid")+"\";");
+		out.println("</script>");
+	} else {
+	
+	st = Conn.getConn().prepareStatement(
+		"insert into discussReply(content, appendixURL, userid, discussType, pros, cons, postDate, belongs, zone, userName)"
 				+ " values(?,?,?,?,?,?,?,?,?,?)");
 	
 	st.setString(1, request.getParameter("content"));
@@ -36,8 +61,18 @@ response.setCharacterEncoding("UTF-8");
 	
 	st.executeUpdate();
 	
-	response.sendRedirect("/Test/discussion/postReply.jsp?"+(int)session.getAttribute("topicid"));
-
+	st = Conn
+			.getConn()
+			.prepareStatement(
+					"update discussion set lastReplyId=?, lastReplyTime=?, lastReplyName=? where id=?");
+	st.setInt(1, user.getId());
+	st.setTimestamp(2, Timestamp.from(Calendar.getInstance().toInstant()));
+	st.setString(3, user.getName());
+	st.setInt(4, (int)session.getAttribute("topicid"));
+	st.execute();
+	response.sendRedirect("/Test/discussion/postReply.jsp?topicid="+(int)session.getAttribute("topicid"));
+	}
+}
 %>
 </body>
 </html>

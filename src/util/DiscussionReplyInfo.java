@@ -22,12 +22,17 @@ public class DiscussionReplyInfo {
 	public void printContent(JspWriter out, int floor) throws IOException {
 		out.println(
 				"<tr><td>"+floor+"</td>"
-				+ "<td>"+userName+"</td>"
-				+ "<td>"+postDate+"</td></tr>"
+				+ "<td>"+getNamePrint()+"</td>"
+				+ "<td>"+DateTimePrint.dateTimePrint(postDate)+"</td></tr>"
 				+ "<tr><td>"+content+"</td>"
 				+ "</tr>");
 	}
 
+	public String getNamePrint() {
+		return userName;
+	}
+
+	
 	public int getId() {
 		return id;
 	}

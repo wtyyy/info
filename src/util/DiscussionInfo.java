@@ -30,12 +30,25 @@ public class DiscussionInfo {
 				+" belongs="+belongs+" zone="+zone+"]";
 	}
 	
-	public void printTitle(JspWriter out) throws IOException {
+	public String getTopicPrint() {
+		return "<a href="+"/Test/discussion/postReply.jsp?topicid="+id+">"+topic+"</a>";
+	}
+	
+	public String getNamePrint() {
+		return userName;
+	}
+	
+	public String getLastReplyNamePrint() {
+		return lastReplyName;
+	}
+	
+	public void printTitle(JspWriter out, int i) throws IOException {
 		out.println(
-				"<tr><td>"+topic+"</td>"
-				+ "<td>"+userName+"</td>" 
-				+ "<td>"+lastReplyTime+"</td>"
-				+ "<td>"+lastReplyName+"</td>"
+				"<tr><td>"+i
+				+ "<td>"+getTopicPrint()+"</td>"
+				+ "<td>"+getNamePrint()+"</td>" 
+				+ "<td>"+DateTimePrint.dateTimePrint(lastReplyTime)+"</td>"
+				+ "<td>"+getLastReplyNamePrint()+"</td>"
 				+ "</tr>");
 	}
 	
@@ -43,8 +56,8 @@ public class DiscussionInfo {
 		out.println(
 				"<tr>" + "<td>" + topic + "</td>"
 				+ "<td>"+1+"</td>"
-				+ "<td>"+userName+"</td>"
-				+ "<td>"+postDate+"</td></tr>"
+				+ "<td>"+getNamePrint()+"</td>"
+				+ "<td>"+DateTimePrint.dateTimePrint(postDate)+"</td></tr>"
 				+ "<tr><td>"+content+"</td>"
 				+ "</tr>");
 	}

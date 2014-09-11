@@ -19,7 +19,31 @@ response.setCharacterEncoding("UTF-8");
 </head>
 <body>
 <%
-	PreparedStatement st = Conn.getConn().prepareStatement(
+
+	if (user.getName()==null) {
+		
+		out.println("<script language=\"javascript\">");
+		out.println("if(confirm(\"您尚未注册，不能发言。现在注册？\"))");
+		out.println("{");
+		out.println("location.href=\"/Test/reg.jsp\";");
+		out.println("}");
+		out.println("else");
+		out.println("{");
+		out.println("location.href=\"/Test/discussion/postTopic.jsp"+"\";");
+		out.println("}</script>");
+		
+	} else {
+	
+	PreparedStatement st =  Conn.getConn().prepareStatement("select * from Forbidden where id=?");
+	st.setInt(1, user.getId());
+	ResultSet rs = st.executeQuery();
+	if (rs.next()) {
+		out.println("<script language=\"javascript\">");
+		out.println("alert(\"你已被禁言，尚不能发言\");");
+		out.println("location.href=\"/Test/discussion/postTopic.jsp"+"\";");
+		out.println("</script>");
+	} else {
+	st = Conn.getConn().prepareStatement(
 		"insert into discussion(topic, content, appendixURL, userid, discussType, pros, cons, postDate, belongs, zone, " +
 		"userName, lastReplyId, lastReplyName, lastReplyTime) "
 				+ "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
@@ -33,7 +57,7 @@ response.setCharacterEncoding("UTF-8");
 	st.setInt(7, 0);
 	st.setTimestamp(8, Timestamp.from(Calendar.getInstance().toInstant()));
 	st.setString(9, request.getParameter("belongs"));
-	st.setString(10, request.getParameter("zone"));
+	st.setString(10, session.getAttribute("zone").toString());
 	st.setString(11, user.getName());
 	st.setInt(12, user.getId());
 	st.setString(13, user.getName());
@@ -41,9 +65,10 @@ response.setCharacterEncoding("UTF-8");
 	
 	st.executeUpdate();
 	
-	response.sendRedirect("/Test/discussion/postTopic.jsp");
+	response.sendRedirect("/Test/discussion/postTopic.jsp?zone="+session.getAttribute("zone"));
 	//test
-	
+	}
+	}
 %>
 </body>
 </html>

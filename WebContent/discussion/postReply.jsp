@@ -17,11 +17,14 @@ response.setCharacterEncoding("UTF-8");
 <%
 	int topicid = Integer.parseInt(request.getParameter("topicid"));	
 	Connection con = Conn.getConn();
-	ResultSet set = null;
+	ResultSet set = null, set2 = null;
 	session.setAttribute("topicid", topicid);
 	Statement st = con.createStatement();
 	
 	set = st.executeQuery("select * from discussion where id="+topicid+" order by postDate ");
+	
+	out.println("<table border=\"1\">");
+
 	
 	while (set.next()) {
 		DiscussionInfo di = ((DiscussionInfo) (new BeanProcessor().toBean(
@@ -31,15 +34,16 @@ response.setCharacterEncoding("UTF-8");
 	
 	int i = 2;
 	
-	set = st.executeQuery("select * from discussionReply where belongs="+topicid+" order by postDate ");
+	
+	set2 = st.executeQuery("select * from discussReply where belongs="+topicid+" order by postDate ");
 
-	while (set.next()) {
+	while (set2.next()) {
 		DiscussionReplyInfo dri = ((DiscussionReplyInfo) (new BeanProcessor().toBean(
-				set, DiscussionReplyInfo.class)));
+				set2, DiscussionReplyInfo.class)));
 		dri.printContent(out, i++);
 	}
 	
-	
+	out.println("</table>");
 %>
 
 <div>

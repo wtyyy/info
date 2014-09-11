@@ -19,25 +19,33 @@ response.setCharacterEncoding("UTF-8");
 <div>
 <table border="1">
 <%
+	
+	
 	Connection con = Conn.getConn();
 	ResultSet set = null;
 	
 	Statement st = con.createStatement();
-	set = st.executeQuery("select * from discussion where discussType='T' order by postDate DESC ");
+	
+	String zone;
+	if (request.getParameter("zone") != null)
+		zone = request.getParameter("zone");
+	else zone = "other";
+	set = st.executeQuery("select * from discussion where zone='" + zone + "' order by lastReplyTime DESC ");
+	int i = 1;
+	session.setAttribute("zone", zone);
 	while (set.next()) {
 		DiscussionInfo di = ((DiscussionInfo) (new BeanProcessor().toBean(
 				set, DiscussionInfo.class)));
-		di.printTitle(out);
+		di.printTitle(out, i++);
 	}
 %>
 </table>
 </div>
 
 <div>
-<form id="form1" name="form1" method="get" action="postReplyDO.jsp">
+<form id="form1" name="form1" method="get" action="postTopicDO.jsp">
   <input name="discussType" type="hidden" value="T">
    <input name="belongs" type="hidden" value="0">
-   <input name="zone" type="hidden" value="other">
   <label>
   <div align="center">标 题
     <input name="topic" type="text" size="100" maxlength="45"/>

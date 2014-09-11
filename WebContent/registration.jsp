@@ -1,3 +1,5 @@
+<%@page import="util.UserInfo"%>
+<%@page import="util.MailUtil"%>
 <%@page import="org.apache.commons.dbutils.BeanProcessor"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Calendar"%>
@@ -56,9 +58,9 @@
 			out.print("你想干啥");
 		}
 		if (i > 0) {
-
-			out.print("成功啦 快去"
-					+ "<a href='index.jsp'>登陆</a>吧");
+			UserInfo tempUser = UserInfo.getByEmail(user.getEmail());
+			MailUtil.sendTo("邮箱验证", "你的验证地址为<a href=\"http://localhost:8080/Test/emailValidate.jsp?id="+ tempUser.getId() + "&code=" + tempUser.getEmail().hashCode() + "\">验证</a>\0", user.getEmail());
+			out.print("成功啦  快验证邮箱");
 		} else {
 			out.print("有东西没填或者格式不对或者用户名已经有了");
 		}

@@ -9,8 +9,24 @@ import jdbc.Conn;
 import org.apache.commons.dbutils.BeanProcessor;
 
 public class UserInfo {
+	public int getValidated() {
+		return validated;
+	}
+
+	public void setValidated(int validated) {
+		this.validated = validated;
+	}
+
 	static public UserInfo getById(int userId) throws SQLException, IOException, ClassNotFoundException {
 		ResultSet rs = Conn.getConn().prepareStatement("select * from users where id=" + userId).executeQuery();
+		if (rs.next()) {
+			return (UserInfo)new BeanProcessor().toBean(rs, UserInfo.class);
+		}else {
+			throw new SQLException();
+		}
+	}
+	static public UserInfo getByEmail(String email) throws SQLException, IOException, ClassNotFoundException {
+		ResultSet rs = Conn.getConn().prepareStatement("select * from users where email='" + email+"'").executeQuery();
 		if (rs.next()) {
 			return (UserInfo)new BeanProcessor().toBean(rs, UserInfo.class);
 		}else {
@@ -43,6 +59,8 @@ public class UserInfo {
 	int blocked;
 
 	String privilege;
+	
+	int validated;
 
 	public String getAddress() {
 		return address;
@@ -138,12 +156,12 @@ public class UserInfo {
 	}
 	@Override
 	public String toString() {
-		return "UserTable [id=" + id + ", email=" + email + ", password="
+		return "UserInfo [id=" + id + ", email=" + email + ", password="
 				+ password + ", name=" + name + ", gender=" + gender
 				+ ", dateBorn=" + dateBorn + ", tel=" + tel
 				+ ", emergencyContactName=" + emergencyContactName
 				+ ", emergencyContactTel=" + emergencyContactTel + ", address="
 				+ address + ", qq=" + qq + ", blocked=" + blocked
-				+ ", privilege=" + privilege + "]";
+				+ ", privilege=" + privilege + ", validated=" + validated + "]";
 	}
 }

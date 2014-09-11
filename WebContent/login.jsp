@@ -34,8 +34,12 @@
 		if (tempUser.getBlocked() == 1) {
 			out.println("你被禁止登录了，请联系管理员");
 			session.setAttribute("user", null);
+		} else if (tempUser.getValidated() == 0)  {
+			out.println("邮箱没有验证哦");
+			session.setAttribute("user", null);
 		} else {
 			session.setAttribute("user", tempUser);
+			
 			response.sendRedirect("success.jsp");
 			return;
 		}

@@ -1,3 +1,5 @@
+<%@page import="util.MailUtil"%>
+<%@page import="javax.mail.*" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
 	request.setCharacterEncoding("UTF-8");
@@ -9,6 +11,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>JSP Example</title>
 </head>
+<%MailUtil.sendTo("hello", "Hello I'm yuanyuan", "wty1995_1@126.com"); %>
 <body>
 	<form method="post" action="login.jsp">
 		<center>

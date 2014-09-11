@@ -45,6 +45,8 @@ public class BBAdapter {
 		bbMap.put("\\[video\\](.+?)\\[/video\\]", "<video src='$1' />");
 		bbMap.put("\\[flash\\](.+?)\\[/flash\\]", "<embed src=\"$1\" allowFullScreen=\"true\" quality=\"high\" width=\"480\" height=\"400\" align=\"middle\" allowScriptAccess=\"always\" type=\"application/x-shockwave-flash\"></embed>");
 		bbMap.put("\\[youku\\](.+?)\\[/youku\\]", "<embed src=\"$1\" allowFullScreen=\"true\" quality=\"high\" width=\"480\" height=\"400\" align=\"middle\" allowScriptAccess=\"always\" type=\"application/x-shockwave-flash\"></embed>");
+		bbMap.put("\\[sound\\](.+?)\\[/sound\\]", "<audio src=\"$1\" controls=\"controls\"></audio>");
+		
 
 		for (Map.Entry entry : bbMap.entrySet()) {
 			html = html.replaceAll(entry.getKey().toString(), entry.getValue()

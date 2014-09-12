@@ -13,6 +13,12 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML a1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+<%
+	if (user.getPrivilege() == null) {
+		response.sendRedirect("../index.jsp");
+		return;
+	}
+%>
 <style type="text/css">
 #customers
   {
@@ -102,6 +108,7 @@ $(document).ready(function(){
 		ResultSet selectedCourseSet = null;
 		if (user.getPrivilege() == null) {
 			response.sendRedirect("../indes.jsp");
+			return;
 		}
 		if (user.getPrivilege().equals("student")) {
 			String email = user.getEmail();
@@ -112,6 +119,7 @@ $(document).ready(function(){
 							+ id + "'");
 		} else {
 			response.sendRedirect("../admin/courseManage.jsp");
+			return;
 		}
 	%>
 	<h2>已选课程：</h2>
@@ -196,8 +204,8 @@ $(document).ready(function(){
   <div class="footer">
     <div class="footer_resize">
       <p class="leftt">© Copyright websitename . All Rights Reserved<br />
-        <a href="#">Home</a> | <a href="#">Contact</a> | <a href="#">RSS</a></p>
-      <p class="right">(Blue) <a href="http://www.bluewebtemplates.com">Website Templates</a></p>
+      	当前登录用户：<%=user.getEmail() %></p>
+      <p class="right"> <a href="logout.jsp">注销</a></p>
       <div class="clr"></div>
     </div>
     <div class="clr"></div>

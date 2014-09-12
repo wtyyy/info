@@ -41,8 +41,11 @@ response.setCharacterEncoding("UTF-8");
 				users.add(ui);
 			}
 		}
+		out.println("<table id=\"customers\">");
+
 		UserTable.printUsers(users, out, true);
 		out.println("<label><input name=\"submit\" type=\"submit\" id=\"submit\" value=\"解 封\" /></label>");
+		out.println("</table>");
 	}
 	
 %>

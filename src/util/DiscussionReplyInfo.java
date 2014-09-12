@@ -18,14 +18,32 @@ public class DiscussionReplyInfo {
 	Timestamp postDate;
 	int belongs;
 	String zone;
-
-	public void printContent(JspWriter out, int floor) throws IOException {
+	
+	public String getDeletePrint() {
+		return "<a href="+"/Test/discussion/deleteDO.jsp?id="+id+">删</a>";
+	}
+	
+	public String getForbiddenPrint() {
+		return "<a href="+"/Test/discussion/forbidDO.jsp?id="+userid+">封</a>";
+	}
+	
+	public String getZanCaiPrint() {
+		return "<a href="+"/Test/discussion/zanDO.jsp?id="+id+">赞("+pros+")</a>"
+				+ "<a href="+"/Test/discussion/caiDO.jsp?id="+id+">踩("+cons+")</a>";
+	}
+	
+	public void printContent(JspWriter out, int floor, boolean isSelf, boolean isAdmin) throws IOException {
 		out.println(
 				"<tr><td>"+floor+"</td>"
 				+ "<td>"+getNamePrint()+"</td>"
 				+ "<td>"+DateTimePrint.dateTimePrint(postDate)+"</td></tr>"
 				+ "<tr><td>"+content+"</td>"
-				+ "</tr>");
+				+ "</tr>"
+				+ "<tr><td>"+((isSelf||isAdmin)?getDeletePrint():"")+"</td>"
+				+"<td>"+(isAdmin?getForbiddenPrint():"")+"</td>"
+				+"<td>"+getZanCaiPrint()+"</td></tr>");
+
+		
 	}
 
 	public String getNamePrint() {

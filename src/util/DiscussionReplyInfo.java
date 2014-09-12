@@ -40,19 +40,17 @@ public class DiscussionReplyInfo {
 	public void printContent(JspWriter out, int floor, boolean isSelf, boolean isAdmin) throws IOException {
 		out.println(
 				 "<tr><td align=\"center\">"+floor+"</td>"
-				+ "<td width=500px height=100px>"+getContentPrint()+"</td></tr>"
+				+ "<td width=500px height=100px colspan=2>"+getContentPrint()+"</td></tr>"
 				+ "<td><label align=\"left\">"
 				+ DateTimePrint.dateTimePrint(postDate)+"</td>"
 				+ "<td align=\"right\">回帖人："
-				+ getNamePrint() + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
-				+ "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
-				+ "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+				+ getNamePrint() + "</td><td align=\"right\">" 
 				+ ((isSelf||isAdmin)?getDeletePrint():"")+"  "
 				+ (isAdmin?getForbiddenPrint():"")+"  "
 				+ getZanCaiPrint()+"</td>"
-				+ "</tr>");
+				+ "</td></tr>");
 	}
-	
+	 
 	public String getNamePrint() {
 		return userName;
 	}

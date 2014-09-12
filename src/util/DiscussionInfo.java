@@ -67,19 +67,17 @@ public class DiscussionInfo {
 	
 	public String getContentPrint() {
 		return BBAdapter.process(content);
-	}
+	} 
 	
 	public void printContent(JspWriter out, boolean isSelf, boolean isAdmin) throws IOException {
 		out.println(
-				"<th colspan=2>"+topic+"</th>"
+				"<th colspan=3>"+topic+"</th>"
 				+ "<tr><td align=\"center\">"+1+"</td>"
-				+ "<td width=500px height=300px>"+getContentPrint()+"</td></tr>"
+				+ "<td width=500px height=300px colspan=2>"+getContentPrint()+"</td></tr>"
 				+ "<td><label align=\"left\">"
 				+ DateTimePrint.dateTimePrint(postDate)+"</td>"
 				+ "<td align=\"right\">发帖人："
-				+ getNamePrint() + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
-				+ "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
-				+ "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+				+ getNamePrint() + "</td><td  align=\"right\">" 
 				+ ((isSelf||isAdmin)?getDeletePrint():"")+"  "
 				+ (isAdmin?getForbiddenPrint():"")+"  "
 				+ getZanCaiPrint()+"</td>"

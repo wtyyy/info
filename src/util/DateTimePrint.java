@@ -12,7 +12,7 @@ public class DateTimePrint {
 		if (ts.getDate() == d.getDate()) {
 			return f.format(ts.getHours())+":"+f.format(ts.getMinutes())+":"+f.format(ts.getSeconds());
 		} else {
-			
+			  
 			return ts.toString().split(" ")[0];
 		}
 	}

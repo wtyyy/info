@@ -24,9 +24,9 @@ response.setCharacterEncoding("UTF-8");
 	if (user.getName()==null) {
 		
 		out.println("<script language=\"javascript\">");
-		out.println("if(confirm(\"您尚未登陆，不能发言。现在登陆？\"))");
+		out.println("if(confirm(\"您尚未注册，不能发言。现在注册？\"))");
 		out.println("{");
-		out.println("location.href=\"/Test/signin.jsp\";");
+		out.println("location.href=\"/Test/reg.jsp\";");
 		out.println("}");
 		out.println("else");
 		out.println("{");
@@ -55,7 +55,7 @@ response.setCharacterEncoding("UTF-8");
 	st.setInt(5, 0);
 	st.setInt(6, 0);
 	st.setTimestamp(7, Timestamp.from(Calendar.getInstance().toInstant()));
-	st.setInt(8, Integer.valueOf(request.getParameter("belongs")));
+	st.setInt(8, (int)session.getAttribute("topicid"));
 	st.setString(9, request.getParameter("zone"));
 	st.setString(10, user.getName());
 	
@@ -68,13 +68,11 @@ response.setCharacterEncoding("UTF-8");
 	st.setInt(1, user.getId());
 	st.setTimestamp(2, Timestamp.from(Calendar.getInstance().toInstant()));
 	st.setString(3, user.getName());
-	st.setInt(4, Integer.valueOf(request.getParameter("belongs")));
+	st.setInt(4, (int)session.getAttribute("topicid"));
 	st.execute();
-	response.sendRedirect("/Test/discussion/postReply.jsp?topicid="+Integer.valueOf(request.getParameter("belongs")));
+	response.sendRedirect("/Test/discussion/postReply.jsp?topicid="+(int)session.getAttribute("topicid"));
 	}
 }
 %>
-
-
 </body>
 </html>

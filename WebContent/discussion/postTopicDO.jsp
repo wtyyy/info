@@ -23,9 +23,9 @@ response.setCharacterEncoding("UTF-8");
 	if (user.getName()==null) {
 		
 		out.println("<script language=\"javascript\">");
-		out.println("if(confirm(\"您尚未登陆，不能发言。现在登陆？\"))");
+		out.println("if(confirm(\"您尚未注册，不能发言。现在注册？\"))");
 		out.println("{");
-		out.println("location.href=\"/Test/signin.jsp\";");
+		out.println("location.href=\"/Test/reg.jsp\";");
 		out.println("}");
 		out.println("else");
 		out.println("{");
@@ -57,7 +57,7 @@ response.setCharacterEncoding("UTF-8");
 	st.setInt(7, 0);
 	st.setTimestamp(8, Timestamp.from(Calendar.getInstance().toInstant()));
 	st.setString(9, request.getParameter("belongs"));
-	st.setString(10, (String)session.getAttribute("zone"));
+	st.setString(10, session.getAttribute("zone").toString());
 	st.setString(11, user.getName());
 	st.setInt(12, user.getId());
 	st.setString(13, user.getName());
@@ -65,7 +65,7 @@ response.setCharacterEncoding("UTF-8");
 	
 	st.executeUpdate();
 	
-	response.sendRedirect("/Test/discussion/postTopic.jsp?zone="+(String)session.getAttribute("zone"));
+	response.sendRedirect("/Test/discussion/postTopic.jsp?zone="+session.getAttribute("zone"));
 	//test
 	}
 	}

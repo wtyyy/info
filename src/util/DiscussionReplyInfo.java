@@ -29,30 +29,23 @@ public class DiscussionReplyInfo {
 	
 	public String getZanCaiPrint() {
 		return "<a href="+"/Test/discussion/zanDO.jsp?id="+id+">赞("+pros+")</a>"
-				+ " <a href="+"/Test/discussion/caiDO.jsp?id="+id+">踩("+cons+")</a>";
-	}
-	
-
-	public String getContentPrint() {
-		return BBAdapter.process(content);
+				+ "<a href="+"/Test/discussion/caiDO.jsp?id="+id+">踩("+cons+")</a>";
 	}
 	
 	public void printContent(JspWriter out, int floor, boolean isSelf, boolean isAdmin) throws IOException {
 		out.println(
-				 "<tr><td align=\"center\">"+floor+"</td>"
-				+ "<td width=500px height=100px>"+getContentPrint()+"</td></tr>"
-				+ "<td><label align=\"left\">"
-				+ DateTimePrint.dateTimePrint(postDate)+"</td>"
-				+ "<td align=\"right\">回帖人："
-				+ getNamePrint() + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
-				+ "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
-				+ "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
-				+ ((isSelf||isAdmin)?getDeletePrint():"")+"  "
-				+ (isAdmin?getForbiddenPrint():"")+"  "
-				+ getZanCaiPrint()+"</td>"
-				+ "</tr>");
+				"<tr><td>"+floor+"</td>"
+				+ "<td>"+getNamePrint()+"</td>"
+				+ "<td>"+DateTimePrint.dateTimePrint(postDate)+"</td></tr>"
+				+ "<tr><td>"+content+"</td>"
+				+ "</tr>"
+				+ "<tr><td>"+((isSelf||isAdmin)?getDeletePrint():"")+"</td>"
+				+"<td>"+(isAdmin?getForbiddenPrint():"")+"</td>"
+				+"<td>"+getZanCaiPrint()+"</td></tr>");
+
+		
 	}
-	
+
 	public String getNamePrint() {
 		return userName;
 	}

@@ -59,13 +59,12 @@
 		}
 		if (i > 0) {
 			UserInfo tempUser = UserInfo.getByEmail(user.getEmail());
-			MailUtil.sendTo("邮箱验证", "你的验证地址为<a href=\"http://localhost:8080/Test/emailValidate.jsp?id="+ tempUser.getId() + "&code=" + tempUser.getEmail().hashCode() + "\">验证</a>\0", user.getEmail());
+			MailUtil.sendTo("邮箱验证", "注册成功，<a href=\"http://localhost:8080/Test/emailValidate.jsp?id="+ tempUser.getId() + "&code=" + tempUser.getEmail().hashCode() + "\">验证邮箱</a>\0<br><br>", user.getEmail());
 			out.print("成功啦  快验证邮箱");
 		} else {
 			out.print("有东西没填或者格式不对或者用户名已经有了");
 		}
 	} catch (SQLException e) {
 		out.println("有东西没填或者格式不对或者用户名已经有了");
-		//throw e;
 	}
 %>

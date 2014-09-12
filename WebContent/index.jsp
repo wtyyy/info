@@ -149,7 +149,7 @@ $(document).ready(function(){
       		<tr><td><a href="admin/courseManage.jsp">课程管理</a></td></tr>
       		<tr><td><a href="admin/userManage.jsp">用户管理</a></td></tr>
       		<tr><td><a href="admin/infoManage.jsp">公共资源管理</a></td></tr>
-      		<tr><td><a href="">讨论区管理</a></td></tr>
+      		<tr><td><a href="admin/teachInfoManage.jsp">教务信息管理</a></td></tr>
       		</table>
       	<%} else if("student".equals(user.getPrivilege())){ %>
         <h2>你的课表</h2>
@@ -185,11 +185,16 @@ $(document).ready(function(){
         <% } else { %>
         <h2>啊呀，你还没登陆呢，这里本来应该是一个课表呦。</h2>
         <%} %>
-        <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium mque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip exea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-        <h2>What We Do</h2>
-        <p><span><em>Vestibulum vehicula purus nec dui accumsan fermentum. Suspendisse potenti.</em></span> <br />
-          Ut dapibus est id odio pretium blandit in eget leo. Aliquam erat volutpat. Curabitur blandit odio eget odio eleifend vel mattis augue convallis. Praesent fringilla, eros et tristique tempus, libero metus porttitor velit, at ultrices eros dolor placerat nunc. Fusce ac egestas ante.</p>
+        	<h2>教务信息</h2>
+	<table id="customers">
+<%
+	ResultSet rs = Conn.getConn().prepareStatement("select * from teachInfo").executeQuery();
+	List<PublicInfo> infoList = new BeanProcessor().toBeanList(rs, PublicInfo.class);
+	for (PublicInfo info : infoList) {
+		out.print("<tr><td><a href=\"publicResource/viewTeachInfo.jsp?id=" + info.getId()+ "\">" + info.getTitle() + "</a></td></tr>");
+	}
+%>
+</table>
       </div>
       <div class="right">
         <h2>两天以内你会上的课</h2>

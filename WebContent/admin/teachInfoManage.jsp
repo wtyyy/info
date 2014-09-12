@@ -52,7 +52,7 @@
 	background-color: #EAF2D3;
 }
 </style>
-<title>公共资源管理</title>
+<title>教务信息管理</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link href="style.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="js/jquery.js"></script>
@@ -84,7 +84,7 @@
 				<div class="menu">
 					<ul>
 						<li><a href="/Test/index.jsp"><span>登陆首页</span></a></li>
-						<li><a href="/Test/publicResource/" class="active"><span>公共资源页面
+						<li><a href="/Test/publicResource/" class="active"><span>公共教务信息页面
 							</span></a></li>
 						<li><a href="/Test/student/courseSelect.jsp"><span>
 									课程管理页面</span></a></li>
@@ -100,9 +100,9 @@
 		<div class="clr"></div>
 		<div class="header_blog2">
 			<div class="header">
-				<h2>资源管理</h2>
+				<h2>教务信息管理</h2>
 				<p>
-					添加、删除、修改资源<br /> 
+					添加、删除、修改教务信息<br /> 
 				</p>
 			</div>
 			<div class="clr"></div>
@@ -116,7 +116,7 @@
 						boolean slideModify = false;
 						SlideNews modifySlide = null;
 						boolean isModify = false;
-						PublicInfo modifyInfo = null;
+						TeachInfo modifyInfo = null;
 						String operation = request.getParameter("oper");
 						if (operation != null) {
 							if (operation.equals("add")) {
@@ -135,10 +135,10 @@
 									st = Conn
 											.getConn()
 											.prepareStatement(
-													"insert into publicInfo(title, text) values(?,?)");
+													"insert into teachInfo(title, text) values(?,?)");
 								} else {
 									st = Conn.getConn().prepareStatement(
-											"update publicInfo set title=?,text=? where id="
+											"update teachInfo set title=?,text=? where id="
 													+ id);
 								}
 								st.setString(1, title);
@@ -153,7 +153,7 @@
 							} else if (operation.equals("delete")) {
 								int id = Integer.parseInt(request.getParameter("infoId"));
 								PreparedStatement st = Conn.getConn().prepareStatement(
-										"delete from publicInfo where id=" + id);
+										"delete from teachInfo where id=" + id);
 								st.executeUpdate();
 								if (st.executeUpdate() > 0) {
 									out.println("操作成功");
@@ -163,44 +163,13 @@
 							} else if (operation.equals("modify")) {
 								isModify = true;
 								int id = Integer.parseInt(request.getParameter("infoId"));
-								modifyInfo = PublicInfo.getById(id);
-							} else if (operation.equals("modifySlide")) {
-								slideModify = true;
-								int id = Integer.parseInt(request.getParameter("slideId"));
-								modifySlide = SlideNews.getById(id);
-							} else if (operation.equals("addSlide")) {
-								int id = Integer.parseInt(request.getParameter("slideId"));
-								String image = request.getParameter("image");
-								String href = request.getParameter("href");
-								PreparedStatement st;
-								if (id == -1) {
-									st=Conn.getConn().prepareStatement("insert into slideInfo(image, href) values(?,?)");
-								} else {
-									st=Conn.getConn().prepareStatement("update slideInfo set image=?, href=? where id=" + id);
-								}
-								st.setString(1, image);
-								st.setString(2, href);
-								if (st.executeUpdate() > 0) {
-									out.println("操作成功");
-								} else {
-									out.println("操作失败");
-								}
-							} else if (operation.equals("deleteSlide")) {
-								int id = Integer.parseInt(request.getParameter("slideId"));
-								PreparedStatement st = Conn.getConn().prepareStatement(
-										"delete from slideInfo where id=" + id);
-								st.executeUpdate();
-								if (st.executeUpdate() > 0) {
-									out.println("操作成功");
-								} else {
-									out.println("操作失败");
-								}
+								modifyInfo = TeachInfo.getById(id);
 							}
 						}
 					%>
 					<body>
-						<h2>添加/修改资源：</h2>
-						<form method="post" action="infoManage.jsp" name="addForm"
+						<h2>添加/修改教务信息：</h2>
+						<form method="post" action="teachInfoManage.jsp" name="addForm"
 							id="contactform">
 							<input type="hidden" name="oper" value="add">
 							<ol>
@@ -214,25 +183,11 @@
 										class="text" class="text" /><%=isModify ? modifyInfo.getText() : ""%></textarea></li>
 
 								<li><label for="submitButton">点击提交更改</label><input type="submit" value="提交" id="submitButton"></li>
-								<li><label for="imageUrl">插入图片：</label> <input type="text"
-									name="imageUrl" class="text"> <input type="button"
-									onClick="javascript:document.addForm.docText.value+='[img]'+document.addForm.imageUrl.value+'[/img]';"
-									value="插入" /></li>
-								<li><label for="flashurl">插入flash视频：</label> <input
-									type="text" name="flashUrl" class="text" id="flashUrl" /><input
-									type="button"
-									onClick="javascript:document.addForm.docText.value+='[flash]'+document.addForm.flashUrl.value+'[/flash]';"
-									value="插入" /></li>
-								<li><label for="soundUrl">插入声音：</label><input type="text"
-										name="soundUrl" id="soundUrl" class="text" /><input
-									type="button"
-									onClick="javascript:document.addForm.docText.value+='[sound]'+document.addForm.soundUrl.value+'[/sound]';"
-									value="插入" /></li>
 							</ol>
 						</form>
 
-						<h2>管理已有资源：</h2>
-						<form method="get" action="infoManage.jsp">
+						<h2>管理已有教务信息：</h2>
+						<form method="get" action="teachInfoManage.jsp">
 							<table id="customers">
 								<tr>
 									<td>选择</td>
@@ -240,15 +195,15 @@
 								</tr>
 								<%
 									ResultSet rs = Conn.getConn()
-											.prepareStatement("select * from publicInfo")
+											.prepareStatement("select * from teachInfo")
 											.executeQuery();
-									java.util.List<PublicInfo> infoList = new BeanProcessor()
-											.toBeanList(rs, PublicInfo.class);
-									for (PublicInfo info : infoList) {
+									java.util.List<TeachInfo> infoList = new BeanProcessor()
+											.toBeanList(rs, TeachInfo.class);
+									for (TeachInfo info : infoList) {
 										out.print("<tr><td><input type=\"radio\" name=\"infoId\" value=\""
 												+ info.getId()
 												+ "\" checked></td>"
-												+ "<td><a href=\"../publicResource/viewInfo.jsp?id="
+												+ "<td><a href=\"../publicResource/viewTeachInfo.jsp?id="
 												+ info.getId()
 												+ "\">"
 												+ info.getTitle()
@@ -261,52 +216,6 @@
 						</form>
 						
 						
-						<h2>添加/修改动态展示板：</h2>
-						<form method="get" action="infoManage.jsp" name="addForm"
-							id="contactform">
-							<input type="hidden" name="oper" value="addSlide">
-							<ol>
-								<li><label for="slideId">修改ID(-1为添加)</label><input
-									type="text" name="slideId" id="slideId"
-									value="<%=slideModify ? modifySlide.getId() : -1%>" class="text" /></li>
-								<li><label for="image">图片路径</label> <input type="text"
-									name="image" id="image"
-									value="<%=slideModify ? modifySlide.getImage() : ""%>" class="text" /></li>
-								<li><label for="href">链接到</label> <input type="text"
-									name="href" id="href"
-									value="<%=slideModify ? modifySlide.getHref() : ""%>" class="text" /></li>
-								<li><label for="submitButton">点击提交更改</label><input type="submit" value="提交" id="submitButton"></li>
-								
-							</ol>
-						</form>
-						
-												<h2>管理已有展示：</h2>
-						<form method="get" action="infoManage.jsp">
-							<table id="customers">
-								<tr>
-									<td>选择</td>
-									<td>标题</td>
-								</tr>
-								<%
-									rs = Conn.getConn()
-											.prepareStatement("select * from slideInfo")
-											.executeQuery();
-									java.util.List<SlideNews> slideList = new BeanProcessor()
-											.toBeanList(rs, SlideNews.class);
-									for (SlideNews info : slideList) {
-										out.print("<tr><td><input type=\"radio\" name=\"slideId\" value=\""
-												+ info.getId()
-												+ "\" checked></td>"
-												+ "<td><a href=\""+ info.getHref() + "\"><img src=\""
-												+ info.getImage()
-												+ "\">"
-												+ "</a></td></tr>");
-									}
-								%>
-							</table>
-							<button name="oper" type="submit" value="deleteSlide">删除</button>
-							<button name="oper" type="submit" value="modifySlide">修改</button>
-						</form>
 						
 				</div>
 			</div>

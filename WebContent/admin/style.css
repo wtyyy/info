@@ -50,12 +50,12 @@ html { padding:0; margin:0;}
 .body_bottom_resize { width:960px; padding:0; margin:0 auto;}
 /********** contact form **********/
 #contactform { margin:0; padding:5px 10px; }
-#contactform * { color:#F00; }
+#contactform * { color:#000; }
 #contactform ol { margin:0; padding:0; list-style:none; }
 #contactform li { margin:0; padding:0; background:none; border:none; display:block; clear:both; }
 #contactform li.buttons { margin:5px 0 5px 0; clear:both; }
 #contactform label { margin:0; width:100px; display:block; padding:10px 0; color:#898989; font: normal 12px Arial, Helvetica, sans-serif; text-transform:capitalize; float:left; }
-#contactform label span { color:#F00; }
+#contactform label span { color:#000; }
 #contactform input.text { width:750px; border:1px solid #e1e1e1; margin:2px 0; padding:5px 2px; height:16px; background:#fff; float:right; }
 #contactform textarea { width:750px; border:1px solid #e1e1e1; margin:2px 0; padding:2px; background:#fff; float:right; }
 #contactform li.buttons input { padding:3px 0 3px 480px; margin:10px 0 0 0; border:0; color:#FFF; float:left; }

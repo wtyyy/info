@@ -16,7 +16,16 @@
 <%
 	out.println(user);
 
-	 
+	 if(user.getEmail()==null) {
+		 response.sendRedirect("signin.jsp");
+		 return;
+	 }
+	 if (user.getEmail().equals("") || user.getPassword().equals("") || user.getName().equals("") ||
+			 user.getGender().equals("") || user.getDateBorn().equals("") || user.getTel().equals("") || user.getEmergencyContactName().equals("")
+			 ||user.getEmergencyContactTel().equals("") || user.getAddress().equals("")) {
+		 out.println("格式错误");
+		 return;
+	 }
 
 	Class.forName("com.mysql.jdbc.Driver");
 	Connection con = Conn.getConn();

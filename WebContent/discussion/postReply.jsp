@@ -1,84 +1,237 @@
-<%@page import="java.util.*"%>
-<%@page import="java.text.*" %>
-<%@page import="util.*"%>
-<%@page import="jdbc.*"%>
+
+<%@page import="util.StudentChooseCourseHistory"%>
+<%@page import="util.CourseInfo"%>
 <%@page import="org.apache.commons.dbutils.BeanProcessor"%>
+<%@page import="util.*"%>
+<%@page import="util.CourseTime"%>
+<%@page import="com.sun.crypto.provider.RSACipher"%>
+<%@page import="jdbc.*"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="java.sql.*"%>
-<% request.setCharacterEncoding("UTF-8");
-response.setCharacterEncoding("UTF-8");
-%>
-<jsp:useBean id="user" class="util.UserInfo" scope="session"/>
+<%@ page import="java.util.*"%>
+<jsp:useBean id="user" class="util.UserInfo" scope="session" />
 
-<title>Insert title here</title>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>讨论区之<%out.println((String)session.getAttribute("zone")==null?"other":(String)session.getAttribute("zone")); %></title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link href="style.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+#customers
+  {
+  font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;
+  width:100%;
+  border-collapse:collapse;
+  }
+
+#customers td, #customers th 
+  {
+  font-size:1em;
+  border:1px solid #53868B;
+  padding:3px 7px 2px 7px;
+  }
+
+#customers th 
+  {
+  font-size:1.1em;
+  text-align:center;
+  padding-top:5px;
+  padding-bottom:4px;
+  background-color:#53868B;
+  color:#ffffff;
+  }
+
+#customers tr.alt td 
+  {
+  color:#000000;
+  background-color:#EAF2D3;
+  }
+</style>
+<%
+	String zone;
+	if (session.getAttribute("zone")!=null) {
+		zone = (String)session.getAttribute("zone");
+	} else zone = "other";
+	session.setAttribute("zone", zone);
+	
+	String zoneName;
+	switch(zone) {
+	case "food": zoneName = "想吃美食"; break;
+	case "music": zoneName = "音乐之声"; break;
+	case "cs": zoneName = "贵系贵系"; break;
+	default: zoneName = "other";
+	}
+	
+	if (request.getParameter("topicid")==null) {
+		response.sendRedirect("/Test/discussion/postTopic.jsp?zone="+zone);
+	} 
+	int topicid = Integer.parseInt(request.getParameter("topicid"));	
+	
+%>
 </head>
 <body>
-<%
-	int topicid = Integer.parseInt(request.getParameter("topicid"));	
-	Connection con = Conn.getConn();
-	ResultSet set = null, set2 = null;
-	session.setAttribute("topicid", topicid);
-	Statement st = con.createStatement();
-	
-	set = st.executeQuery("select * from discussion where id="+topicid+" order by postDate ");
-	
-	out.println("<table border=\"1\">");
+<div class="main">
+  <div class="header_resize">
+    <div class="header">
+      <div class="logo"><a href="#"><img src="images/logo.gif" width="338" height="70" border="0" alt="" /></a></div>
+      <div class="menu">
+        <ul>
+          <li><a href="/Test/index.jsp" ><span>登陆首页</span></a></li>
+          <li><a href="/Test/publicResource/" class="active"><span>公共资源页面 </span></a></li>
+          <li><a href="/Test/student/courseSelect.jsp"><span> 课程管理页面</span></a></li>
+          <li><a href="/Test/discussion/"><span>讨论区</span></a></li>
+          <li><a href="/Test/teachers.jsp"><span> 师资力量</span></a></li>
+          <li><a href="/Test/about.jsp"><span> 网站简介</span></a></li>
+        </ul>
+      </div>
+      <div class="clr"></div>
+      <div class="clr"></div>
+    </div>
+  </div>
+  <div class="clr"></div>
+  <div class="header_blog2">
+    <div class="header">
+      <h2>讨论区</h2>
+      <p>欢迎来到 <%out.println(zoneName);%>版面</p>
+    </div>
+    <div class="clr"></div>
+  </div>
+  <div class="clr"></div>
+  <div class="body">
+    <div class="body_resize">
+      <div class="left">
+      <% 
+      out.println("<a href=\"/Test/discussion/postTopic.jsp?zone="+zone+"\">回到版面</a>");
+      %>
+      
+      <table id="customers">
+       <%
+   	Connection con = Conn.getConn();
+   	ResultSet set = null, set2 = null;
+   	session.setAttribute("topicid", topicid);
+   	Statement st = con.createStatement();
+   	
+   	set = st.executeQuery("select * from discussion where id="+topicid+" order by postDate ");
+   	
+   	int i = 1;
 
-	
-	while (set.next()) {
-		DiscussionInfo di = ((DiscussionInfo) (new BeanProcessor().toBean(
-				set, DiscussionInfo.class)));
-		if (user.getName()==null)
-			di.printContent(out, false, false);
-		else 
-			di.printContent(out, di.getUserid()==user.getId(), user.getPrivilege().equals("admin"));
-	}
-	
-	int i = 2;
-	
-	
-	set2 = st.executeQuery("select * from discussReply where belongs="+topicid+" order by postDate ");
+   	while (set.next()) {
+   		DiscussionInfo di = ((DiscussionInfo) (new BeanProcessor().toBean(
+   				set, DiscussionInfo.class)));
+   		if (user.getName()==null)
+   			di.printContent(out, false, false);
+   		else 
+   			di.printContent(out, di.getUserid()==user.getId(), user.getPrivilege().equals("admin"));
+   		i++;
+   	}
+   	
+   	if (i==1) {
+   		response.sendRedirect("/Test/discussion/postTopic.jsp?zone="+zone);
+   	}
+   	
+   	set2 = st.executeQuery("select * from discussReply where belongs="+topicid+" order by postDate ");
 
-	while (set2.next()) {
-		DiscussionReplyInfo dri = ((DiscussionReplyInfo) (new BeanProcessor().toBean(
-				set2, DiscussionReplyInfo.class)));
-		if (user.getName()==null)
-			dri.printContent(out, i++, false, false);
-		else 
-			dri.printContent(out, i++, dri.getUserid()==user.getId(), user.getPrivilege().equals("admin"));
-	}
-	
-	out.println("</table>");
-	
-	session.setAttribute("lastURL", "/Test/discussion/postReply.jsp?topicid="+topicid);
-%>
-
-<div>
-<form id="form1" name="form1" method="post" action="postReplyDO.jsp">
+   	while (set2.next()) {
+   		DiscussionReplyInfo dri = ((DiscussionReplyInfo) (new BeanProcessor().toBean(
+   				set2, DiscussionReplyInfo.class)));
+   		if (user.getName()==null)
+   			dri.printContent(out, i++, false, false);
+   		else 
+   			dri.printContent(out, i++, dri.getUserid()==user.getId(), user.getPrivilege().equals("admin"));
+   	}
+   	
+   	session.setAttribute("lastURL", "/Test/discussion/postReply.jsp?topicid="+topicid);       		
+   	%>
+   	</table>
+       <br/>
+<body>
+<form id="contactform" name="form1" method="get" action="postReplyDO.jsp">
   <input name="discussType" type="hidden" value="R">
-   <input name="zone" type="hidden" value="other">
-  <p align="center">
-    <label>内 容
-    <textarea name="content" cols="102" rows="8"></textarea>
-    </label>
-  </p>
-  <p align="center">
-    <label>附 件
-    <input name="appendixURL" type="text" size="100" maxlength="45" />
-    </label>
-  </p>
-  <p align="center">
-    <label>
-    <input name="submit" type="submit" id="submit" value="提 交" />
-    </label>
-    <label>
-     <input name="reset" type="reset" id="reset" value="重 置" />
-    </label>
-  </p>
-</form>
-</div>
-
+   <% out.println("<input name=\"belongs\" type=\"hidden\" value="+topicid); %>
+          <ol>
+            <li>
+              <label for="content">内 容 </label>
+              <textarea id="content" name="content"  rows="8"></textarea>
+            </li>
+			<li><label for="imageUrl">插入图片</label> <input type="text"
+				name="imageUrl" class="text"> <input type="button"
+				onClick="javascript:document.form1.content.value+='[img]'+document.form1.imageUrl.value+'[/img]';"
+				value="插入" /></li>
+			<li><label for="flashurl">插入flash视频</label> <input
+				type="text" name="flashUrl" class="text" id="flashUrl" /><input
+				type="button"
+				onClick="javascript:document.form1.content.value+='[flash]'+document.form1.flashUrl.value+'[/flash]';"
+				value="插入" /></li>
+			<li><label for="soundUrl">插入声音</label><input type="text"
+				name="soundUrl" id="soundUrl" class="text" /><input
+				type="button"
+				onClick="javascript:document.form1.content.value+='[sound]'+document.form1.soundUrl.value+'[/sound]';"
+				value="插入" /></li>					
+            <li class="buttons">
+              <input type="image" name="imageField" id="imageField" src="images/send.gif" class="send" value="提 交"/>
+              <div class="clr"></div>
+            </li>
+          </ol>
+      </div>
+ <div class="right">
+	<table id="customers">
+		<th>版面浏览</th>
+		<tr><td align="center"><a href="/Test/discussion/postTopic.jsp?zone=cs">贵系贵系</a></td></tr>
+		<tr><td align="center"><a href="/Test/discussion/postTopic.jsp?zone=food">想吃美食</a></td></tr>
+		<tr><td align="center"><a href="/Test/discussion/postTopic.jsp?zone=music">音乐之声</a></td></tr>
+		<%
+			if (user.getName()!=null && user.getPrivilege().equals("admin")) {
+				out.println("<tr><td align=\"center\"><a href=\"/Test/discussion/postTopic.jsp?zone=other\">other</a></td></tr>");
+			}
+		%>
+	</table>
+	<br></br>
+	<table id="customers">
+	<th colspan=2>精华帖子</th>
+			<%
+			ResultSet rs = Conn.getConn().prepareStatement("select * from Discussion where zone='"+zone +"' order by pros DESC").executeQuery();
+			int j=0;
+			
+			while ((j++<8) && rs.next()) {
+       			DiscussionInfo di = ((DiscussionInfo) (new BeanProcessor().toBean(
+       					rs, DiscussionInfo.class)));
+       			out.println("<tr><td>"+di.getTopicPrint()+"</td><td>"+di.getNamePrint()+"</td></tr>");
+			}
+			
+		%>
+	</table>      
+	<br></br>
+		<table id="customers">
+		<th colspan=2>快来吐槽</th>
 	
+				<%
+			ResultSet rs2 = Conn.getConn().prepareStatement("select * from Discussion where zone='"+zone +"' order by cons DESC").executeQuery();
+			int jj=0;
+			
+			while ((jj++<8) && rs2.next()) {
+       			DiscussionInfo di = ((DiscussionInfo) (new BeanProcessor().toBean(
+       					rs2, DiscussionInfo.class)));
+       			out.println("<tr><td>"+di.getTopicPrint()+"</td><td>"+di.getNamePrint()+"</td></tr>");
+			}
+			
+		%>
+		</table> 
+	</div>
+      <div class="clr"></div>
+    </div>
+  </div>
+  <div class="clr"></div>
+  <div class="footer">
+    <div class="footer_resize">
+      <p class="leftt">© Copyright websitename . All Rights Reserved<br />
+        <a href="#">Home</a> | <a href="#">Contact</a> | <a href="#">RSS</a></p>
+      <p class="right">(Blue) <a href="http://www.bluewebtemplates.com">Website Templates</a></p>
+      <div class="clr"></div>
+    </div>
+    <div class="clr"></div>
+  </div>
+</div>
 </body>
 </html>

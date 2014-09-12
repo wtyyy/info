@@ -6,7 +6,7 @@ import java.util.Map;
 public class BBAdapter {
 	public static String process(String text) {
 		String html = text;
-
+ 
 		Map<String, String> bbMap = new HashMap<String, String>();
 
 		bbMap.put("(\r\n|\r|\n|\n\r)", "<br/>");

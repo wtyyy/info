@@ -6,7 +6,7 @@ import java.sql.Timestamp;
 import javax.servlet.jsp.JspWriter;
 
 public class DiscussionReplyInfo {
-	
+	 
 	int id;
 	String content;
 	String appendixURL;

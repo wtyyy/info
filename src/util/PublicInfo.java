@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import jdbc.Conn;
 
 import org.apache.commons.dbutils.BeanProcessor;
-
+ 
 public class PublicInfo {
 	static public PublicInfo getById(int id) throws SQLException, IOException,
 			ClassNotFoundException {

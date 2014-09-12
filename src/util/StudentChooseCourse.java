@@ -3,7 +3,7 @@ package util;
 public class StudentChooseCourse {
 	public int getStudentId() {
 		return studentId;
-	}
+	} 
 	public void setStudentId(int studentId) {
 		this.studentId = studentId;
 	}

@@ -7,7 +7,7 @@ public class CourseTime {
 	private CourseTime(int time) {
 		this.time = time;
 	}
-
+ 
 	private CourseTime(int day, int timeInDay) {
 		time = day * BLOCKS_IN_DAY + timeInDay;
 	}

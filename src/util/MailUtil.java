@@ -240,7 +240,7 @@ class SimpleMailSender {
 public class MailUtil {
 	public static void sendTo(String subject, String text, String address)
 			throws MessagingException {
-
+ 
 		// 这个类主要是设置邮件
 		MailSenderInfo mailInfo = new MailSenderInfo();
 		mailInfo.setMailServerHost("smtp.163.com");

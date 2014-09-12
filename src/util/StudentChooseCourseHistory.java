@@ -7,7 +7,7 @@ public class StudentChooseCourseHistory {
 		return "StudentChooseCourseHistory [id=" + id + ", studentId="
 				+ studentId + ", courseId=" + courseId + ", operation="
 				+ operation + ", time=" + time + "]";
-	}
+	} 
 	public int getId() {
 		return id;
 	}

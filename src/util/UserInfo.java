@@ -15,7 +15,7 @@ public class UserInfo {
 
 	public void setValidated(int validated) {
 		this.validated = validated;
-	}
+	} 
 
 	static public UserInfo getById(int userId) throws SQLException, IOException, ClassNotFoundException {
 		ResultSet rs = Conn.getConn().prepareStatement("select * from users where id=" + userId).executeQuery();

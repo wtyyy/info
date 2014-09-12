@@ -5,7 +5,7 @@ import java.text.DecimalFormat;
 import java.util.Date;
 
 public class DateTimePrint {
-	
+	 
 	public static String dateTimePrint(Timestamp ts) {
 		Date d = new Date();
 		DecimalFormat f = new DecimalFormat("00");

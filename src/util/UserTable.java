@@ -28,7 +28,7 @@ public class UserTable {
 		out.println("<td>" + userInfo.getPrivilege() + "</td>");
 		out.print("</tr>");
 	}
-
+ 
 	public static void printUsers(List<UserInfo> userInfoList, JspWriter out,
 			boolean showOper) throws IOException, SQLException {
 		out.println("<table id=\"customers\"><tr>" + (showOper ? "<td>选择</td>" : "")

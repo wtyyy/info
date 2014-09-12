@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.sql.*;
 
 import jdbc.Conn;
-
+ 
 public class CourseSelect {
 	public static String select(int studentId, int courseId)
 			throws SQLException, IOException, ClassNotFoundException {

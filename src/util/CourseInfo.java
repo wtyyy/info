@@ -9,7 +9,7 @@ import org.apache.commons.dbutils.BeanProcessor;
 import jdbc.Conn;
 
 public class CourseInfo {
-
+ 
 	static public List<CourseInfo> getStudentCourseList(int studentId) throws ClassNotFoundException, SQLException {
 		List<StudentChooseCourse> pairList = new BeanProcessor().toBeanList(
 				Conn.getConn()

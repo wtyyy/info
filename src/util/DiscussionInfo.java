@@ -7,7 +7,7 @@ import java.sql.Timestamp;
 import javax.servlet.jsp.JspWriter;
 
 public class DiscussionInfo {
-	
+	 
 	int id;
 	String topic;
 	String content;

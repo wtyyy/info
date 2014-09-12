@@ -78,7 +78,7 @@ public class CourseTable {
 		out.println("<td>" + course.getText() + "</td>");
 		out.println("</tr>");
 	}
-
+ 
 	public static void printTable(java.util.List<CourseInfo> courseList,
 			JspWriter out, boolean haveChooser) throws IOException,
 			SQLException, ClassNotFoundException, ParseException {

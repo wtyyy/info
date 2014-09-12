@@ -2,7 +2,7 @@ package jdbc;
 
 import java.sql.DriverManager;
 import java.sql.SQLException;
-
+ 
 public class Conn {
 	public static java.sql.Connection getConn() throws SQLException, ClassNotFoundException {
 		Class.forName("com.mysql.jdbc.Driver");

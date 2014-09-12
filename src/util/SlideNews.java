@@ -21,7 +21,7 @@ public class SlideNews {
 			throw new SQLException();
 		}
 	}
-
+ 
 	@Override
 	public String toString() {
 		return "SlideInfo [id=" + id + ", image=" + image + ", href=" + href

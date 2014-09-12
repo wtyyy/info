@@ -7,6 +7,7 @@
 <%@page import="util.*"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<jsp:useBean id="user" class="util.UserInfo" scope="session" />
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -73,13 +74,13 @@
   <div class="clr"></div>
   <div class="footer">
     <div class="footer_resize">
-      <p class="leftt">Â© Copyright websitename . All Rights Reserved<br />
-        <a href="#">Home</a> | <a href="#">Contact</a> | <a href="#">RSS</a></p>
-      <p class="right">(Blue) <a href="http://www.bluewebtemplates.com">Website Templates</a></p>
+      <p class="leftt">© Copyright websitename . All Rights Reserved<br />
+      	当前登录用户：<%=user.getEmail() %></p>
+      <p class="right"> <a href="logout.jsp">注销</a></p>
       <div class="clr"></div>
     </div>
     <div class="clr"></div>
   </div>
 </div>
-<div align=center>This template  downloaded form <a href='http://all-free-download.com/free-website-templates/'>free website templates</a></div></body>
+</body>
 </html>

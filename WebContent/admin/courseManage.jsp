@@ -201,8 +201,8 @@ $(document).ready(function(){
   <div class="footer">
     <div class="footer_resize">
       <p class="leftt">© Copyright websitename . All Rights Reserved<br />
-        <a href="#">Home</a> | <a href="#">Contact</a> | <a href="#">RSS</a></p>
-      <p class="right">(Blue) <a href="http://www.bluewebtemplates.com">Website Templates</a></p>
+      	当前登录用户：<%=user.getEmail() %></p>
+      <p class="right"> <a href="logout.jsp">注销</a></p>
       <div class="clr"></div>
     </div>
     <div class="clr"></div>

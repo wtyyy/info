@@ -16,6 +16,8 @@
 <%
 	out.println(user);
 
+	 
+
 	Class.forName("com.mysql.jdbc.Driver");
 	Connection con = Conn.getConn();
 		try {

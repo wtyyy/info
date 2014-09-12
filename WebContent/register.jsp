@@ -23,12 +23,12 @@
       <div class="logo"><a href="#"><img src="images/logo.gif" width="338" height="70" border="0" alt="" /></a></div>
       <div class="menu">
         <ul>
-          <li><a href="index.jsp" class="active"><span>登陆首页</span></a></li>
-          <li><a href="portfolio.html"><span>公共资源页面 </span></a></li>
-          <li><a href="about.html"><span> 课程管理页面</span></a></li>
-          <li><a href="contact.html"><span>讨论区</span></a></li>
-          <li><a href="contact.html"><span> 师资力量</span></a></li>
-          <li><a href="contact.html"><span> 网站简介</span></a></li>
+          <li><a href="/Test/index.jsp" class="active" ><span>登陆首页</span></a></li>
+          <li><a href="/Test/publicResource/" ><span>公共资源页面 </span></a></li>
+          <li><a href="/Test/student/courseSelect.jsp"><span> 课程管理页面</span></a></li>
+          <li><a href="/Test/discussion/"><span>讨论区</span></a></li>
+          <li><a href="/Test/teachers.jsp"><span> 师资力量</span></a></li>
+          <li><a href="/Test/about.jsp"><span> 网站简介</span></a></li>
         </ul>
       </div>
       <div class="clr"></div>
@@ -98,7 +98,7 @@
             </li>
             
             <li class="buttons">
-            	<input type="image" name="imageField" id="imageField" src="images/send.gif" class="send" onclick="javascript:document.getElementById('contactform').submit();" />
+            	<input type="image" name="imageField" id="imageField" src="images/send.gif" class="send" alt="Submit Form" />
               <div class="clr"></div>
             </li>
           </ol>
@@ -135,6 +135,6 @@
     <div class="clr"></div>
   </div>
 </div>
-<div align=center>This template  downloaded form <a href='http://all-free-download.com/free-website-templates/'>free website templates</a></div></body>
+</body>
 </html>
 

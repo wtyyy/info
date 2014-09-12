@@ -56,8 +56,8 @@ html { padding:0; margin:0;}
 #contactform li.buttons { margin:5px 0 5px 0; clear:both; }
 #contactform label { margin:0; width:100px; display:block; padding:10px 0; color:#898989; font: normal 12px Arial, Helvetica, sans-serif; text-transform:capitalize; float:left; }
 #contactform label span { color:#F00; }
-#contactform input.text { width:450px; border:1px solid #e1e1e1; margin:2px 0; padding:5px 2px; height:16px; background:#fff; float:right; }
-#contactform textarea { width:450px; border:1px solid #e1e1e1; margin:2px 0; padding:2px; background:#fff; float:right; }
+#contactform input.text { width:750px; border:1px solid #e1e1e1; margin:2px 0; padding:5px 2px; height:16px; background:#fff; float:right; }
+#contactform textarea { width:750px; border:1px solid #e1e1e1; margin:2px 0; padding:2px; background:#fff; float:right; }
 #contactform li.buttons input { padding:3px 0 3px 480px; margin:10px 0 0 0; border:0; color:#FFF; float:left; }
 
 /*************footer**********/

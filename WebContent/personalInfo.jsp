@@ -9,6 +9,12 @@
 	request.setCharacterEncoding("UTF-8");
 	response.setCharacterEncoding("UTF-8");
 %>
+	<%
+		if (user.getEmail() == null || user.getEmail().equals("")) {
+			response.sendRedirect("index.jsp");
+		}
+		session.setAttribute("user", UserInfo.getById(user.getId()));
+	%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -38,9 +44,9 @@
   <div class="clr"></div>
   <div class="header_blog2">
     <div class="header">
-      <h2>登录</h2>
-      <p>一旦你登录进来 <br />
-        就可以为所欲为</p>
+      <h2>查看并修改个人信息</h2>
+      <p>我们不会倒卖你的<br />
+        个人资料</p>
     </div>
     <div class="clr"></div>
   </div>
@@ -48,22 +54,57 @@
   <div class="body">
     <div class="body_resize">
       <div class="left">
-        <h2>请输入你的邮箱和密码</h2>
-        <p>Donec varius, lorem ac euismod lobortis, dui tortor vehicula massa, a consectetur nisi sem consectetur urna. Duis mollis tempus nunc sit amet hendrerit. Aliquam sem nisl, pharetra hendrerit scelerisque et, ornare eget dui. Nunc gravida rhoncus diam, vestibulum dignissim</p>
-        <p>Etiam in nisi at metus sagittis iaculis nec ut diam. Sed in enim quis metus ullamcorper pulvinar. Mauris aliquet blandit lobortis. Vivamus accumsan semper dui sit amet semper.</p>
+        <h2>你的个人信息</h2>
+        <p>可以查看</p>
+        <p>可以修改</p>
         <p>&nbsp;</p>
-        <form action="login.jsp" method="post" id="contactform">
+        <form action="registration.jsp" method="post" id="contactform">
+		<input type="hidden" name="oper" value="update"/>
           <ol>
             <li>
               <label for="email">电子邮箱地址 <span class="red">*</span></label>
-              <input id="email" name="uname" class="text" />
+              <input id="email" name="email" class="text" value="<%=user.getEmail() %>" />
             </li>
             <li>
               <label for="password">密码<span class="red">*</span></label>
-              <input type="password" name="pass" class="text" />
+              <input type="password" name="password" class="text" value="<%=user.getPassword() %>"/>
             </li>
+            <li>
+              <label for="name">姓名<span class="red">*</span></label>
+              <input id="name" name="name" class="text" value="<%=user.getName() %>"/>
+            </li>
+            <li>
+              <label for="gender">性别<span class="red">*</span></label>
+              <input type="radio" name="gender" value="male"  <%=user.getGender().equals("male")?"checked":"" %>/>male
+			  <input type="radio" name="gender" value="female" <%=user.getGender().equals("male")?"checked":"" %> />female
+            </li>
+            <li>
+              <label for="dateBorn">出生日期<span class="red">*</span></label>
+              <input type="date" id="dateBorn" name="dateBorn"  class="text" value="<%=user.getDateBorn() %>"/>
+            </li>
+            <li>
+              <label for="tel">电话<span class="red">*</span></label>
+              <input type="number" id="tel" name="tel"  class="text" value="<%=user.getTel() %>"/>
+            </li>
+            <li>
+              <label for="emergencyContactName">紧急联系人<span class="red">*</span></label>
+			  <input type="text" id="emergencyContactName" name="emergencyContactName" class="text" value="<%=user.getEmergencyContactName() %>"/>
+            </li>
+            <li>
+              <label for="emergencyContactTel">紧急联系人电话<span class="red">*</span></label>
+			  <input type="number" id="emergencyContactTel" name="emergencyContactTel"  class="text" value="<%=user.getEmergencyContactTel() %>"/>
+            </li>
+			<li>
+              <label for="address">家庭住址<span class="red">*</span></label>
+			  <input type="text" id="address" name="address"  class="text" value="<%=user.getAddress() %>"/>
+            </li>
+            <li>
+              <label for="qq">QQ号码</label>
+			  <input type="number" id="qq" name="qq" class="text" value="<%=user.getQq() %>" />
+            </li>
+            
             <li class="buttons">
-            	<input type="image" name="imageField" id="imageField" src="images/send.gif" class="send" onclick="javascript:document.getElementById('contactform').submit();" />
+            	<input type="image" name="imageField" id="imageField" src="images/send.gif" class="send" alt="Submit Form" />
               <div class="clr"></div>
             </li>
           </ol>

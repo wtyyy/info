@@ -96,7 +96,8 @@ $(document).ready(function(){
     <div class="body_resize">
       <div class="full">
       	<%
-		if (user.getPrivilege().equals("admin")) {
+      	
+		if ("admin".equals(user.getPrivilege())) {
 			response.sendRedirect("../admin/infoManage.jsp");
 		}
 	%>
@@ -116,7 +117,7 @@ $(document).ready(function(){
   <div class="clr"></div>
   <div class="footer">
     <div class="footer_resize">
-      <p class="leftt">© Copyright websitename . All Rights Reserved<br />
+      <p class="leftt">© Copyright 王天一，袁源 . All Rights Reserved<br />
         <a href="#">Home</a> | <a href="#">Contact</a> | <a href="#">RSS</a></p>
       <p class="right">(Blue) <a href="http://www.bluewebtemplates.com">Website Templates</a></p>
       <div class="clr"></div>

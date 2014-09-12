@@ -49,11 +49,6 @@
 	background-color: #EAF2D3;
 }
 </style>
-<%
-	if (!"admin".equals(user.getPrivilege())) {
-		response.sendRedirect("../index.jsp");
-	}
-%>
 <title>公共资源管理</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link href="style.css" rel="stylesheet" type="text/css" />
@@ -115,6 +110,8 @@
 				<div class="full">
 
 					<%
+						boolean slideModify = false;
+						SlideNews modifySlide = null;
 						boolean isModify = false;
 						PublicInfo modifyInfo = null;
 						String operation = request.getParameter("oper");
@@ -164,6 +161,37 @@
 								isModify = true;
 								int id = Integer.parseInt(request.getParameter("infoId"));
 								modifyInfo = PublicInfo.getById(id);
+							} else if (operation.equals("modifySlide")) {
+								slideModify = true;
+								int id = Integer.parseInt(request.getParameter("slideId"));
+								modifySlide = SlideNews.getById(id);
+							} else if (operation.equals("addSlide")) {
+								int id = Integer.parseInt(request.getParameter("slideId"));
+								String image = request.getParameter("image");
+								String href = request.getParameter("href");
+								PreparedStatement st;
+								if (id == -1) {
+									st=Conn.getConn().prepareStatement("insert into slideInfo(image, href) values(?,?)");
+								} else {
+									st=Conn.getConn().prepareStatement("update slideInfo set image=?, href=? where id=" + id);
+								}
+								st.setString(1, image);
+								st.setString(2, href);
+								if (st.executeUpdate() > 0) {
+									out.println("操作成功");
+								} else {
+									out.println("操作失败");
+								}
+							} else if (operation.equals("deleteSlide")) {
+								int id = Integer.parseInt(request.getParameter("slideId"));
+								PreparedStatement st = Conn.getConn().prepareStatement(
+										"delete from slideInfo where id=" + id);
+								st.executeUpdate();
+								if (st.executeUpdate() > 0) {
+									out.println("操作成功");
+								} else {
+									out.println("操作失败");
+								}
 							}
 						}
 					%>
@@ -173,7 +201,7 @@
 							id="contactform">
 							<input type="hidden" name="oper" value="add">
 							<ol>
-								<li><label for="infoId">信息id(-1代表添加)</label><input
+								<li><label for="infoId">修改ID(-1为添加)</label><input
 									type="text" name="infoId" id="infoId"
 									value="<%=isModify ? modifyInfo.getId() : -1%>" class="text" /></li>
 								<li><label for="title">标题</label> <input type="text"
@@ -228,6 +256,55 @@
 							<button name="oper" type="submit" value="delete">删除</button>
 							<button name="oper" type="submit" value="modify">修改</button>
 						</form>
+						
+						
+						<h2>添加/修改动态展示板：</h2>
+						<form method="get" action="infoManage.jsp" name="addForm"
+							id="contactform">
+							<input type="hidden" name="oper" value="addSlide">
+							<ol>
+								<li><label for="slideId">修改ID(-1为添加)</label><input
+									type="text" name="slideId" id="slideId"
+									value="<%=slideModify ? modifySlide.getId() : -1%>" class="text" /></li>
+								<li><label for="image">图片路径</label> <input type="text"
+									name="image" id="image"
+									value="<%=slideModify ? modifySlide.getImage() : ""%>" class="text" /></li>
+								<li><label for="href">链接到</label> <input type="text"
+									name="href" id="href"
+									value="<%=slideModify ? modifySlide.getHref() : ""%>" class="text" /></li>
+								<li><label for="submitButton">点击提交更改</label><input type="submit" value="提交" id="submitButton"></li>
+								
+							</ol>
+						</form>
+						
+												<h2>管理已有展示：</h2>
+						<form method="get" action="infoManage.jsp">
+							<table id="customers">
+								<tr>
+									<td>选择</td>
+									<td>标题</td>
+								</tr>
+								<%
+									rs = Conn.getConn()
+											.prepareStatement("select * from slideInfo")
+											.executeQuery();
+									java.util.List<SlideNews> slideList = new BeanProcessor()
+											.toBeanList(rs, SlideNews.class);
+									for (SlideNews info : slideList) {
+										out.print("<tr><td><input type=\"radio\" name=\"slideId\" value=\""
+												+ info.getId()
+												+ "\"</td>"
+												+ "<td><a href=\""+ info.getHref() + "\"><img src=\""
+												+ info.getImage()
+												+ "\">"
+												+ "</a></td></tr>");
+									}
+								%>
+							</table>
+							<button name="oper" type="submit" value="deleteSlide">删除</button>
+							<button name="oper" type="submit" value="modifySlide">修改</button>
+						</form>
+						
 				</div>
 			</div>
 		</div>

@@ -52,7 +52,7 @@ public class DiscussionInfo {
 	
 	public String getZanCaiPrint() {
 		return "<a href="+"/Test/discussion/zanTDO.jsp?id="+id+">赞("+pros+")</a>"
-				+ "<a href="+"/Test/discussion/caiTDO.jsp?id="+id+">踩("+cons+")</a>";
+				+ " <a href="+"/Test/discussion/caiTDO.jsp?id="+id+">踩("+cons+")</a>";
 	}
 	
 	public void printTitle(JspWriter out, int i) throws IOException {
@@ -65,18 +65,25 @@ public class DiscussionInfo {
 				+ "</tr>");
 	}
 	
+	public String getContentPrint() {
+		return BBAdapter.process(content);
+	}
+	
 	public void printContent(JspWriter out, boolean isSelf, boolean isAdmin) throws IOException {
 		out.println(
-				"<tr><td>"+topic+"</td></tr>"
-				+ "<tr>"
-				+ "<td>"+1+"</td>"
-				+ "<td>"+getNamePrint()+"</td>"
-				+ "<td>"+DateTimePrint.dateTimePrint(postDate)+"</td></tr>"
-				+ "<tr><td>"+content+"</td>"
-				+ "</tr>"
-				+ "<tr><td>"+((isSelf||isAdmin)?getDeletePrint():"")+"</td>"
-				+"<td>"+(isAdmin?getForbiddenPrint():"")+"</td>"
-				+"<td>"+getZanCaiPrint()+"</td></tr>");
+				"<th colspan=2>"+topic+"</th>"
+				+ "<tr><td align=\"center\">"+1+"</td>"
+				+ "<td width=500px height=300px>"+getContentPrint()+"</td></tr>"
+				+ "<td><label align=\"left\">"
+				+ DateTimePrint.dateTimePrint(postDate)+"</td>"
+				+ "<td align=\"right\">发帖人："
+				+ getNamePrint() + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+				+ "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+				+ "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+				+ ((isSelf||isAdmin)?getDeletePrint():"")+"  "
+				+ (isAdmin?getForbiddenPrint():"")+"  "
+				+ getZanCaiPrint()+"</td>"
+				+ "</tr>");
 	}
 	
 	public int getId() {

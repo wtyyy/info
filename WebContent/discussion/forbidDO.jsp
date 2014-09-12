@@ -19,7 +19,7 @@ response.setCharacterEncoding("UTF-8");
 <body>
 <%
 	int id = Integer.valueOf(request.getParameter("id"));
-	Conn.getConn().prepareStatement("insert into Forbidden(id) values=("+id+")").execute();
+	Conn.getConn().prepareStatement("insert into Forbidden(id) values("+id+")").execute();
 	response.sendRedirect((String)session.getAttribute("lastURL"));
 %>
 </body>

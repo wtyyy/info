@@ -43,7 +43,7 @@
   background-color:#EAF2D3;
   }
 </style>
-<title>BestWebdesign</title>
+<title>Welcome to Sky-1 INFO</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link href="style.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="js/jquery-1.3.2.min.js"></script>
@@ -120,21 +120,21 @@ $(document).ready(function(){
         <div class="bg"></div>
         <p>用户注册就像查户口本<br />
          	请提前准备好充足的个人信息  </p>
-        <a href="register.jsp"><img src="images/fbg_read_more.gif" alt="" width="87" height="31" border="0" /></a></div>
+        <a <%if (user.getName()==null) out.print("href=\"register.jsp\""); %>><img src="images/fbg_read_more_3<%if (user.getName()==null) out.print(3);%>.gif" alt="" width="87" height="31" border="0" /></a></div>
       <div class="block"> <img src="images/fbg_2.gif" alt="" width="49" height="49" />
         <h2>我想更加了解自己。。<br />
           <span>查看/修改个人信息 </span></h2>
         <div class="bg"></div>
         <p>不限制修改次数哦！ <br />
           修改个人信息不需要邮箱验证哦!</p>
-        <a href="personalInfo.jsp"><img src="images/fbg_read_more.gif" alt="" width="87" height="31" border="0" /></a></div>
+        <a <%if (user.getName()!=null) out.print("href=\"personalInfo.jsp\""); %>><img src="images/fbg_read_more_2<%if (user.getName()!=null) out.print(2);%>.gif" alt="" width="87" height="31" border="0" /></a></div>
       <div class="block"> <img src="images/fbg_3.gif" alt="" width="49" height="49" />
         <h2>我要登录！<br />
           <span>好吧，我差点忘了</span></h2>
         <div class="bg"></div>
         <p>没验证邮箱的话登录是没用的 <br />
           	请勿使用万能密码</p>
-        <a href="signin.jsp"><img src="images/fbg_read_more.gif" alt="" width="87" height="31" border="0" /></a></div>
+        <a <%if (user.getName()==null) out.print("href=\"signin.jsp\""); %>><img src="images/fbg_read_more_1<%if (user.getName()==null) out.print(1);%>.gif" alt="" width="87" height="31" border="0" /></a></div>
       <div class="clr"></div>
     </div>
     <div class="clr"></div>
@@ -150,6 +150,7 @@ $(document).ready(function(){
       		<tr><td><a href="admin/userManage.jsp">用户管理</a></td></tr>
       		<tr><td><a href="admin/infoManage.jsp">公共资源管理</a></td></tr>
       		<tr><td><a href="admin/teachInfoManage.jsp">教务信息管理</a></td></tr>
+      		<tr><td><a href="discussion/adminForbidden.jsp">讨论区发言管理</a></td></tr>
       		</table>
       	<%} else if("student".equals(user.getPrivilege())){ %>
         <h2>你的课表</h2>
@@ -183,7 +184,7 @@ $(document).ready(function(){
         	%>
         </table>
         <% } else { %>
-        <h2>啊呀，你还没登陆呢，这里本来应该是一个课表呦。</h2>
+        
         <%} %>
         	<h2>教务信息</h2>
 	<table id="customers">
@@ -197,9 +198,10 @@ $(document).ready(function(){
 </table>
       </div>
       <div class="right">
-        <h2>两天以内你会上的课</h2>
+        
         <%
         if (user.getEmail() != null) {
+        	out.println("两天以内你会上的课");
     		List<CourseInfo> courseList = CourseInfo.getStudentCourseList(user.getId());
         	for (CourseInfo course : courseList) {
         		Calendar now = Calendar.getInstance();
@@ -218,11 +220,7 @@ $(document).ready(function(){
         }
        	%>
         <br/>
-        <p><a href="#">Original</a><br />
-          Nulla id orci vel ante congue ornare. Cras laoreet pulvinar ante, non ullamcorper augue</p>
-        <h2>What Our Client says...</h2>
-        <p> <img src="images/test.gif" alt="" width="18" height="13" />Aenean id justo eu est sodales rhoncus ac et sem. Nunc aliquam, magnaa placerat congue, ante urna tincidunt.<br />
-          <strong>Jason, Founder, www.website.com </strong></p>
+        
       </div>
       <div class="clr"></div>
     </div>
@@ -230,9 +228,8 @@ $(document).ready(function(){
   <div class="clr"></div>
   <div class="footer">
     <div class="footer_resize">
-      <p class="leftt">© Copyright websitename . All Rights Reserved<br />
-      	当前登录用户：<%=user.getEmail() %></p>
-      <p class="right"> <a href="logout.jsp">注销</a></p>
+      <p class="leftt">© Copyright wty&yy . All Rights Reserved</p>
+      <p class="right"> 当前登录用户：<%=user.getEmail()==null?"您尚未登录":user.getEmail() %><br /><a href="logout.jsp">注销</a></p>
       <div class="clr"></div>
     </div>
     <div class="clr"></div>

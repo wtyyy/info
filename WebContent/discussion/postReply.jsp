@@ -79,9 +79,9 @@
       <div class="menu">
         <ul>
           <li><a href="/Test/index.jsp" ><span>登陆首页</span></a></li>
-          <li><a href="/Test/publicResource/" class="active"><span>公共资源页面 </span></a></li>
+          <li><a href="/Test/publicResource/"><span>公共资源页面 </span></a></li>
           <li><a href="/Test/student/courseSelect.jsp"><span> 课程管理页面</span></a></li>
-          <li><a href="/Test/discussion/"><span>讨论区</span></a></li>
+          <li><a href="/Test/discussion/" class="active"><span>讨论区</span></a></li>
           <li><a href="/Test/teachers.jsp"><span> 师资力量</span></a></li>
           <li><a href="/Test/about.jsp"><span> 网站简介</span></a></li>
         </ul>
@@ -218,6 +218,12 @@
 			
 		%>
 		</table> 
+		<br />
+	<%
+		if (user.getName()!=null && user.getPrivilege().equals("admin")) {
+			out.println("管理员权限：<a href=\"/Test/discussion/adminForbidden.jsp\">解封</a>");
+		}
+	%>
 	</div>
       <div class="clr"></div>
     </div>
@@ -225,9 +231,8 @@
   <div class="clr"></div>
   <div class="footer">
     <div class="footer_resize">
-      <p class="leftt">© Copyright websitename . All Rights Reserved<br />
-        <a href="#">Home</a> | <a href="#">Contact</a> | <a href="#">RSS</a></p>
-      <p class="right">(Blue) <a href="http://www.bluewebtemplates.com">Website Templates</a></p>
+      <p class="leftt">© Copyright websitename . All Rights Reserved</p>
+      <p class="right"> 当前登录用户：<%=user.getEmail()==null?"您尚未登录":user.getEmail() %><br /><a href="logout.jsp">注销</a></p>
       <div class="clr"></div>
     </div>
     <div class="clr"></div>

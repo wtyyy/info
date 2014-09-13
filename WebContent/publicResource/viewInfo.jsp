@@ -96,7 +96,7 @@
 	ResultSet rs = Conn.getConn().prepareStatement("select * from publicInfo").executeQuery();
 	List<PublicInfo> infoList = new BeanProcessor().toBeanList(rs, PublicInfo.class);
 	for (PublicInfo info2 : infoList) {
-		out.print("<tr><td><a href=\"viewInfo.jsp?id=" + info2.getId()+ "\">" + info2.getTitle() + "</a></td></tr>");
+		out.print("<tr><td height=25><a href=\"viewInfo.jsp?id=" + info2.getId()+ "\">" + info2.getTitle() + "</a></td></tr>");
 	}
 %>
 </table>
@@ -107,9 +107,8 @@
   <div class="clr"></div>
   <div class="footer">
     <div class="footer_resize">
-      <p class="leftt">© Copyright websitename . All Rights Reserved<br />
-      	当前登录用户：<%=user.getEmail() %></p>
-      <p class="right"> <a href="logout.jsp">注销</a></p>
+      <p class="leftt">© Copyright wty&yy . All Rights Reserved</p>
+      <p class="right"> 当前登录用户：<%=user.getEmail()==null?"您尚未登录":user.getEmail() %><br /><a href="logout.jsp">注销</a></p>
       <div class="clr"></div>
     </div>
     <div class="clr"></div>

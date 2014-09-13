@@ -200,9 +200,8 @@ $(document).ready(function(){
   <div class="clr"></div>
   <div class="footer">
     <div class="footer_resize">
-      <p class="leftt">© Copyright websitename . All Rights Reserved<br />
-      	当前登录用户：<%=user.getEmail() %></p>
-      <p class="right"> <a href="logout.jsp">注销</a></p>
+      <p class="leftt">© Copyright wty&yy . All Rights Reserved</p>
+      <p class="right"> 当前登录用户：<%=user.getEmail()==null?"您尚未登录":user.getEmail() %><br /><a href="logout.jsp">注销</a></p>
       <div class="clr"></div>
     </div>
     <div class="clr"></div>

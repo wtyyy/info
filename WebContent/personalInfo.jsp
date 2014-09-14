@@ -57,8 +57,7 @@
     <div class="body_resize">
       <div class="left">
         <h2>你的个人信息</h2>
-        <p>可以查看</p>
-        <p>可以修改</p>
+        <p>不想改密码请留空</p>
         <p>&nbsp;</p>
         <form action="registration.jsp" method="post" id="contactform">
 		<input type="hidden" name="oper" value="update"/>
@@ -69,7 +68,7 @@
             </li>
             <li>
               <label for="password">密码<span class="red">*</span></label>
-              <input type="password" name="password" class="text" value="<%=user.getPassword() %>"/>
+              <input type="password" name="password" class="text" value=""/>
             </li>
             <li>
               <label for="name">姓名<span class="red">*</span></label>

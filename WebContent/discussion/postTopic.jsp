@@ -138,42 +138,42 @@
        		
        		%>
        <br/>
-<body>
 <form id="contactform" name="form1" method="post" action="postTopicDO.jsp">
-  <input name="discussType" type="hidden" value="T">
-   <input name="belongs" type="hidden" value="0">
+  <input name="discussType" type="hidden" value="T"/>
+   <input name="belongs" type="hidden" value="0"/>
           <ol>
             <li>
               <label for="topic">标  题 </label>
-              <input id="name" name="topic" class="text" maxlength="45" size=80/>
+              <input id="name" name="topic" class="text" maxlength="45" size="80"/>
             </li>
             <li>
               <label for="content">内 容 </label>
               <textarea id="content" name="content"  rows="8"></textarea>
             </li>
 			<li><label for="imageUrl">插入图片</label> <input type="text"
-				name="imageUrl" class="text"> <input type="button"
-				onClick="javascript:document.form1.content.value+='[img]'+document.form1.imageUrl.value+'[/img]';"
+				name="imageUrl" class="text"/> <input type="button"
+				onclick="javascript:this.form.content.value+='[img]'+this.form.imageUrl.value+'[/img]';"
 				value="插入" /></li>
 			<li><label for="flashurl">插入flash视频</label> <input
 				type="text" name="flashUrl" class="text" id="flashUrl" /><input
 				type="button"
-				onClick="javascript:document.form1.content.value+='[flash]'+document.form1.flashUrl.value+'[/flash]';"
+				onclick="javascript:this.form.content.value+='[flash]'+this.form.flashUrl.value+'[/flash]';"
 				value="插入" /></li>
 			<li><label for="soundUrl">插入声音</label><input type="text"
 				name="soundUrl" id="soundUrl" class="text" /><input
 				type="button"
-				onClick="javascript:document.form1.content.value+='[sound]'+document.form1.soundUrl.value+'[/sound]';"
+				onclick="javascript:this.form.content.value+='[sound]'+this.form.soundUrl.value+'[/sound]';"
 				value="插入" /></li>					
             <li class="buttons">
               <input type="image" name="imageField" id="imageField" src="images/send.gif" class="send" value="提 交"/>
               <div class="clr"></div>
             </li>
           </ol>
+          </form>
       </div>
  <div class="right">
 	<table id="customers">
-		<th>版面浏览</th>
+		<tr><th>版面浏览</th></tr>
 		<tr><td align="center"><a href="/Test/discussion/postTopic.jsp?zone=cs">贵系贵系</a></td></tr>
 		<tr><td align="center"><a href="/Test/discussion/postTopic.jsp?zone=food">想吃美食</a></td></tr>
 		<tr><td align="center"><a href="/Test/discussion/postTopic.jsp?zone=music">音乐之声</a></td></tr>
@@ -185,7 +185,7 @@
 	</table>
 	<br></br>
 	<table id="customers">
-	<th colspan=2>精华帖子</th>
+	<tr><th colspan="2">精华帖子</th></tr>
 			<%
 			ResultSet rs = Conn.getConn().prepareStatement("select * from Discussion where zone='"+zone +"' order by pros DESC").executeQuery();
 			int j=0;
@@ -200,7 +200,7 @@
 	</table>      
 	<br></br>
 		<table id="customers">
-		<th colspan=2>快来吐槽</th>
+		<tr><th colspan="2">快来吐槽</th></tr>
 	
 				<%
 			ResultSet rs2 = Conn.getConn().prepareStatement("select * from Discussion where zone='"+zone +"' order by cons DESC").executeQuery();

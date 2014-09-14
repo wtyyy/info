@@ -23,14 +23,17 @@
 <%
 	String email = request.getParameter("uname");
 	String pwd = request.getParameter("pass");
-
-	System.out.println(MD5Tool.digest(pwd));
-	Class.forName("com.mysql.jdbc.Driver");
-	Connection con = Conn.getConn();
-	Statement st = con.createStatement();
-	ResultSet rs;
-	rs = st.executeQuery("select * from users where email='" + email
-	+ "' and password='" + MD5Tool.digest(pwd) + "'");
+	
+	if (email == null || pwd == null) {
+		 response.sendRedirect("message.jsp?message="+URLEncoder.encode("无效的用户名密码", "utf-8") +"&redirect=/Test/signin.jsp");
+		 return;
+	}
+	pwd = MD5Tool.digest(pwd);
+	
+	PreparedStatement st = Conn.getConn().prepareStatement("select * from users where email=? and password=?");
+	st.setString(1, email);
+	st.setString(2, pwd);
+	ResultSet rs = st.executeQuery();
 	if (rs.next()) {
 		UserInfo tempUser = (UserInfo)new BeanProcessor().toBean(rs,
 				UserInfo.class);
@@ -50,12 +53,13 @@
 		}
 	} else {
 
+		/*
 		out.println("</head><body><script language=\"javascript\">");
 		out.println("alert(\"密码错误\");");
 		out.println("location.href=\"/Test/signin.jsp\";");
 		out.println("</script></body>");		
-
-		 response.sendRedirect("message.jsp?message="+URLEncoder.encode("密码错误", "utf-8"));
+		*/
+		 response.sendRedirect("message.jsp?message="+URLEncoder.encode("密码错误", "utf-8") + "&redirect=/Test/signin.jsp");
 
 	}
 %>

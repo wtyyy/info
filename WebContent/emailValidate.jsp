@@ -22,7 +22,7 @@
 <body>
 <%
 	if (request.getParameter("id")==null || request.getParameter("code") == null) {
-		response.sendRedirect("message.jsp?message="+URLEncoder.encode("您在试图验证邮箱吗？这是错误的用法", "utf-8"));
+		response.sendRedirect("message.jsp?message="+URLEncoder.encode("您在试图验证邮箱吗？这是错误的用法", "utf-8") +"&redirect=index.jsp");
 		return;
 	}
 	int id = Integer.parseInt(request.getParameter("id"));
@@ -30,9 +30,9 @@
 	UserInfo user = UserInfo.getById(id);
 	if (user.getEmail().hashCode() == code) {
 		Conn.getConn().prepareStatement("update users set validated=1 where id=" + id).execute();
-		response.sendRedirect("message.jsp?message="+URLEncoder.encode("验证email成功，可以登录了", "utf-8"));
+		response.sendRedirect("message.jsp?message="+URLEncoder.encode("验证email成功，可以登录了", "utf-8") + "&redirect=/Test/signin.jsp");
 	} else {
-		response.sendRedirect("message.jsp?message=" + URLEncoder.encode("验证码错误", "utf-8"));
+		response.sendRedirect("message.jsp?message=" + URLEncoder.encode("验证码错误", "utf-8") + "&redirect=index.jsp");
 	}
 %>
 

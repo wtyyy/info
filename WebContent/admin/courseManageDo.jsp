@@ -46,7 +46,7 @@
 				response.sendRedirect("courseManage.jsp");
 				return;
 			} else {
-				response.sendRedirect("../message.jsp?message="+URLEncoder.encode("查无此课，可能被别的管理员删了", "utf-8"));
+				response.sendRedirect("../message.jsp?message="+URLEncoder.encode("查无此课，可能被别的管理员删了", "utf-8")+"&redirect=/Test/admin/courseManage.jsp");
 			 	return;
 			}
 
@@ -55,7 +55,7 @@
 			out.println(course);
 			if (CourseTime.fromDayAndBlock(course.getDay(),
 					course.getBlock()) == null) {
-				response.sendRedirect("../message.jsp?message="+URLEncoder.encode("无效的上课时间", "utf-8"));
+				response.sendRedirect("../message.jsp?message="+URLEncoder.encode("无效的上课时间", "utf-8")+"&redirect=/Test/admin/courseManage.jsp");
 			 	return;
 			}
 			try {
@@ -91,10 +91,10 @@
 				}
 			} catch (SQLException e) {
 				if (e.getErrorCode() == 1062) {
-					response.sendRedirect("../message.jsp?message="+URLEncoder.encode("课程名称已经存在", "utf-8"));
+					response.sendRedirect("../message.jsp?message="+URLEncoder.encode("课程名称已经存在", "utf-8")+"&redirect=/Test/admin/courseManage.jsp");
 				 	return;
 				} else {
-					response.sendRedirect("../message.jsp?message="+URLEncoder.encode("数据格式有误", "utf-8"));
+					response.sendRedirect("../message.jsp?message="+URLEncoder.encode("数据格式有误", "utf-8")+"&redirect=/Test/admin/courseManage.jsp");
 				 	return;
 				}
 			}
@@ -106,7 +106,7 @@
 			if ( errorMessage == null) {
 				response.sendRedirect(request.getParameter("redirect"));
 			} else {
-				response.sendRedirect("../message.jsp?message="+URLEncoder.encode(errorMessage, "utf-8"));
+				response.sendRedirect("../message.jsp?message="+URLEncoder.encode(errorMessage, "utf-8")+"&redirect=/Test/admin/courseManage.jsp");
 			 	return;
 			}
 		}else if ("deselect".equals(request.getParameter("oper"))) {
@@ -117,7 +117,7 @@
 			if ( errorMessage == null) {
 				response.sendRedirect(request.getParameter("redirect"));
 			} else {
-				response.sendRedirect("../message.jsp?message="+URLEncoder.encode(errorMessage, "utf-8"));
+				response.sendRedirect("../message.jsp?message="+URLEncoder.encode(errorMessage, "utf-8") + "&redirect=/Test/admin/courseManage.jsp");
 			 	return;
 			}
 		}

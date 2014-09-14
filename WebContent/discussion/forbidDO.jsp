@@ -1,3 +1,4 @@
+<%@page import="java.net.URLEncoder"%>
 <%@page import="util.*"%>
 <%@page import="jdbc.*"%>
 <%@page import="org.apache.commons.dbutils.BeanProcessor"%>
@@ -19,7 +20,12 @@ response.setCharacterEncoding("UTF-8");
 <body>
 <%
 	int id = Integer.valueOf(request.getParameter("id"));
+try {
 	Conn.getConn().prepareStatement("insert into Forbidden(id) values("+id+")").execute();
+} catch(SQLException e) {
+	response.sendRedirect("../message.jsp?message=" + URLEncoder.encode("此人已被封过", "utf-8") + "&redirect="+session.getAttribute("lastURL"));
+	return;
+}
 	response.sendRedirect((String)session.getAttribute("lastURL"));
 %>
 </body>

@@ -34,7 +34,7 @@
 				response.sendRedirect("userManage.jsp");
 				return;
 			} else {
-				response.sendRedirect("../message.jsp?message="+URLEncoder.encode("操作失败，请检查数据格式", "utf-8"));
+				response.sendRedirect("../message.jsp?message="+URLEncoder.encode("操作失败，请检查数据格式", "utf-8")+ "&redirect=/Test/admin/userManage.jsp");
 			 	return;
 			}
 		} else if ("changeBlock".equals(request.getParameter("oper"))) {
@@ -45,7 +45,7 @@
 				response.sendRedirect("userManage.jsp");
 				return;
 			} else {
-				response.sendRedirect("../message.jsp?message="+URLEncoder.encode("操作失败，请检查数据格式", "utf-8"));
+				response.sendRedirect("../message.jsp?message="+URLEncoder.encode("操作失败，请检查数据格式", "utf-8")+ "&redirect=/Test/admin/userManage.jsp");
 			 	return;
 			}
 		} else if ("changePrivilege".equals(request.getParameter("oper"))) {
@@ -58,7 +58,7 @@
 				response.sendRedirect("userManage.jsp");
 				return;
 			} else {
-				response.sendRedirect("../message.jsp?message="+URLEncoder.encode("操作失败，请检查数据格式", "utf-8"));
+				response.sendRedirect("../message.jsp?message="+URLEncoder.encode("操作失败，请检查数据格式", "utf-8") + "&redirect=/Test/admin/userManage.jsp");
 			 	return;
 			}
 		}

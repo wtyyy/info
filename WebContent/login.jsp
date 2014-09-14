@@ -23,6 +23,8 @@
 <%
 	String email = request.getParameter("uname");
 	String pwd = request.getParameter("pass");
+
+	System.out.println(MD5Tool.digest(pwd));
 	Class.forName("com.mysql.jdbc.Driver");
 	Connection con = Conn.getConn();
 	Statement st = con.createStatement();

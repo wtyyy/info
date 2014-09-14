@@ -130,7 +130,7 @@ $(document).ready(function(){
 		<input type="hidden" name="oper" value="delete">
 		<table id="customers">
 			<tr>
-				<td>删除</td>
+				<td>选择</td>
 				<td>课程id</td>
 				<td>名称</td>
 				<td>教师</td>
@@ -142,10 +142,12 @@ $(document).ready(function(){
 				<td>结束日期</td>
 				<td>所剩课时</td>
 				<td>更多信息</td>
+				<td>选课开始时间</td>
+				<td>选课结束时间</td>
 			</tr>
 			<%
 				HashSet<Integer> set = new HashSet<Integer>();
-				if (user.getPrivilege().equals("student")) {
+				if (user.getPrivilege().equals("student"))  {
 					for (; selectedCourseSet.next();) {
 
 						Statement st = con.createStatement();
@@ -157,7 +159,7 @@ $(document).ready(function(){
 							CourseTable.printSingleCourse(
 									(CourseInfo) (new BeanProcessor().toBean(
 											thisCourse, CourseInfo.class)), out,
-									true);
+									true, true);
 						set.add(thisCourse.getInt("id"));
 						} else {
 							out.println("搞错了");
@@ -166,14 +168,14 @@ $(document).ready(function(){
 				}
 			%>
 		</table>
-		<input type="submit" value="Submit" />
+		<input type="submit" value="删除" />
 	</form>
-	<h2>可选课程：</h2>
+	<h2>所有课程：</h2>
 	<form method="post" action="courseSelectDo.jsp">
 		<input type="hidden" name="oper" value="add">
 		 <table id="customers">
 			<tr>
-				<td>删除</td>
+				<td>选择</td>
 				<td>课程id</td>
 				<td>名称</td>
 				<td>教师</td>
@@ -185,6 +187,8 @@ $(document).ready(function(){
 				<td>结束日期</td>
 				<td>所剩课时</td>
 				<td>更多信息</td>
+				<td>选课开始时间</td>
+				<td>选课结束时间</td>
 			</tr>
 		
 		<%
@@ -201,14 +205,14 @@ $(document).ready(function(){
 					CourseTable.printSingleCourse(
 							(CourseInfo) (new BeanProcessor().toBean(
 									thisCourse, CourseInfo.class)), out,
-							true);
+							true, false);
 				
 				} 
 			}
 
 		%>
 		</table>
-		<input type="submit" value="Submit" />
+		<input type="submit" value="选课" />
 	</form>
 	<h2>选课历史纪录：</h2>
 	<table id="customers">

@@ -117,7 +117,7 @@
 			CourseTable.printTable(
 					new BeanProcessor().toBeanList(Conn.getConn()
 							.prepareStatement("select * from courses")
-							.executeQuery(), CourseInfo.class), out, true);
+							.executeQuery(), CourseInfo.class), out, true, false);
 		%>
 		<input type="submit" formaction="courseManage.jsp" value="modify">
 		<input type="submit" formaction="viewCourseMember.jsp" value="查看成员">

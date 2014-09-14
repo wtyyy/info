@@ -4,10 +4,9 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>admin</title>
+<title>Insert title here</title>
 </head>
 <body>
-<a href="courseManage.jsp">课程管理 </a> 
-<img src=/Test/DBFileGetter?id=18>
+
 </body>
 </html>

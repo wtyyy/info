@@ -1,3 +1,4 @@
+<%@page import="java.net.URLEncoder"%>
 <%@page import="util.UserInfo"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
@@ -33,7 +34,8 @@
 				response.sendRedirect("userManage.jsp");
 				return;
 			} else {
-				out.println("删除失败");
+				response.sendRedirect("../message.jsp?message="+URLEncoder.encode("操作失败，请检查数据格式", "utf-8"));
+			 	return;
 			}
 		} else if ("changeBlock".equals(request.getParameter("oper"))) {
 			PreparedStatement st = Conn.getConn().prepareStatement(
@@ -43,7 +45,8 @@
 				response.sendRedirect("userManage.jsp");
 				return;
 			} else {
-				out.println("更改封禁情况失败");
+				response.sendRedirect("../message.jsp?message="+URLEncoder.encode("操作失败，请检查数据格式", "utf-8"));
+			 	return;
 			}
 		} else if ("changePrivilege".equals(request.getParameter("oper"))) {
 			PreparedStatement st = Conn.getConn().prepareStatement(
@@ -55,7 +58,8 @@
 				response.sendRedirect("userManage.jsp");
 				return;
 			} else {
-				out.println("更改权限失败");
+				response.sendRedirect("../message.jsp?message="+URLEncoder.encode("操作失败，请检查数据格式", "utf-8"));
+			 	return;
 			}
 		}
 	%>

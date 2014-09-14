@@ -1,3 +1,4 @@
+<%@page import="java.net.URLEncoder"%>
 <%@page import="jdbc.Conn"%>
 <%@page import="java.sql.*"%>
 <%@page import="util.*" %>
@@ -23,7 +24,8 @@
 			if ( errorMessage == null) {
 				response.sendRedirect("courseSelect.jsp");
 			} else {
-				out.println(errorMessage);
+				response.sendRedirect("../message.jsp?message="+URLEncoder.encode(errorMessage, "utf-8"));
+			 	return;
 			}
 
 		} else if (((String) request.getParameter("oper")).equals("delete")) {
@@ -31,7 +33,8 @@
 			if ( errorMessage == null) {
 				response.sendRedirect("courseSelect.jsp");
 			} else {
-				out.println(errorMessage);
+				response.sendRedirect("../message.jsp?message="+URLEncoder.encode(errorMessage, "utf-8"));
+			 	return;
 			}
 		}
 	%>

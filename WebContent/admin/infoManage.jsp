@@ -1,3 +1,4 @@
+<%@page import="java.net.URLEncoder"%>
 <%@page import="util.StudentChooseCourseHistory"%>
 <%@page import="util.CourseInfo"%>
 <%@page import="org.apache.commons.dbutils.BeanProcessor"%>
@@ -147,7 +148,8 @@
 								if (st.executeUpdate() > 0) {
 									out.println("操作成功");
 								} else {
-									out.println("操作失败");
+									response.sendRedirect("../message.jsp?message="+URLEncoder.encode("操作失败，请检查数据格式", "utf-8"));
+								 	return;
 								}
 
 							} else if (operation.equals("delete")) {
@@ -158,7 +160,8 @@
 								if (st.executeUpdate() > 0) {
 									out.println("操作成功");
 								} else {
-									out.println("操作失败");
+									response.sendRedirect("../message.jsp?message="+URLEncoder.encode("操作失败，请检查数据格式", "utf-8"));
+								 	return;
 								}
 							} else if (operation.equals("modify")) {
 								isModify = true;
@@ -183,7 +186,8 @@
 								if (st.executeUpdate() > 0) {
 									out.println("操作成功");
 								} else {
-									out.println("操作失败");
+									response.sendRedirect("../message.jsp?message="+URLEncoder.encode("操作失败，请检查数据格式", "utf-8"));
+								 	return;
 								}
 							} else if (operation.equals("deleteSlide")) {
 								int id = Integer.parseInt(request.getParameter("slideId"));
@@ -193,13 +197,14 @@
 								if (st.executeUpdate() > 0) {
 									out.println("操作成功");
 								} else {
-									out.println("操作失败");
+									response.sendRedirect("../message.jsp?message="+URLEncoder.encode("操作失败，请检查数据格式", "utf-8"));
+								 	return;
 								}
 							}
 						}
 					%>
-					<body>
 						<h2>添加/修改资源：</h2>
+					<body>
 						<form method="post" action="infoManage.jsp" name="addForm"
 							id="contactform">
 							<input type="hidden" name="oper" value="add">
@@ -210,7 +215,7 @@
 								<li><label for="title">标题</label> <input type="text"
 									name="title" id="title"
 									value="<%=isModify ? modifyInfo.getTitle() : ""%>" class="text" /></li>
-								<li><label for="docText">内容：</label><textarea name="docText" rows="20" cols="100" id="docText"
+								<li><label for="docText">内容：</label><textarea id="docText" name="docText" rows="20" cols="100" id="docText"
 										class="text" class="text" /><%=isModify ? modifyInfo.getText() : ""%></textarea></li>
 
 								<li><label for="submitButton">点击提交更改</label><input type="submit" value="提交" id="submitButton"></li>

@@ -171,6 +171,20 @@ $(document).ready(function(){
 							.from(Calendar.getInstance().toInstant()))%>" /></td>
 				</tr>
 				<tr>
+					<td>选课开始日期</td>
+					<td><input type="date" name="selectStartTime"
+						value="<%=isModify ? currentCourse.getEndTime()
+					: new SimpleDateFormat("yyyy-MM-dd").format(Date
+							.from(Calendar.getInstance().toInstant()))%>" /></td>
+				</tr>
+				<tr>
+					<td>选课结束日期</td>
+					<td><input type="date" name="selectEndTime"
+						value="<%=isModify ? currentCourse.getEndTime()
+					: new SimpleDateFormat("yyyy-MM-dd").format(Date
+							.from(Calendar.getInstance().toInstant()))%>" /></td>
+				</tr>
+				<tr>
 					<td>更多介绍</td>
 					<td><input type="text" name="text" value="课程介绍" /></td>
 				</tr>
@@ -188,7 +202,7 @@ $(document).ready(function(){
 			CourseTable.printTable(
 					new BeanProcessor().toBeanList(Conn.getConn()
 							.prepareStatement("select * from courses")
-							.executeQuery(), CourseInfo.class), out, true);
+							.executeQuery(), CourseInfo.class), out, true, true);
 		%>
 		<input type="submit" formaction="courseManage.jsp" value="modify">
 		<input type="submit" formaction="viewCourseMember.jsp" value="查看成员">

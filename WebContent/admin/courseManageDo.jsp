@@ -1,3 +1,4 @@
+<%@page import="java.net.URLEncoder"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -21,6 +22,7 @@
 		out.println(user);
 		if ((!"admin".equals(user.getPrivilege()))) {
 			response.sendRedirect("../index.jsp");
+			return;
 		} else if ("delete".equals((String) request.getParameter("oper"))) {
 
 			out.println("别拿那种眼神看着我，我知道你想删东西");
@@ -42,8 +44,10 @@
 									+ "'");
 			if (result > 0) {
 				response.sendRedirect("courseManage.jsp");
+				return;
 			} else {
-				out.println("没有这个课呦");
+				response.sendRedirect("../message.jsp?message="+URLEncoder.encode("查无此课，可能被别的管理员删了", "utf-8"));
+			 	return;
 			}
 
 		} else if ("add".equals(request.getParameter("oper"))) {
@@ -51,8 +55,8 @@
 			out.println(course);
 			if (CourseTime.fromDayAndBlock(course.getDay(),
 					course.getBlock()) == null) {
-				out.println("时间不对");
-				return;
+				response.sendRedirect("../message.jsp?message="+URLEncoder.encode("无效的上课时间", "utf-8"));
+			 	return;
 			}
 			try {
 				PreparedStatement st = null;
@@ -60,13 +64,13 @@
 					st = Conn
 							.getConn()
 							.prepareStatement(
-									"insert into courses(name, teacher,day,block, text, capacity, startTime, endTime)"
-											+ "values(?,?,?,?,?,?,?,?)");
+									"insert into courses(name, teacher,day,block, text, capacity, startTime, endTime, selectStartTime, selectEndTime)"
+											+ "values(?,?,?,?,?,?,?,?,?,?)");
 				} else {
 					st = Conn
 							.getConn()
 							.prepareStatement(
-									"update courses set name=?,teacher=?,day=?,block=?,text=?,capacity=?,startTime=?,endTime=? where id=?");
+									"update courses set name=?,teacher=?,day=?,block=?,text=?,capacity=?,startTime=?,endTime=?,selectStartTime=?,selectEndTime=? where id=?");
 
 					st.setInt(9, course.getId());
 				}
@@ -78,15 +82,21 @@
 				st.setInt(6, course.getCapacity());
 				st.setDate(7, Date.valueOf(course.getStartTime()));
 				st.setDate(8, Date.valueOf(course.getEndTime()));
+				st.setDate(9, Date.valueOf(course.getSelectStartTime()));
+				st.setDate(10, Date.valueOf(course.getSelectEndTime()));
 				int i = st.executeUpdate();
 				if (i > 0) {
 					response.sendRedirect("courseManage.jsp");
+					return;
 				}
 			} catch (SQLException e) {
 				if (e.getErrorCode() == 1062) {
-					out.println("课程名称不能重复哦亲");
-				} else
-					throw e;
+					response.sendRedirect("../message.jsp?message="+URLEncoder.encode("课程名称已经存在", "utf-8"));
+				 	return;
+				} else {
+					response.sendRedirect("../message.jsp?message="+URLEncoder.encode("数据格式有误", "utf-8"));
+				 	return;
+				}
 			}
 		}else if ("select".equals(request.getParameter("oper"))) {
 			out.println("拉人啦!");
@@ -96,7 +106,8 @@
 			if ( errorMessage == null) {
 				response.sendRedirect(request.getParameter("redirect"));
 			} else {
-				out.println(errorMessage);
+				response.sendRedirect("../message.jsp?message="+URLEncoder.encode(errorMessage, "utf-8"));
+			 	return;
 			}
 		}else if ("deselect".equals(request.getParameter("oper"))) {
 			out.println("踢人啦!");
@@ -106,7 +117,8 @@
 			if ( errorMessage == null) {
 				response.sendRedirect(request.getParameter("redirect"));
 			} else {
-				out.println(errorMessage);
+				response.sendRedirect("../message.jsp?message="+URLEncoder.encode(errorMessage, "utf-8"));
+			 	return;
 			}
 		}
 		//

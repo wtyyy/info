@@ -22,6 +22,7 @@
 		out.println(user);
 		if ((!"admin".equals(user.getPrivilege()))) {
 			response.sendRedirect("../index.jsp");
+			return;
 		} else if ("delete".equals((String) request.getParameter("oper"))) {
 
 			out.println("别拿那种眼神看着我，我知道你想删东西");
@@ -63,13 +64,13 @@
 					st = Conn
 							.getConn()
 							.prepareStatement(
-									"insert into courses(name, teacher,day,block, text, capacity, startTime, endTime)"
-											+ "values(?,?,?,?,?,?,?,?)");
+									"insert into courses(name, teacher,day,block, text, capacity, startTime, endTime, selectStartTime, selectEndTime)"
+											+ "values(?,?,?,?,?,?,?,?,?,?)");
 				} else {
 					st = Conn
 							.getConn()
 							.prepareStatement(
-									"update courses set name=?,teacher=?,day=?,block=?,text=?,capacity=?,startTime=?,endTime=? where id=?");
+									"update courses set name=?,teacher=?,day=?,block=?,text=?,capacity=?,startTime=?,endTime=?,selectStartTime=?,selectEndTime=? where id=?");
 
 					st.setInt(9, course.getId());
 				}
@@ -81,6 +82,8 @@
 				st.setInt(6, course.getCapacity());
 				st.setDate(7, Date.valueOf(course.getStartTime()));
 				st.setDate(8, Date.valueOf(course.getEndTime()));
+				st.setDate(9, Date.valueOf(course.getSelectStartTime()));
+				st.setDate(10, Date.valueOf(course.getSelectEndTime()));
 				int i = st.executeUpdate();
 				if (i > 0) {
 					response.sendRedirect("courseManage.jsp");

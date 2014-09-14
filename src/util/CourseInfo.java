@@ -10,6 +10,22 @@ import jdbc.Conn;
 
 public class CourseInfo {
  
+	public String getSelectStartTime() {
+		return selectStartTime;
+	}
+
+	public void setSelectStartTime(String selectStartTime) {
+		this.selectStartTime = selectStartTime;
+	}
+
+	public String getSelectEndTime() {
+		return selectEndTime;
+	}
+
+	public void setSelectEndTime(String selectEndTime) {
+		this.selectEndTime = selectEndTime;
+	}
+
 	static public List<CourseInfo> getStudentCourseList(int studentId) throws ClassNotFoundException, SQLException {
 		List<StudentChooseCourse> pairList = new BeanProcessor().toBeanList(
 				Conn.getConn()
@@ -48,7 +64,8 @@ public class CourseInfo {
 		return "CourseInfo [id=" + id + ", name=" + name + ", teacher="
 				+ teacher + ", day=" + day + ", block=" + block + ", text="
 				+ text + ", startTime=" + startTime + ", endTime=" + endTime
-				+ ", capacity=" + capacity + "]";
+				+ ", capacity=" + capacity + ", selectStartTime="
+				+ selectStartTime + ", selectEndTime=" + selectEndTime + "]";
 	}
 
 	public int getId() {
@@ -132,4 +149,6 @@ public class CourseInfo {
 	String startTime;
 	String endTime;
 	int capacity;
+	String selectStartTime;
+	String selectEndTime;
 }

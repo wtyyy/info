@@ -67,7 +67,7 @@
 							CourseTable.printSingleCourse(
 									(CourseInfo) (new BeanProcessor().toBean(
 											thisCourse, CourseInfo.class)), out,
-									true);
+									true, false);
 						} else {
 							out.println("搞错了");
 						}
@@ -83,7 +83,7 @@
 		<%
 			CourseTable.printTable(new BeanProcessor().toBeanList(con
 					.prepareStatement("select * from courses").executeQuery(),
-					CourseInfo.class), out, true);
+					CourseInfo.class), out, true, false);
 		%>
 		<input type="submit" value="Submit" />
 	</form>

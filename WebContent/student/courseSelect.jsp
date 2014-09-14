@@ -147,7 +147,7 @@ $(document).ready(function(){
 			</tr>
 			<%
 				HashSet<Integer> set = new HashSet<Integer>();
-				if (user.getPrivilege().equals("student")) {
+				if (user.getPrivilege().equals("student"))  {
 					for (; selectedCourseSet.next();) {
 
 						Statement st = con.createStatement();

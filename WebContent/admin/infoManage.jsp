@@ -203,8 +203,8 @@
 							}
 						}
 					%>
-					<body>
 						<h2>添加/修改资源：</h2>
+					<body>
 						<form method="post" action="infoManage.jsp" name="addForm"
 							id="contactform">
 							<input type="hidden" name="oper" value="add">
@@ -215,7 +215,7 @@
 								<li><label for="title">标题</label> <input type="text"
 									name="title" id="title"
 									value="<%=isModify ? modifyInfo.getTitle() : ""%>" class="text" /></li>
-								<li><label for="docText">内容：</label><textarea name="docText" rows="20" cols="100" id="docText"
+								<li><label for="docText">内容：</label><textarea id="docText" name="docText" rows="20" cols="100" id="docText"
 										class="text" class="text" /><%=isModify ? modifyInfo.getText() : ""%></textarea></li>
 
 								<li><label for="submitButton">点击提交更改</label><input type="submit" value="提交" id="submitButton"></li>

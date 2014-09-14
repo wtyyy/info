@@ -3,7 +3,6 @@
 <%@page import="org.apache.commons.dbutils.BeanProcessor"%>
 <%@page import="util.*"%>
 <%@page import="util.CourseTime"%>
-<%@page import="com.sun.crypto.provider.RSACipher"%>
 <%@page import="jdbc.*"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>

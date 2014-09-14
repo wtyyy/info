@@ -164,6 +164,7 @@ $(document).ready(function(){
       		<tr><td><a href="admin/infoManage.jsp">公共资源管理</a></td></tr>
       		<tr><td><a href="admin/teachInfoManage.jsp">教务信息管理</a></td></tr>
       		<tr><td><a href="discussion/adminForbidden.jsp">讨论区发言管理</a></td></tr>
+      		<tr><td><a href="admin/fileManage.jsp">上传文件管理</a></td></tr>
       		</table>
       	<%} else if("student".equals(user.getPrivilege())){ %>
         <h2>你的课表</h2>

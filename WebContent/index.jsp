@@ -200,7 +200,7 @@ $(document).ready(function(){
         
         <%} %>
         <%
-        if (user.getEmail() != null && user.getPrivilege().equals("student")) {
+        if (user.getEmail() != null && "student".equals(user.getPrivilege())) {
         	out.println("<br/><h2>两天内你会上的课</h2><table id=\"customers\">");
     		List<CourseInfo> courseList = CourseInfo.getStudentCourseList(user.getId());
         	for (CourseInfo course : courseList) {

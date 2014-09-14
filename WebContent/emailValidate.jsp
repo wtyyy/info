@@ -1,3 +1,4 @@
+<%@page import="java.net.URLEncoder"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Calendar"%>
 <%@page import="util.CourseInfo"%>
@@ -21,7 +22,7 @@
 <body>
 <%
 	if (request.getParameter("id")==null || request.getParameter("code") == null) {
-		out.println("数据格式错误");
+		response.sendRedirect("message.jsp?message="+URLEncoder.encode("您在试图验证邮箱吗？这是错误的用法", "utf-8"));
 		return;
 	}
 	int id = Integer.parseInt(request.getParameter("id"));
@@ -29,10 +30,9 @@
 	UserInfo user = UserInfo.getById(id);
 	if (user.getEmail().hashCode() == code) {
 		Conn.getConn().prepareStatement("update users set validated=1 where id=" + id).execute();
-		out.println("验证成功，<a href=\"signin.jsp\">去登录</a>");
+		response.sendRedirect("message.jsp?message="+URLEncoder.encode("验证email成功，可以登录了", "utf-8"));
 	} else {
-		out.println(user.getEmail().hashCode() + "\n"+  code);
-		out.println("验证码错误");
+		response.sendRedirect("message.jsp?message=" + URLEncoder.encode("验证码错误", "utf-8"));
 	}
 %>
 

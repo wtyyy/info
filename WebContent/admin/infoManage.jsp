@@ -1,3 +1,4 @@
+<%@page import="java.net.URLEncoder"%>
 <%@page import="util.StudentChooseCourseHistory"%>
 <%@page import="util.CourseInfo"%>
 <%@page import="org.apache.commons.dbutils.BeanProcessor"%>
@@ -147,7 +148,8 @@
 								if (st.executeUpdate() > 0) {
 									out.println("操作成功");
 								} else {
-									out.println("操作失败");
+									response.sendRedirect("../message.jsp?message="+URLEncoder.encode("操作失败，请检查数据格式", "utf-8"));
+								 	return;
 								}
 
 							} else if (operation.equals("delete")) {
@@ -158,7 +160,8 @@
 								if (st.executeUpdate() > 0) {
 									out.println("操作成功");
 								} else {
-									out.println("操作失败");
+									response.sendRedirect("../message.jsp?message="+URLEncoder.encode("操作失败，请检查数据格式", "utf-8"));
+								 	return;
 								}
 							} else if (operation.equals("modify")) {
 								isModify = true;
@@ -183,7 +186,8 @@
 								if (st.executeUpdate() > 0) {
 									out.println("操作成功");
 								} else {
-									out.println("操作失败");
+									response.sendRedirect("../message.jsp?message="+URLEncoder.encode("操作失败，请检查数据格式", "utf-8"));
+								 	return;
 								}
 							} else if (operation.equals("deleteSlide")) {
 								int id = Integer.parseInt(request.getParameter("slideId"));
@@ -193,7 +197,8 @@
 								if (st.executeUpdate() > 0) {
 									out.println("操作成功");
 								} else {
-									out.println("操作失败");
+									response.sendRedirect("../message.jsp?message="+URLEncoder.encode("操作失败，请检查数据格式", "utf-8"));
+								 	return;
 								}
 							}
 						}

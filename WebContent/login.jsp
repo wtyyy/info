@@ -49,6 +49,13 @@
 			return;
 		}
 	} else {
+
+		out.println("</head><body><script language=\"javascript\">");
+		out.println("alert(\"密码错误\");");
+		out.println("location.href=\"/Test/signin.jsp\";");
+		out.println("</script></body>");		
+
 		 response.sendRedirect("message.jsp?message="+URLEncoder.encode("密码错误", "utf-8"));
+
 	}
 %>

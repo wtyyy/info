@@ -19,6 +19,23 @@
 <%
 	out.println(user);
 
+
+	 if(user.getEmail()==null || user.getPassword()==null || user.getName()==null ||
+			 user.getGender()==null || user.getDateBorn()==null || user.getTel()==null || user.getEmergencyContactName()==null
+			 ||user.getEmergencyContactTel()==null || user.getAddress()==null) {
+			out.println("<script language=\"javascript\">");
+			out.println("alert(\"格式错误\");");
+			out.println("location.href=\"/Test/register.jsp;");
+			out.println("</script>");
+	 } else {
+	 if (user.getEmail().equals("") || user.getPassword().equals("") || user.getName().equals("") ||
+			 user.getGender().equals("") || user.getDateBorn().equals("") || user.getTel().equals("") || user.getEmergencyContactName().equals("")
+			 ||user.getEmergencyContactTel().equals("") || user.getAddress().equals("")) {
+			out.println("<script language=\"javascript\">");
+			out.println("alert(\"格式错误\");");
+			out.println("location.href=\"/Test/register.jsp;");
+			out.println("</script>");
+
 	 if(user.getEmail()==null) {
 		 response.sendRedirect("signin.jsp");
 		 return;
@@ -34,6 +51,7 @@
 			 ||user.getEmergencyContactTel().equals("") || user.getAddress().equals("")) {
 		 response.sendRedirect("message.jsp?message="+URLEncoder.encode("必要字段不能为空", "utf-8")+"&redirect=/Test/register.jsp");
 		 return;
+
 	 }
 
 	Class.forName("com.mysql.jdbc.Driver");
@@ -112,6 +130,10 @@
 		out.println("<script language=\"javascript\">");
 		out.println("alert(\"有东西没填或者格式不对或者用户名已经有了\");");
 		out.println("</script>");
+<<<<<<< HEAD
+	}}
+=======
 		*/
 	}
+
 %>

@@ -26,13 +26,13 @@
 	 if (user.getEmail() == null|| user.getPassword() == null || user.getName() == null ||
 			 user.getGender() == null|| user.getDateBorn() == null || user.getTel() == null || user.getEmergencyContactName() == null
 			 ||user.getEmergencyContactTel() == null || user.getAddress() == null) {
-		 response.sendRedirect("message.jsp?message="+URLEncoder.encode("必要字段不能为空", "utf-8"));
+		 response.sendRedirect("message.jsp?message="+URLEncoder.encode("必要字段不能为空", "utf-8")+"&redirect=/Test/register.jsp");
 		 return;
 	 }
 	 if (user.getEmail().equals("") || user.getPassword().equals("") || user.getName().equals("") ||
 			 user.getGender().equals("") || user.getDateBorn().equals("") || user.getTel().equals("") || user.getEmergencyContactName().equals("")
 			 ||user.getEmergencyContactTel().equals("") || user.getAddress().equals("")) {
-		 response.sendRedirect("message.jsp?message="+URLEncoder.encode("必要字段不能为空", "utf-8"));
+		 response.sendRedirect("message.jsp?message="+URLEncoder.encode("必要字段不能为空", "utf-8")+"&redirect=/Test/register.jsp");
 		 return;
 	 }
 
@@ -63,10 +63,10 @@
 			if (st.executeUpdate() > 0) {
 				UserInfo tempUser = UserInfo.getByEmail(user.getEmail());
 				MailUtil.sendTo("邮箱验证", "注册成功，<a href=\"http://localhost:8080/Test/emailValidate.jsp?id="+ tempUser.getId() + "&code=" + tempUser.getEmail().hashCode() + "\">验证邮箱</a>\0", user.getEmail());
-				response.sendRedirect("message.jsp?message="+URLEncoder.encode("注册成功，请验证邮箱", "utf-8"));
+				response.sendRedirect("message.jsp?message="+URLEncoder.encode("注册成功，请验证邮箱", "utf-8") + "&redirect=/Test/signin.jsp");
 			 	return;
 			} else {
-				response.sendRedirect("message.jsp?message="+URLEncoder.encode("格式错误或者email已经使用", "utf-8"));
+				response.sendRedirect("message.jsp?message="+URLEncoder.encode("格式错误或者email已经使用", "utf-8")+"&redirect=/Test/register.jsp");
 			 	return;
 			}
 		} else if ("update".equals(request.getParameter("oper"))) {
@@ -88,7 +88,7 @@
 				response.sendRedirect("personalInfo.jsp");
 				return;
 			} else {
-				response.sendRedirect("message.jsp?message="+URLEncoder.encode("格式错误或者email已经使用", "utf-8"));
+				response.sendRedirect("message.jsp?message="+URLEncoder.encode("格式错误或者email已经使用", "utf-8")+"redirect=/Test/personalInfo.jsp");
 			 	return;
 			 	/*
 				out.println("<script language=\"javascript\">");
@@ -97,7 +97,7 @@
 				*/
 			}
 		} else {
-			response.sendRedirect("message.jsp?message="+URLEncoder.encode("错误的操作类型", "utf-8"));
+			response.sendRedirect("message.jsp?message="+URLEncoder.encode("错误的操作类型", "utf-8")+"&redirect=/Test");
 	 		return;
 	 		/*
 			out.println("<script language=\"javascript\">");

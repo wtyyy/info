@@ -55,8 +55,9 @@
         	} else{
         		out.print("未知错误");
         	}
+        
         	if (request.getParameter("redirect") != null) {
-        		out.print("<a href=\"" + request.getParameter("redirect") + "\">返回</a>");
+        		out.print("<br/><a href=\"" + request.getParameter("redirect") + "\">返回</a>");
         	}
         %></p>
         </div>

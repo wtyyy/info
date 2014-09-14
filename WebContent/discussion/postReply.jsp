@@ -147,7 +147,7 @@
    	</table>
        <br/>
 <body>
-<form id="contactform" name="form1" method="get" action="postReplyDO.jsp">
+<form id="contactform" name="form1" method="post" action="postReplyDO.jsp">
   <input name="discussType" type="hidden" value="R">
    <% out.println("<input name=\"belongs\" type=\"hidden\" value="+topicid); %>
           <ol>

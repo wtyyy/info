@@ -139,7 +139,7 @@
        		%>
        <br/>
 <body>
-<form id="contactform" name="form1" method="get" action="postTopicDO.jsp">
+<form id="contactform" name="form1" method="post" action="postTopicDO.jsp">
   <input name="discussType" type="hidden" value="T">
    <input name="belongs" type="hidden" value="0">
           <ol>

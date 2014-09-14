@@ -15,6 +15,9 @@
 <head>
 <%
 	if (user.getPrivilege() == null) {
+		out.println("<script language=\"javascript\">");
+		out.println("alert(\"您尚未登录！\");");
+		out.println("</script>");
 		response.sendRedirect("../index.jsp");
 		return;
 	}
@@ -141,6 +144,7 @@ $(document).ready(function(){
 				<td>更多信息</td>
 			</tr>
 			<%
+				HashSet<Integer> set = new HashSet<Integer>();
 				if (user.getPrivilege().equals("student")) {
 					for (; selectedCourseSet.next();) {
 
@@ -154,6 +158,7 @@ $(document).ready(function(){
 									(CourseInfo) (new BeanProcessor().toBean(
 											thisCourse, CourseInfo.class)), out,
 									true);
+						set.add(thisCourse.getInt("id"));
 						} else {
 							out.println("搞错了");
 						}
@@ -166,11 +171,43 @@ $(document).ready(function(){
 	<h2>可选课程：</h2>
 	<form method="post" action="courseSelectDo.jsp">
 		<input type="hidden" name="oper" value="add">
+		 <table id="customers">
+			<tr>
+				<td>删除</td>
+				<td>课程id</td>
+				<td>名称</td>
+				<td>教师</td>
+				<td>星期</td>
+				<td>第几节</td>
+				<td>容量</td>
+				<td>选课人数</td>
+				<td>起始日期</td>
+				<td>结束日期</td>
+				<td>所剩课时</td>
+				<td>更多信息</td>
+			</tr>
+		
 		<%
-			CourseTable.printTable(new BeanProcessor().toBeanList(con
-					.prepareStatement("select * from courses").executeQuery(),
-					CourseInfo.class), out, true);
+			
+			ResultSet allCourse = con
+					.prepareStatement("select * from courses").executeQuery();
+			for (;allCourse.next();) {
+				Statement st = con.createStatement();
+				ResultSet thisCourse = st
+						.executeQuery("select * from courses where id='"
+								+ allCourse.getInt("id")
+								+ "'");
+				if (thisCourse.next() && !set.contains(thisCourse.getInt("id"))) {
+					CourseTable.printSingleCourse(
+							(CourseInfo) (new BeanProcessor().toBean(
+									thisCourse, CourseInfo.class)), out,
+							true);
+				
+				} 
+			}
+
 		%>
+		</table>
 		<input type="submit" value="Submit" />
 	</form>
 	<h2>选课历史纪录：</h2>

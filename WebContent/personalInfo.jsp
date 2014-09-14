@@ -111,21 +111,6 @@
         </form>
       </div>
       <div class="right">
-        <h2>Details</h2>
-        <p><a href="#">Customer Support</a><br />
-          Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Sed ut felis orci, ac semper justo.<br />
-          <strong>111-222-4444<br />
-          support@example.com<br />
-          Monday-Friday 8am-8pm</strong></p>
-        <p><a href="#">Sales Enquiry</a><br />
-          Lorem ipsum dolor sit amet, consectetuer adipiscing elit.<br />
-          <strong>111-222-3333<br />
-          sales@example.com<br />
-          Monday-Friday 8am-5pm</strong></p>
-        <p>&nbsp;</p>
-        <h2>What Our Client says...</h2>
-        <p> <img src="images/test.gif" alt="" width="18" height="13" />Aenean id justo eu est sodales rhoncus ac et sem. Nunc aliquam, magnaa placerat congue, ante urna tincidunt.<br />
-          <strong>Jason, Founder, www.website.com </strong></p>
       </div>
       <div class="clr"></div>
     </div>

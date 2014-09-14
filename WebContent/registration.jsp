@@ -53,10 +53,14 @@
 					+ user.getAddress() + "','" + user.getQq() + "')");
 			if (st.executeUpdate() > 0) {
 				UserInfo tempUser = UserInfo.getByEmail(user.getEmail());
-				MailUtil.sendTo("邮箱验证", "注册成功，<a href=\"http://localhost:8080/Test/emailValidate.jsp?id="+ tempUser.getId() + "&code=" + tempUser.getEmail().hashCode() + "\">验证邮箱</a>\0<br><br>", user.getEmail());
-				out.print("成功啦  快验证邮箱");
+				MailUtil.sendTo("邮箱验证", "注册成功，<a href=\"http://localhost:8080/Test/emailValidate.jsp?id="+ tempUser.getId() + "&code=" + tempUser.getEmail().hashCode() + "\">验证邮箱</a>\0", user.getEmail());
+				out.println("<script language=\"javascript\">");
+				out.println("alert(\"成功了，快去验证\");");
+				out.println("</script>");
 			} else {
-				out.print("有东西没填或者格式不对或者用户名已经有了");
+				out.println("<script language=\"javascript\">");
+				out.println("alert(\"有东西没填或者格式不对或者用户名已经有了\");");
+				out.println("</script>");
 			}
 		} else if ("update".equals(request.getParameter("oper"))) {
 			out.print("修改个人信息");
@@ -76,12 +80,18 @@
 				response.sendRedirect("personalInfo.jsp");
 				return;
 			} else {
-				out.print("有东西没填或者格式不对或者用户名已经有了");
+				out.println("<script language=\"javascript\">");
+				out.println("alert(\"有东西没填或者格式不对或者用户名已经有了\");");
+				out.println("</script>");
 			}
 		} else {
-			out.print("你想干啥");
+			out.println("<script language=\"javascript\">");
+			out.println("alert(\"您想干啥\");");
+			out.println("</script>");
 		}
 	} catch (SQLException e) {
-		out.println("有东西没填或者格式不对或者用户名已经有了");
+		out.println("<script language=\"javascript\">");
+		out.println("alert(\"有东西没填或者格式不对或者用户名已经有了\");");
+		out.println("</script>");
 	}
 %>

@@ -12,7 +12,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>BestWebdesign | Contact</title>
+<title>登录</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link href="style.css" rel="stylesheet" type="text/css" />
 </head>
@@ -49,9 +49,7 @@
     <div class="body_resize">
       <div class="left">
         <h2>请输入你的邮箱和密码</h2>
-        <p>Donec varius, lorem ac euismod lobortis, dui tortor vehicula massa, a consectetur nisi sem consectetur urna. Duis mollis tempus nunc sit amet hendrerit. Aliquam sem nisl, pharetra hendrerit scelerisque et, ornare eget dui. Nunc gravida rhoncus diam, vestibulum dignissim</p>
-        <p>Etiam in nisi at metus sagittis iaculis nec ut diam. Sed in enim quis metus ullamcorper pulvinar. Mauris aliquet blandit lobortis. Vivamus accumsan semper dui sit amet semper.</p>
-        <p>&nbsp;</p>
+         <p>&nbsp;</p>
         <form action="login.jsp" method="post" id="contactform">
           <ol>
             <li>
@@ -70,21 +68,6 @@
         </form>
       </div>
       <div class="right">
-        <h2>Details</h2>
-        <p><a href="#">Customer Support</a><br />
-          Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Sed ut felis orci, ac semper justo.<br />
-          <strong>111-222-4444<br />
-          support@example.com<br />
-          Monday-Friday 8am-8pm</strong></p>
-        <p><a href="#">Sales Enquiry</a><br />
-          Lorem ipsum dolor sit amet, consectetuer adipiscing elit.<br />
-          <strong>111-222-3333<br />
-          sales@example.com<br />
-          Monday-Friday 8am-5pm</strong></p>
-        <p>&nbsp;</p>
-        <h2>What Our Client says...</h2>
-        <p> <img src="images/test.gif" alt="" width="18" height="13" />Aenean id justo eu est sodales rhoncus ac et sem. Nunc aliquam, magnaa placerat congue, ante urna tincidunt.<br />
-          <strong>Jason, Founder, www.website.com </strong></p>
       </div>
       <div class="clr"></div>
     </div>
@@ -92,14 +75,12 @@
   <div class="clr"></div>
   <div class="footer">
     <div class="footer_resize">
-      <p class="leftt">© Copyright websitename . All Rights Reserved<br />
-      	当前登录用户：<%=user.getEmail() %></p>
-      <p class="right"> <a href="logout.jsp">注销</a></p>
+      <p class="leftt">© Copyright websitename . All Rights Reserved<br /></p>
+      <p class="right"> 当前登录用户：<%=user.getEmail()==null?"您尚未登录":user.getEmail() %><br /><a href="logout.jsp">注销</a></p>
       <div class="clr"></div>
     </div>
     <div class="clr"></div>
   </div>
 </div>
-<div align=center>This template  downloaded form <a href='http://all-free-download.com/free-website-templates/'>free website templates</a></div></body>
 </html>
 

@@ -142,8 +142,21 @@ $(document).ready(function(){
   <div class="clr"></div>
   <div class="body">
     <div class="body_resize">
+      <div class="<%=user.getPrivilege()==null?"full":"right"%>">
+      	
+        	<h2>教务信息</h2>
+	<table id="customers">
+<%
+	ResultSet rs = Conn.getConn().prepareStatement("select * from teachInfo").executeQuery();
+	List<PublicInfo> infoList = new BeanProcessor().toBeanList(rs, PublicInfo.class);
+	for (PublicInfo info : infoList) {
+		out.print("<tr><td><a href=\"publicResource/viewTeachInfo.jsp?id=" + info.getId()+ "\">" + info.getTitle() + "</a></td></tr>");
+	}
+%>
+</table>
+      </div>
       <div class="left">
-      	<%if("admin".equals(user.getPrivilege())) { %>
+        <%if("admin".equals(user.getPrivilege())) { %>
       		<h2>管理中心</h2>
       		<table id="customers">
       		<tr><td><a href="admin/courseManage.jsp">课程管理</a></td></tr>
@@ -186,22 +199,9 @@ $(document).ready(function(){
         <% } else { %>
         
         <%} %>
-        	<h2>教务信息</h2>
-	<table id="customers">
-<%
-	ResultSet rs = Conn.getConn().prepareStatement("select * from teachInfo").executeQuery();
-	List<PublicInfo> infoList = new BeanProcessor().toBeanList(rs, PublicInfo.class);
-	for (PublicInfo info : infoList) {
-		out.print("<tr><td><a href=\"publicResource/viewTeachInfo.jsp?id=" + info.getId()+ "\">" + info.getTitle() + "</a></td></tr>");
-	}
-%>
-</table>
-      </div>
-      <div class="right">
-        
         <%
-        if (user.getEmail() != null) {
-        	out.println("两天以内你会上的课");
+        if (user.getEmail() != null && user.getPrivilege().equals("student")) {
+        	out.println("<br/><h2>两天内你会上的课</h2><table id=\"customers\">");
     		List<CourseInfo> courseList = CourseInfo.getStudentCourseList(user.getId());
         	for (CourseInfo course : courseList) {
         		Calendar now = Calendar.getInstance();
@@ -212,11 +212,23 @@ $(document).ready(function(){
 				}
 				System.out.println(course.getName() + courseDay + DayInWeek);
 				if (courseDay - DayInWeek <= 2) {
-					%>
-					<%=course.getName() %>,　教师：<%=course.getTeacher() %><br/>
+					%><tr><td>
+					<%=course.getName() %></td><td><%=course.getTeacher() %></td><td>
+					<%switch(courseDay) {
+					case 0:out.print("星期日");break;
+					case 1:out.print("星期一");break;
+					case 2:out.print("星期二");break;
+					case 3:out.print("星期三");break;
+					case 4:out.print("星期四");break;
+					case 5:out.print("星期五");break;
+					case 6:out.print("星期六");break;
+					default:break; }
+					%>第<%=course.getBlock()%>节</td></tr>
 					<%
 				}
+			
         	}
+        	out.println("</table>");
         }
        	%>
         <br/>

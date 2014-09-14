@@ -44,6 +44,9 @@
 			return;
 		}
 	} else {
-		out.println("Invalid password <a href='index.jsp'>try again</a>");
+		out.println("</head><body><script language=\"javascript\">");
+		out.println("alert(\"密码错误\");");
+		out.println("location.href=\"/Test/signin.jsp\";");
+		out.println("</script></body>");		
 	}
 %>

@@ -15,10 +15,10 @@
 <head>
 <%
 	if (user.getPrivilege() == null) {
-		out.println("<script language=\"javascript\">");
-		out.println("alert(\"您尚未登录！\");");
-		out.println("</script>");
-		response.sendRedirect("../index.jsp");
+		out.println("</head><body><script language=\"javascript\">");
+		out.println("alert(\"你尚未登录\");");
+		out.println("location.href=\"/Test/index.jsp\";");
+		out.println("</script></body>");		
 		return;
 	}
 %>
@@ -110,7 +110,7 @@ $(document).ready(function(){
 		Connection con = Conn.getConn();
 		ResultSet selectedCourseSet = null;
 		if (user.getPrivilege() == null) {
-			response.sendRedirect("../indes.jsp");
+			response.sendRedirect("../index.jsp");
 			return;
 		}
 		if (user.getPrivilege().equals("student")) {

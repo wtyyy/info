@@ -16,15 +16,21 @@
 <%
 	out.println(user);
 
-	 if(user.getEmail()==null) {
-		 response.sendRedirect("signin.jsp");
-		 return;
-	 }
+	 if(user.getEmail()==null || user.getPassword()==null || user.getName()==null ||
+			 user.getGender()==null || user.getDateBorn()==null || user.getTel()==null || user.getEmergencyContactName()==null
+			 ||user.getEmergencyContactTel()==null || user.getAddress()==null) {
+			out.println("<script language=\"javascript\">");
+			out.println("alert(\"格式错误\");");
+			out.println("location.href=\"/Test/register.jsp;");
+			out.println("</script>");
+	 } else {
 	 if (user.getEmail().equals("") || user.getPassword().equals("") || user.getName().equals("") ||
 			 user.getGender().equals("") || user.getDateBorn().equals("") || user.getTel().equals("") || user.getEmergencyContactName().equals("")
 			 ||user.getEmergencyContactTel().equals("") || user.getAddress().equals("")) {
-		 out.println("格式错误");
-		 return;
+			out.println("<script language=\"javascript\">");
+			out.println("alert(\"格式错误\");");
+			out.println("location.href=\"/Test/register.jsp;");
+			out.println("</script>");
 	 }
 
 	Class.forName("com.mysql.jdbc.Driver");
@@ -93,5 +99,5 @@
 		out.println("<script language=\"javascript\">");
 		out.println("alert(\"有东西没填或者格式不对或者用户名已经有了\");");
 		out.println("</script>");
-	}
+	}}
 %>

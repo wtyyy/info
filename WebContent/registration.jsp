@@ -19,7 +19,7 @@
 <%
 	out.println(user);
 
-<<<<<<< HEAD
+
 	 if(user.getEmail()==null || user.getPassword()==null || user.getName()==null ||
 			 user.getGender()==null || user.getDateBorn()==null || user.getTel()==null || user.getEmergencyContactName()==null
 			 ||user.getEmergencyContactTel()==null || user.getAddress()==null) {
@@ -35,7 +35,7 @@
 			out.println("alert(\"格式错误\");");
 			out.println("location.href=\"/Test/register.jsp;");
 			out.println("</script>");
-=======
+
 	 if(user.getEmail()==null) {
 		 response.sendRedirect("signin.jsp");
 		 return;
@@ -51,7 +51,7 @@
 			 ||user.getEmergencyContactTel().equals("") || user.getAddress().equals("")) {
 		 response.sendRedirect("message.jsp?message="+URLEncoder.encode("必要字段不能为空", "utf-8"));
 		 return;
->>>>>>> origin/master
+
 	 }
 
 	Class.forName("com.mysql.jdbc.Driver");
@@ -135,5 +135,5 @@
 =======
 		*/
 	}
->>>>>>> origin/master
+
 %>

@@ -13,6 +13,9 @@ import jdbc.Conn;
 
 /**
  * Servlet implementation class DBFileGetter
+ * This servlet only accepts get request
+ * parameter:
+ * id: the file id to get. An invalid id will lead to message.jsp with an error.
  */
 @WebServlet("/DBFileGetter")
 public class DBFileGetter extends HttpServlet {

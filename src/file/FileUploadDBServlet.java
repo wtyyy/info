@@ -21,6 +21,16 @@ import jdbc.Conn;
 
 @WebServlet(name = "uploadServlet", urlPatterns = { "/uploadServlet" })
 @MultipartConfig(maxFileSize = 16177215)    // upload file's size up to 16MB
+/**
+ * *A servlet that can upload a single file to the database
+ * It can handle post request, the request should have 2 parameters:
+ * name: text field, which is the name of the file
+ * file: file field, which is the content of the file
+ * The file will be stored on the files table as a largeBlob
+ * the file should be less then 16MB
+ * @author 天一
+ *
+ */
 public class FileUploadDBServlet extends HttpServlet {
      
 	private static final long serialVersionUID = 1L;
@@ -65,7 +75,7 @@ public class FileUploadDBServlet extends HttpServlet {
             // sends the statement to the database server
             int row = statement.executeUpdate();
             if (row > 0) {
-                message = "File uploaded and saved into database";
+                message = "文件上传成功";
             }
         } catch (SQLException ex) {
             message = "ERROR: " + ex.getMessage();

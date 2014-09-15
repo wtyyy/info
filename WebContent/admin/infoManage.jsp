@@ -18,6 +18,9 @@
 %>
 <jsp:useBean id="user" class="util.UserInfo" scope="session" />
 <%
+	try {
+%>
+<%
 	if (!"admin".equals(user.getPrivilege())) {
 	response.sendRedirect("../index.jsp");
 	return;
@@ -115,145 +118,159 @@
 
 					<%
 						boolean slideModify = false;
-						SlideNews modifySlide = null;
-						boolean isModify = false;
-						PublicInfo modifyInfo = null;
-						String operation = request.getParameter("oper");
-						if (operation != null) {
-							if (operation.equals("add")) {
-								int id = Integer.parseInt(request.getParameter("infoId"));
-								System.out.println(id);
-								String title = request.getParameter("title"), text = request
-										.getParameter("docText");
-								if (title == null) {
-									title = "";
-								}
-								if (text == null) {
-									text = "";
-								}
-								PreparedStatement st = null;
-								if (id == -1) {
-									st = Conn
-											.getConn()
-											.prepareStatement(
-													"insert into publicInfo(title, text) values(?,?)");
-								} else {
-									st = Conn.getConn().prepareStatement(
-											"update publicInfo set title=?,text=? where id="
-													+ id);
-								}
-								st.setString(1, title);
-								st.setString(2, text);
+							SlideNews modifySlide = null;
+							boolean isModify = false;
+							PublicInfo modifyInfo = null;
+							String operation = request.getParameter("oper");
+							if (operation != null) {
+								if (operation.equals("add")) {
+									int id = Integer.parseInt(request
+											.getParameter("infoId"));
+									System.out.println(id);
+									String title = request.getParameter("title"), text = request
+											.getParameter("docText");
+									if (title == null) {
+										title = "";
+									}
+									if (text == null) {
+										text = "";
+									}
+									PreparedStatement st = null;
+									if (id == -1) {
+										st = Conn
+												.getConn()
+												.prepareStatement(
+														"insert into publicInfo(title, text) values(?,?)");
+									} else {
+										st = Conn.getConn().prepareStatement(
+												"update publicInfo set title=?,text=? where id="
+														+ id);
+									}
+									st.setString(1, title);
+									st.setString(2, text);
 
-								if (st.executeUpdate() > 0) {
-									out.println("操作成功");
-								} else {
-									response.sendRedirect("../message.jsp?message="
-											+ URLEncoder.encode("操作失败，请检查数据格式", "utf-8") + "&redirect=admin/infoManage.jsp");
-									return;
-								}
+									if (st.executeUpdate() > 0) {
+										out.println("操作成功");
+									} else {
+										response.sendRedirect("../message.jsp?message="
+												+ URLEncoder
+														.encode("操作失败，请检查数据格式", "utf-8")
+												+ "&redirect=admin/infoManage.jsp");
+										return;
+									}
 
-							} else if (operation.equals("delete")) {
-								int id = Integer.parseInt(request.getParameter("infoId"));
-								PreparedStatement st = Conn.getConn().prepareStatement(
-										"delete from publicInfo where id=" + id);
-								if (st.executeUpdate() > 0) {
-									out.println("操作成功");
-								} else {
-									response.sendRedirect("../message.jsp?message="
-											+ URLEncoder.encode("操作失败，请检查数据格式", "utf-8") + "&redirect=admin/infoManage.jsp");
-									return;
-								}
-							} else if (operation.equals("modify")) {
-								isModify = true;
-								int id = Integer.parseInt(request.getParameter("infoId"));
-								modifyInfo = PublicInfo.getById(id);
-							} else if (operation.equals("modifySlide")) {
-								slideModify = true;
-								int id = Integer.parseInt(request.getParameter("slideId"));
-								modifySlide = SlideNews.getById(id);
-							} else if (operation.equals("addSlide")) {
-								int id = Integer.parseInt(request.getParameter("slideId"));
-								String image = request.getParameter("image");
-								String href = request.getParameter("href");
-								PreparedStatement st;
-								if (id == -1) {
-									st = Conn
-											.getConn()
-											.prepareStatement(
-													"insert into slideInfo(image, href) values(?,?)");
-								} else {
-									st = Conn.getConn().prepareStatement(
-											"update slideInfo set image=?, href=? where id="
-													+ id);
-								}
-								st.setString(1, image);
-								st.setString(2, href);
-								if (st.executeUpdate() > 0) {
-									out.println("操作成功");
-								} else {
-									response.sendRedirect("../message.jsp?message="
-											+ URLEncoder.encode("操作失败，请检查数据格式", "utf-8")+ "&redirect=admin/infoManage.jsp");
-									return;
-								}
-							} else if (operation.equals("deleteSlide")) {
-								int id = Integer.parseInt(request.getParameter("slideId"));
-								PreparedStatement st = Conn.getConn().prepareStatement(
-										"delete from slideInfo where id=" + id);
-								if (st.executeUpdate() > 0) {
-									out.println("操作成功");
-								} else {
-									response.sendRedirect("../message.jsp?message="
-											+ URLEncoder.encode("操作失败，请检查数据格式", "utf-8") + "&redirect=admin/infoManage.jsp");
-									return;
+								} else if (operation.equals("delete")) {
+									int id = Integer.parseInt(request
+											.getParameter("infoId"));
+									PreparedStatement st = Conn.getConn().prepareStatement(
+											"delete from publicInfo where id=" + id);
+									if (st.executeUpdate() > 0) {
+										out.println("操作成功");
+									} else {
+										response.sendRedirect("../message.jsp?message="
+												+ URLEncoder
+														.encode("操作失败，请检查数据格式", "utf-8")
+												+ "&redirect=admin/infoManage.jsp");
+										return;
+									}
+								} else if (operation.equals("modify")) {
+									isModify = true;
+									int id = Integer.parseInt(request
+											.getParameter("infoId"));
+									modifyInfo = PublicInfo.getById(id);
+								} else if (operation.equals("modifySlide")) {
+									slideModify = true;
+									int id = Integer.parseInt(request
+											.getParameter("slideId"));
+									modifySlide = SlideNews.getById(id);
+								} else if (operation.equals("addSlide")) {
+									int id = Integer.parseInt(request
+											.getParameter("slideId"));
+									String image = request.getParameter("image");
+									String href = request.getParameter("href");
+									PreparedStatement st;
+									if (id == -1) {
+										st = Conn
+												.getConn()
+												.prepareStatement(
+														"insert into slideInfo(image, href) values(?,?)");
+									} else {
+										st = Conn.getConn().prepareStatement(
+												"update slideInfo set image=?, href=? where id="
+														+ id);
+									}
+									st.setString(1, image);
+									st.setString(2, href);
+									if (st.executeUpdate() > 0) {
+										out.println("操作成功");
+									} else {
+										response.sendRedirect("../message.jsp?message="
+												+ URLEncoder
+														.encode("操作失败，请检查数据格式", "utf-8")
+												+ "&redirect=admin/infoManage.jsp");
+										return;
+									}
+								} else if (operation.equals("deleteSlide")) {
+									int id = Integer.parseInt(request
+											.getParameter("slideId"));
+									PreparedStatement st = Conn.getConn().prepareStatement(
+											"delete from slideInfo where id=" + id);
+									if (st.executeUpdate() > 0) {
+										out.println("操作成功");
+									} else {
+										response.sendRedirect("../message.jsp?message="
+												+ URLEncoder
+														.encode("操作失败，请检查数据格式", "utf-8")
+												+ "&redirect=admin/infoManage.jsp");
+										return;
+									}
 								}
 							}
-						}
 					%>
 					<h2>添加/修改资源：</h2>
-					
-						<form method="post" action="infoManage.jsp" name="addForm"
-							id="contactform">
-							<input type="hidden" name="oper" value="add">
-							<ol>
-								<li><label for="infoId">修改ID(-1为添加)</label><input
-									type="text" name="infoId" id="infoId"
-									value="<%=isModify ? modifyInfo.getId() : -1%>" class="text" /></li>
-								<li><label for="title">标题</label> <input type="text"
-									name="title" id="title"
-									value="<%=isModify ? modifyInfo.getTitle() : ""%>" class="text" /></li>
-								<li><label for="docText">内容：</label> <textarea id="docText"
-										name="docText" rows="20" cols="100" id="docText" class="text"
-										class="text" ><%=isModify ? modifyInfo.getText() : ""%></textarea></li>
 
-								<li><label for="submitButton">点击提交更改</label><input
-									type="submit" value="提交" id="submitButton"></li>
-								<li><label for="imageUrl">插入图片：</label> <input type="text"
-									name="imageUrl" class="text"> <input type="button"
-									onClick="javascript:this.form.docText.value+='[img]'+this.form.imageUrl.value+'[/img]';"
-									value="插入" /></li>
-								<li><label for="flashurl">插入flash视频：</label> <input
-									type="text" name="flashUrl" class="text" id="flashUrl" /><input
-									type="button"
-									onClick="javascript:this.form.docText.value+='[flash]'+this.form.flashUrl.value+'[/flash]';"
-									value="插入" /></li>
-								<li><label for="soundUrl">插入声音：</label><input type="text"
-									name="soundUrl" id="soundUrl" class="text" /><input
-									type="button"
-									onClick="javascript:this.form.docText.value+='[sound]'+this.form.soundUrl.value+'[/sound]';"
-									value="插入" /></li>
-							</ol>
-						</form>
+					<form method="post" action="infoManage.jsp" name="addForm"
+						id="contactform">
+						<input type="hidden" name="oper" value="add">
+						<ol>
+							<li><label for="infoId">修改ID(-1为添加)</label><input
+								type="text" name="infoId" id="infoId"
+								value="<%=isModify ? modifyInfo.getId() : -1%>" class="text" /></li>
+							<li><label for="title">标题</label> <input type="text"
+								name="title" id="title"
+								value="<%=isModify ? modifyInfo.getTitle() : ""%>" class="text" /></li>
+							<li><label for="docText">内容：</label> <textarea id="docText"
+									name="docText" rows="20" cols="100" id="docText" class="text"
+									class="text"><%=isModify ? modifyInfo.getText() : ""%></textarea></li>
 
-						<h2>管理已有资源：</h2>
-						<form method="get" action="infoManage.jsp">
-							<table id="customers">
-								<tr>
-									<td>选择</td>
-									<td>标题</td>
-								</tr>
-								<%
-									ResultSet rs = Conn.getConn()
+							<li><label for="submitButton">点击提交更改</label><input
+								type="submit" value="提交" id="submitButton"></li>
+							<li><label for="imageUrl">插入图片：</label> <input type="text"
+								name="imageUrl" class="text"> <input type="button"
+								onClick="javascript:this.form.docText.value+='[img]'+this.form.imageUrl.value+'[/img]';"
+								value="插入" /></li>
+							<li><label for="flashurl">插入flash视频：</label> <input
+								type="text" name="flashUrl" class="text" id="flashUrl" /><input
+								type="button"
+								onClick="javascript:this.form.docText.value+='[flash]'+this.form.flashUrl.value+'[/flash]';"
+								value="插入" /></li>
+							<li><label for="soundUrl">插入声音：</label><input type="text"
+								name="soundUrl" id="soundUrl" class="text" /><input
+								type="button"
+								onClick="javascript:this.form.docText.value+='[sound]'+this.form.soundUrl.value+'[/sound]';"
+								value="插入" /></li>
+						</ol>
+					</form>
+
+					<h2>管理已有资源：</h2>
+					<form method="get" action="infoManage.jsp">
+						<table id="customers">
+							<tr>
+								<td>选择</td>
+								<td>标题</td>
+							</tr>
+							<%
+								ResultSet rs = Conn.getConn()
 											.prepareStatement("select * from publicInfo")
 											.executeQuery();
 									java.util.List<PublicInfo> infoList = new BeanProcessor()
@@ -268,45 +285,44 @@
 												+ info.getTitle()
 												+ "</a></td></tr>");
 									}
-								%>
-							</table>
-							<button name="oper" type="submit" value="delete">删除</button>
-							<button name="oper" type="submit" value="modify">修改</button>
-						</form>
+							%>
+						</table>
+						<button name="oper" type="submit" value="delete">删除</button>
+						<button name="oper" type="submit" value="modify">修改</button>
+					</form>
 
 
-						<h2>添加/修改动态展示板：</h2>
-						<form method="get" action="infoManage.jsp" name="addForm"
-							id="contactform">
-							<input type="hidden" name="oper" value="addSlide">
-							<ol>
-								<li><label for="slideId">修改ID(-1为添加)</label><input
-									type="text" name="slideId" id="slideId"
-									value="<%=slideModify ? modifySlide.getId() : -1%>"
-									class="text" /></li>
-								<li><label for="image">图片路径</label> <input type="text"
-									name="image" id="image"
-									value="<%=slideModify ? modifySlide.getImage() : ""%>"
-									class="text" /></li>
-								<li><label for="href">链接到</label> <input type="text"
-									name="href" id="href"
-									value="<%=slideModify ? modifySlide.getHref() : ""%>"
-									class="text" /></li>
-								<li><label for="submitButton">点击提交更改</label><input
-									type="submit" value="提交" id="submitButton"></li>
+					<h2>添加/修改动态展示板：</h2>
+					<form method="get" action="infoManage.jsp" name="addForm"
+						id="contactform">
+						<input type="hidden" name="oper" value="addSlide">
+						<ol>
+							<li><label for="slideId">修改ID(-1为添加)</label><input
+								type="text" name="slideId" id="slideId"
+								value="<%=slideModify ? modifySlide.getId() : -1%>" class="text" /></li>
+							<li><label for="image">图片路径</label> <input type="text"
+								name="image" id="image"
+								value="<%=slideModify ? modifySlide.getImage() : ""%>"
+								class="text" /></li>
+							<li><label for="href">链接到</label> <input type="text"
+								name="href" id="href"
+								value="<%=slideModify ? modifySlide.getHref() : ""%>"
+								class="text" /></li>
+							<li><label for="submitButton">点击提交更改</label><input
+								type="submit" value="提交" id="submitButton"></li>
 
-							</ol>
-						</form>
+						</ol>
+					</form>
 
-						<h2>管理已有展示：</h2>
-						<form method="get" action="infoManage.jsp">
-							<table id="customers">
-								<tr>
-									<td>选择</td>
-									<td>标题</td>
-								</tr>
-								<%
-									rs = Conn.getConn().prepareStatement("select * from slideInfo")
+					<h2>管理已有展示：</h2>
+					<form method="get" action="infoManage.jsp">
+						<table id="customers">
+							<tr>
+								<td>选择</td>
+								<td>标题</td>
+							</tr>
+							<%
+								rs = Conn.getConn().prepareStatement("select * from slideInfo")
 											.executeQuery();
 									java.util.List<SlideNews> slideList = new BeanProcessor()
 											.toBeanList(rs, SlideNews.class);
@@ -318,13 +334,14 @@
 												+ info.getHref()
 												+ "\"><img src=\""
 												+ info.getImage()
-												+ "\">" + "</a></td></tr>");
+												+ "\">"
+												+ "</a></td></tr>");
 									}
-								%>
-							</table>
-							<button name="oper" type="submit" value="deleteSlide">删除</button>
-							<button name="oper" type="submit" value="modifySlide">修改</button>
-						</form>
+							%>
+						</table>
+						<button name="oper" type="submit" value="deleteSlide">删除</button>
+						<button name="oper" type="submit" value="modifySlide">修改</button>
+					</form>
 				</div>
 			</div>
 		</div>
@@ -343,3 +360,21 @@
 	</div>
 </body>
 </html>
+<%
+	} catch (NumberFormatException e) {
+		response.sendRedirect("../message.jsp?message="
+				+ URLEncoder.encode("数字格式错误", "utf-8")
+				+ "&redirect=admin/infoManage.jsp");
+		return;
+	} catch (SQLException e) {
+		response.sendRedirect("../message.jsp?message="
+				+ URLEncoder.encode("操作失败，请检查数据格式", "utf-8")
+				+ "&redirect=admin/infoManage.jsp");
+		return;
+	} catch (Exception e) {
+		response.sendRedirect("../message.jsp?message="
+				+ URLEncoder.encode(e.getMessage(), "utf-8")
+				+ "&redirect=admin/infoManage.jsp");
+		return;
+	}
+%>

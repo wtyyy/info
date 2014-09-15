@@ -1,3 +1,4 @@
+<%@page import="java.net.URLEncoder"%>
 <%@page import="org.apache.commons.dbutils.BeanProcessor"%>
 <%@page import="jdbc.Conn"%>
 <%@page import="util.*" %>
@@ -12,7 +13,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>BestWebdesign | Contact</title>
+<title>注册</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link href="style.css" rel="stylesheet" type="text/css" />
 </head>
@@ -120,5 +121,4 @@
   </div>
 </div>
 </body>
-</html>
-
+</html><

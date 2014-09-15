@@ -1,9 +1,11 @@
+<%@page import="java.net.URLEncoder"%>
 <%@page import="org.apache.commons.dbutils.BeanProcessor"%>
 <%@page import="jdbc.Conn"%>
 <%@page import="util.*" %>
 <%@page import="java.util.*" %>
 <%@page import="java.sql.*" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<% try { %>
 <jsp:useBean id="user" class="util.UserInfo" scope="session" />
 <%
 	request.setCharacterEncoding("UTF-8");
@@ -127,4 +129,17 @@
   </div>
 </div>
 </html>
+<%
+	} catch (SQLException e) {
+		response.sendRedirect("/Test/message.jsp?message="
+				+ URLEncoder.encode("SQL操作失败，请检查数据格式", "utf-8")
+				+ "&redirect=admin/infoManage.jsp");
+		return;
+	} catch (Exception e) {
+		response.sendRedirect("/Test/message.jsp?message="
+				+ URLEncoder.encode("操作失败，请检查数据格式", "utf-8")
+				+ "&redirect=admin/infoManage.jsp");
+		return;
+	}
+%>
 

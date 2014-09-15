@@ -10,6 +10,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="java.sql.*"%>
 <%@ page import="jdbc.*"%>
+<%try{ %>
 <%
 	request.setCharacterEncoding("UTF-8");
 	response.setCharacterEncoding("UTF-8");
@@ -171,7 +172,6 @@
 	} catch (SQLException e) {
 		response.sendRedirect("message.jsp?message="
 				+ URLEncoder.encode("格式错误或者email已经使用,严重的错误", "utf-8"));
-		throw e;
 		//return;
 		/*
 		out.println("<script language=\"javascript\">");
@@ -179,5 +179,13 @@
 		out.println("</script>");
 		}}
 		 */
+	}
+%>
+<%
+	} catch (Exception e) {
+		response.sendRedirect("/Test/message.jsp?message="
+				+ URLEncoder.encode("操作失败，请检查数据格式", "utf-8")
+				+ "&redirect=admin/infoManage.jsp");
+		return;
 	}
 %>

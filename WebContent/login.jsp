@@ -15,6 +15,7 @@
 <%@page import="org.apache.commons.dbutils.BeanProcessor"%>
 <%@ page import="java.sql.*"%>
 <%@ page import="jdbc.*"%>
+<% try { %>
 <%
 	request.setCharacterEncoding("UTF-8");
 	response.setCharacterEncoding("UTF-8");
@@ -61,5 +62,23 @@
 		*/
 		 response.sendRedirect("message.jsp?message="+URLEncoder.encode("密码错误", "utf-8") + "&redirect=/Test/signin.jsp");
 
+	}
+%>
+<%
+	} catch (NumberFormatException e) {
+		response.sendRedirect("/Test/message.jsp?message="
+				+ URLEncoder.encode("数字格式错误", "utf-8")
+				+ "&redirect=admin/infoManage.jsp");
+		return;
+	} catch (SQLException e) {
+		response.sendRedirect("/Test/message.jsp?message="
+				+ URLEncoder.encode("SQL操作失败，请检查数据格式", "utf-8")
+				+ "&redirect=admin/infoManage.jsp");
+		return;
+	} catch (Exception e) {
+		response.sendRedirect("/Test/message.jsp?message="
+				+ URLEncoder.encode("操作失败，请检查数据格式", "utf-8")
+				+ "&redirect=admin/infoManage.jsp");
+		return;
 	}
 %>

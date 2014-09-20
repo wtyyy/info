@@ -19,7 +19,6 @@
 <<<<<<< HEAD
 <jsp:useBean id="tempUser" class="util.UserInfo" scope="page" />
 <jsp:setProperty name="tempUser" property="*" />
-<jsp:setProperty name="user" property="*" />
 <% 
 	out.println(user);
 	/*
@@ -70,7 +69,12 @@
 		return;
 
 	}
-
+	if (tempUser.checkValid() != null) {
+		response.sendRedirect("message.jsp?message="
+				+ URLEncoder.encode(tempUser.checkValid(), "utf-8"));
+		return;
+	}
+	
 	Class.forName("com.mysql.jdbc.Driver");
 	Connection con = Conn.getConn();
 	try {
@@ -186,8 +190,8 @@
 <%
 	} catch (Exception e) {
 		response.sendRedirect("/Test/message.jsp?message="
-				+ URLEncoder.encode("操作失败，请检查数据格式", "utf-8")
-				+ "&redirect=admin/infoManage.jsp");
-		return;
+				+ URLEncoder.encode("操作失败，请检查数据格式", "utf-8"));
+		throw e;
+		//return;
 	}
 %>

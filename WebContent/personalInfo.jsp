@@ -105,17 +105,37 @@
               <label for="qq">QQ号码</label>
 			  <input type="number" id="qq" name="qq" class="text" value="<%=user.getQq() %>" />
             </li>
-			<li>
-              <label for="photo">上传头像</label>
-			  <input type="number" id="qq" name="qq" class="text" value="<%=user.getQq() %>" />
-            </li>
             
             <li class="buttons">
             	<input type="image" name="imageField" id="imageField" src="images/send.gif" class="send" alt="Submit Form" />
               <div class="clr"></div>
             </li>
           </ol>
+          <h2>当前头像</h2>
+          <%
+          	PreparedStatement stmt = Conn.getConn().prepareStatement("select * from files where name=? and uploaderId=?");
+            stmt.setString(1, "avatar-" + user.getId() + ".jpg");
+            stmt.setInt(2, user.getId());
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+            	%>
+            	<img src="/Test/DBFileGetter?id=<%=rs.getInt(1)%>"></img>
+            	<%
+            } else {
+            	out.println("你没有头像");
+            }
+          %>
+          <h2>上传头像</h2>
         </form>
+        					<form action="/Test/uploadServlet" method="post"
+						enctype="multipart/form-data" id="contactform">
+						<input type="hidden" name="name" value="avatar-<%=user.getId()%>.jpg"/>
+						<ol>
+							<li><label for="file">文件</label><input type="file" name="file" id="file" class="text" /></li>
+							
+							<li><input type="submit" value="上传" /></li>
+						</ol>	
+					</form>
       </div>
       <div class="right">
       </div>
@@ -138,12 +158,12 @@
 	} catch (SQLException e) {
 		response.sendRedirect("/Test/message.jsp?message="
 				+ URLEncoder.encode("SQL操作失败，请检查数据格式", "utf-8")
-				+ "&redirect=admin/infoManage.jsp");
+				+ "&redirect=" +request.getRequestURL());
 		return;
 	} catch (Exception e) {
 		response.sendRedirect("/Test/message.jsp?message="
-				+ URLEncoder.encode("操作失败，请检查数据格式", "utf-8")
-				+ "&redirect=admin/infoManage.jsp");
+				+ URLEncoder.encode("操作失败，请检查数据格式" + request.getRequestURL(), "utf-8")
+				+ "&redirect=" +request.getRequestURL());
 		return;
 	}
 %>

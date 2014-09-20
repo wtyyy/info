@@ -155,7 +155,7 @@
 										response.sendRedirect("../message.jsp?message="
 												+ URLEncoder
 														.encode("操作失败，请检查数据格式", "utf-8")
-												+ "&redirect=admin/infoManage.jsp");
+												+ "&redirect=" +request.getRequestURL());
 										return;
 									}
 
@@ -170,7 +170,7 @@
 										response.sendRedirect("../message.jsp?message="
 												+ URLEncoder
 														.encode("操作失败，请检查数据格式", "utf-8")
-												+ "&redirect=admin/infoManage.jsp");
+												+ "&redirect=" +request.getRequestURL());
 										return;
 									}
 								} else if (operation.equals("modify")) {
@@ -207,7 +207,7 @@
 										response.sendRedirect("../message.jsp?message="
 												+ URLEncoder
 														.encode("操作失败，请检查数据格式", "utf-8")
-												+ "&redirect=admin/infoManage.jsp");
+												+ "&redirect=" +request.getRequestURL());
 										return;
 									}
 								} else if (operation.equals("deleteSlide")) {
@@ -221,7 +221,7 @@
 										response.sendRedirect("../message.jsp?message="
 												+ URLEncoder
 														.encode("操作失败，请检查数据格式", "utf-8")
-												+ "&redirect=admin/infoManage.jsp");
+												+ "&redirect=" +request.getRequestURL());
 										return;
 									}
 								}
@@ -363,17 +363,17 @@
 	} catch (NumberFormatException e) {
 		response.sendRedirect("../message.jsp?message="
 				+ URLEncoder.encode("数字格式错误", "utf-8")
-				+ "&redirect=admin/infoManage.jsp");
+				+ "&redirect=" +request.getRequestURL());
 		return;
 	} catch (SQLException e) {
 		response.sendRedirect("../message.jsp?message="
 				+ URLEncoder.encode("操作失败，请检查数据格式", "utf-8")
-				+ "&redirect=admin/infoManage.jsp");
+				+ "&redirect=" +request.getRequestURL());
 		return;
 	} catch (Exception e) {
 		response.sendRedirect("../message.jsp?message="
 				+ URLEncoder.encode(e.getMessage(), "utf-8")
-				+ "&redirect=admin/infoManage.jsp");
+				+ "&redirect=" +request.getRequestURL());
 		return;
 	}
 %>

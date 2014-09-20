@@ -1,10 +1,13 @@
 package util;
 
 import java.io.IOException;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 
 import javax.servlet.jsp.JspWriter;
+
+import jdbc.Conn;
 
 /**
  * the data of a topic is recorded in this class
@@ -72,7 +75,15 @@ public class DiscussionInfo {
 	 * @return "封" with the link
 	 */
 	public String getForbiddenPrint() {
-		return "<a href="+"/Test/discussion/forbidDO.jsp?userid="+userid+"&topicid="+id+"&zone="+zone+">封</a>";
+		try {
+			ResultSet rs = Conn.getConn().prepareStatement("select * from Forbidden where id="+userid).executeQuery();
+			if (!rs.next()) {
+				return "<a href="+"/Test/discussion/forbidDO.jsp?userid="+userid+"&topicid="+id+"&zone="+zone+">封</a>";
+			}
+		} catch (Exception e) {
+			return "";
+		}
+		return "已封";
 	}
 	
 	/**

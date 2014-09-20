@@ -23,7 +23,7 @@ String zone = request.getParameter("zone");
 if (zone==null) {
 	response.sendRedirect("../message.jsp?message="
 			+ URLEncoder.encode("查无此页", "utf-8")
-			+ "&redirect=" +request.getRequestURL());
+			+ "&redirect=/Test/discussion/index.jsp");
 	return;
 } 
 

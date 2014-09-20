@@ -82,7 +82,8 @@
   <div class="body">
     <div class="body_resize">
       <div class="full">
-			<form name="form1" method="post" action="adminForbiddenDO.jsp">
+        <div><p><a href="/Test/discussion/index.jsp">返回讨论区</a></p></div>
+		<form name="form1" method="post" action="adminForbiddenDO.jsp">
 <%
 	if (user.getPrivilege()==null || !user.getPrivilege().equals("admin")) 
 	{

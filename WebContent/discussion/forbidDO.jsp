@@ -29,7 +29,7 @@ try {
 } catch (Exception e) {
 	response.sendRedirect("../message.jsp?message="
 			+ URLEncoder.encode("操作失败，请检查数据格式", "utf-8")
-			+ "&redirect=" +request.getRequestURL());
+			+ "&redirect=/Test/discussion/postReply.jsp?topicid="+request.getParameter("topicid")+"&zone="+request.getParameter("zone")+"\";");
 	return;
 } 
 // if a person has been forbidden, then the one should not be forbidden again

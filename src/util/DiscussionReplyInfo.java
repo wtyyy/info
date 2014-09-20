@@ -1,7 +1,10 @@
 package util;
 
+import jdbc.Conn;
+
 import java.io.IOException;
-import java.sql.Timestamp;
+import java.net.URLEncoder;
+import java.sql.*;
 
 import javax.servlet.jsp.JspWriter;
 /**
@@ -34,8 +37,20 @@ public class DiscussionReplyInfo {
 	/**
 	 * @return "封" with the link
 	 */
+	@SuppressWarnings("finally")
 	public String getForbiddenPrint() {
-		return "<a href="+"/Test/discussion/forbidDO.jsp?userid="+userid+"&id="+id+"&topicid="+belongs+"&zone="+zone+">封</a>";
+		
+		try {
+			ResultSet rs = Conn.getConn().prepareStatement("select * from Forbidden where id="+userid).executeQuery();
+			if (!rs.next()) {
+				return "<a href="+"/Test/discussion/forbidDO.jsp?userid="+userid+"&id="+id+"&topicid="+belongs+"&zone="+zone+">封</a>";
+			}
+		} catch (Exception e) {
+			return "";
+		} finally {
+			return "已封";
+		}
+
 	}
 	
 	/**
@@ -61,18 +76,33 @@ public class DiscussionReplyInfo {
 	 * @param isAdmin
 	 * @throws IOException
 	 */
-	public void printContent(JspWriter out, int floor, boolean isSelf, boolean isAdmin) throws IOException {
-		out.println(
-				 "<tr><td align=\"center\">"+floor+"</td>"
-				+ "<td width=500px height=100px colspan=2>"+getContentPrint()+"</td></tr>"
-				+ "<td><label align=\"left\">"
-				+ DateTimePrint.dateTimePrint(postDate)+"</td>"
-				+ "<td align=\"right\">回帖人："
-				+ getNamePrint() + "</td><td align=\"right\">" 
-				+ ((isSelf||isAdmin)?getDeletePrint():"")+"  "
-				+ (isAdmin?getForbiddenPrint():"")+"  "
-				+ getZanCaiPrint()+"</td>"
-				+ "</td></tr>");
+	public void printContent(JspWriter out, int floor, boolean isSelf, boolean isAdmin) throws IOException  {
+		try {
+			String img;
+			PreparedStatement stmt = Conn.getConn().prepareStatement("select * from files where name=? and uploaderId=?");
+	        stmt.setString(1, "avatar-" + userid + ".jpg");
+	        stmt.setInt(2, userid);
+	        ResultSet rs = stmt.executeQuery();
+	        if (rs.next()) {
+	        	img = "<img src='/Test/DBFileGetter?id="+ rs.getInt(1) + "' height=125px width=100px />";
+	        } else {
+	        	img = "";
+	        }
+			out.println(
+					 "<tr><td align=\"center\">"+floor +""
+					+ img + "</td>"
+					+ "<td width=500px height=100px colspan=2>"+getContentPrint()+"</td></tr>"
+					+ "<td><label align=\"left\">"
+					+ DateTimePrint.dateTimePrint(postDate)+"</td>"
+					+ "<td align=\"right\">回帖人："
+					+ getNamePrint() + "</td><td align=\"right\">" 
+					+ ((isSelf||isAdmin)?getDeletePrint():"")+"  "
+					+ (isAdmin?getForbiddenPrint():"")+"  "
+					+ getZanCaiPrint()+"</td>"
+					+ "</td></tr>");
+		} catch (Exception e) {
+			out.println("<%response.sendRedirect(\"/Test/message.jsp?message=\"	+ URLEncoder.encode(\"操作失败，请检查数据格式\" + request.getRequestURL(), \"utf-8\") + \"&redirect=\" +request.getRequestURL());%>");
+		}
 	}
 
 	/**

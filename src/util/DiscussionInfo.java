@@ -1,6 +1,7 @@
 package util;
 
 import java.io.IOException;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -74,6 +75,7 @@ public class DiscussionInfo {
 	/**
 	 * @return "封" with the link
 	 */
+	@SuppressWarnings("finally")
 	public String getForbiddenPrint() {
 		try {
 			ResultSet rs = Conn.getConn().prepareStatement("select * from Forbidden where id="+userid).executeQuery();
@@ -82,8 +84,9 @@ public class DiscussionInfo {
 			}
 		} catch (Exception e) {
 			return "";
+		} finally {
+			return "已封";
 		}
-		return "已封";
 	}
 	
 	/**
@@ -125,9 +128,22 @@ public class DiscussionInfo {
 	 * @throws IOException
 	 */
 	public void printContent(JspWriter out, boolean isSelf, boolean isAdmin) throws IOException {
+		try {
+			String img;
+			PreparedStatement stmt = Conn.getConn().prepareStatement("select * from files where name=? and uploaderId=?");
+	        stmt.setString(1, "avatar-" + userid + ".jpg");
+	        stmt.setInt(2, userid);
+	        ResultSet rs = stmt.executeQuery();
+	        if (rs.next()) {
+	        	img = "<img src=\"/Test/DBFileGetter?id="+rs.getInt(1) + "\" height=125px width=100px />";
+	        } else {
+	        	img = "";
+	        }
+
 		out.println(
 				"<th colspan=3>"+topic+"</th>"
-				+ "<tr><td align=\"center\">"+1+"</td>"
+				+ "<tr><td align=\"center\">"+1
+				+ img +"</td>"
 				+ "<td width=500px height=300px colspan=2>"+getContentPrint()+"</td></tr>"
 				+ "<td><label align=\"left\">"
 				+ DateTimePrint.dateTimePrint(postDate)+"</td>"
@@ -137,6 +153,9 @@ public class DiscussionInfo {
 				+ (isAdmin?getForbiddenPrint():"")+"  "
 				+ getZanCaiPrint()+"</td>"
 				+ "</tr>");
+		} catch (Exception e) {
+			out.println("<%response.sendRedirect(\"/Test/message.jsp?message=\"	+ URLEncoder.encode(\"操作失败，请检查数据格式\" + request.getRequestURL(), \"utf-8\") + \"&redirect=\" +request.getRequestURL());%>");
+		}
 	}
 	
 	public int getId() {

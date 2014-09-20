@@ -119,7 +119,7 @@
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
             	%>
-            	<img src="/Test/DBFileGetter?id=<%=rs.getInt(1)%>"></img>
+            	<img src="/Test/DBFileGetter?id=<%=rs.getInt(1)%>" height=150px width=120px></img>
             	<%
             } else {
             	out.println("你没有头像");
@@ -132,7 +132,6 @@
 						<input type="hidden" name="name" value="avatar-<%=user.getId()%>.jpg"/>
 						<ol>
 							<li><label for="file">文件</label><input type="file" name="file" id="file" class="text" /></li>
-							
 							<li><input type="submit" value="上传" /></li>
 						</ol>	
 					</form>

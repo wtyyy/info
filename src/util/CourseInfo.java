@@ -8,6 +8,12 @@ import org.apache.commons.dbutils.BeanProcessor;
 
 import jdbc.Conn;
 
+/**
+ * Bean class that holds a row of CourseInfo in the database
+ * It contains only getters and setters
+ * @author 天一
+ *
+ */
 public class CourseInfo {
  
 	public String getSelectStartTime() {

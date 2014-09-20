@@ -8,6 +8,11 @@ import jdbc.Conn;
 
 import org.apache.commons.dbutils.BeanProcessor;
  
+/**
+ * A Bean class that holds a row of PublicInfo table
+ * @author 天一
+ *
+ */
 public class PublicInfo {
 	static public PublicInfo getById(int id) throws SQLException, IOException,
 			ClassNotFoundException {

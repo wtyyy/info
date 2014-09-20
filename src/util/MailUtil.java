@@ -10,7 +10,11 @@ import java.util.*;
  http://www.5a520.cn 小说520  
  */
 import java.util.Properties;
-
+/**
+ * Utility that sends a mail using our own account
+ * @author 天一
+ *
+ */
 class MailSenderInfo {
 	// 发送邮件的服务器的IP和端口
 	private String mailServerHost;
@@ -139,7 +143,11 @@ class MyAuthenticator extends Authenticator {
 		return new PasswordAuthentication(userName, password);
 	}
 }
-
+/**
+ * A mail sender that implements authentication
+ * @author 天一
+ *
+ */
 class SimpleMailSender {
 	/**
 	 * 以文本格式发送邮件
@@ -237,6 +245,11 @@ class SimpleMailSender {
 	}
 }
 
+/**
+ * A wrapper using predefined account
+ * @author 天一
+ *
+ */
 public class MailUtil {
 	public static void sendTo(String subject, String text, String address)
 			throws MessagingException {

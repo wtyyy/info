@@ -5,8 +5,21 @@ import javax.servlet.jsp.JspWriter;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.*;
-
+/**
+ * Helper class that helps to print a table about users
+ * 
+ * @author 天一
+ *
+ */
 public class UserTable {
+	/**
+	 * Print info about a single user
+	 * @param userInfo
+	 * @param out
+	 * @param showOper
+	 * @throws IOException
+	 * @throws SQLException
+	 */
 	public static void printSingleUser(UserInfo userInfo, JspWriter out,
 			boolean showOper) throws IOException, SQLException {
 		out.println("<tr>");
@@ -29,6 +42,14 @@ public class UserTable {
 		out.print("</tr>");
 	}
  
+	/**
+	 * print info about a list of users
+	 * @param userInfoList
+	 * @param out
+	 * @param showOper
+	 * @throws IOException
+	 * @throws SQLException
+	 */
 	public static void printUsers(List<UserInfo> userInfoList, JspWriter out,
 			boolean showOper) throws IOException, SQLException {
 		out.println("<table id=\"customers\"><tr>" + (showOper ? "<td>选择</td>" : "")

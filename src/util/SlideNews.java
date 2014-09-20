@@ -8,6 +8,11 @@ import jdbc.Conn;
 
 import org.apache.commons.dbutils.BeanProcessor;
 
+/**
+ * A Bean class that holds a row of SlideNews table
+ * @author 天一
+ *
+ */
 public class SlideNews {
 	static public SlideNews getById(int id) throws SQLException, IOException,
 			ClassNotFoundException {

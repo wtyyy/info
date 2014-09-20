@@ -3,7 +3,17 @@ package util;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * A tool that converts BBcode text to html text
+ * @author 天一
+ *
+ */
 public class BBAdapter {
+	/**
+	 * The main bbcode convert method 
+	 * @param text BBcode text 
+	 * @return
+	 */
 	public static String process(String text) {
 		String html = text;
  

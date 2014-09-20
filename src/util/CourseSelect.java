@@ -5,8 +5,22 @@ import java.io.IOException;
 import java.sql.*;
 
 import jdbc.Conn;
- 
+/**
+ * Course Selection class.
+ * Use Select to force a user to select a class 
+ * @author 天一
+ *
+ */
 public class CourseSelect {
+	/**
+	 * let a student to select a course
+	 * @param studentId
+	 * @param courseId
+	 * @return	null if succeeds, or error message
+	 * @throws SQLException
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 */
 	public static String select(int studentId, int courseId)
 			throws SQLException, IOException, ClassNotFoundException {
 		

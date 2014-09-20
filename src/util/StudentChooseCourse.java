@@ -1,5 +1,9 @@
 package util;
-
+/**
+ * A Bean class that holds a row of StudentChooseCourse table
+ * @author 天一
+ *
+ */
 public class StudentChooseCourse {
 	public int getStudentId() {
 		return studentId;

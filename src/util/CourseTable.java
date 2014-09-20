@@ -17,10 +17,28 @@ import java.util.GregorianCalendar;
 
 import jdbc.*;
 
+/**
+ * Helper class that helps to print a table about courses
+ * 
+ * @author 天一
+ *
+ */
 public class CourseTable {
+	/**
+	 * Print a single row about a course.
+	 * 
+	 * @param course The courseInfo
+	 * @param out The jsp writer, namely 'out' in jsp files
+	 * @param haveChooser Whether to print a form radio
+	 * @param isAdmin	Whether the outdated courses could be choosed
+	 * @throws IOException
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
+	 * @throws ParseException
+	 */
 	public static void printSingleCourse(CourseInfo course, JspWriter out,
-			boolean haveChooser, boolean isAdmin) throws IOException, SQLException,
-			ClassNotFoundException, ParseException {
+			boolean haveChooser, boolean isAdmin) throws IOException,
+			SQLException, ClassNotFoundException, ParseException {
 		out.println("<tr>");
 		Calendar selectStartDate = Calendar.getInstance();
 		selectStartDate.setTime(new SimpleDateFormat("yyyy-MM-dd").parse(course
@@ -29,13 +47,15 @@ public class CourseTable {
 		selectEndDate.setTime(new SimpleDateFormat("yyyy-MM-dd").parse(course
 				.getSelectEndTime()));
 		Date nowDate = new Date();
-		
-		if (haveChooser ) {
-			if(!isAdmin &&  (nowDate.before(selectStartDate.getTime()) || nowDate.after(selectEndDate.getTime()))) {
+
+		if (haveChooser) {
+			if (!isAdmin
+					&& (nowDate.before(selectStartDate.getTime()) || nowDate
+							.after(selectEndDate.getTime()))) {
 				out.println("<td>-</td>");
 			} else {
 				out.println("<td><input type=\"radio\" checked=\"true\" name=\"courseId\" value=\""
-					+ course.getId() + "\" /></td>");
+						+ course.getId() + "\" /></td>");
 			}
 		}
 		out.println("<td>" + course.getId() + "</td>");
@@ -70,7 +90,7 @@ public class CourseTable {
 			endDate.setTime(new SimpleDateFormat("yyyy-MM-dd").parse(course
 					.getEndTime()));
 			Calendar nowCalendar = Calendar.getInstance();
-			if(startDate.after(nowCalendar)) {
+			if (startDate.after(nowCalendar)) {
 				nowCalendar = startDate;
 			}
 			for (; nowCalendar.get(GregorianCalendar.DAY_OF_WEEK) - 1 != course
@@ -78,7 +98,7 @@ public class CourseTable {
 				nowCalendar.add(GregorianCalendar.DATE, 1);
 			}
 			for (; !nowCalendar.after(endDate);) {
-					remainTime++;
+				remainTime++;
 				nowCalendar.add(GregorianCalendar.DATE, 7);
 			}
 			out.println("<td>" + remainTime + "</td>");
@@ -92,14 +112,27 @@ public class CourseTable {
 		out.println("<td>" + course.getSelectEndTime() + "</td>");
 		out.println("</tr>");
 	}
- 
+
+	/**
+	 * Print a whole table about some courses 
+	 * @param courseList
+	 * @param out
+	 * @param haveChooser
+	 * @param isAdmin
+	 * @throws IOException
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
+	 * @throws ParseException
+	 */
 	public static void printTable(java.util.List<CourseInfo> courseList,
-			JspWriter out, boolean haveChooser, boolean isAdmin) throws IOException,
-			SQLException, ClassNotFoundException, ParseException {
+			JspWriter out, boolean haveChooser, boolean isAdmin)
+			throws IOException, SQLException, ClassNotFoundException,
+			ParseException {
 		out.println("<table id=\"customers\"><tr>"
 				+ (haveChooser ? "<td>选择</td>" : "")
 				+ "<td>课程id</td><td>名称</td><td>教师</td><td>星期</td>"
-				+ "<td>第几节</td><td>课容量</td><td>选课人数</td>" + ""
+				+ "<td>第几节</td><td>课容量</td><td>选课人数</td>"
+				+ ""
 				+ "<td>起始日期</td><td>结束日期</td><td>所剩课时</td><td>更多信息</td><td>选课开始日期</td><td>选课结束日期</td></tr>");
 		for (CourseInfo cs : courseList) {
 			printSingleCourse(cs, out, haveChooser, isAdmin);

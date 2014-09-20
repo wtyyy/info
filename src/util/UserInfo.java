@@ -8,7 +8,11 @@ import java.util.regex.Pattern;
 import jdbc.Conn;
 
 import org.apache.commons.dbutils.BeanProcessor;
-
+/**
+ * A Bean class that holds a row of UserInfo table
+ * @author 天一
+ *
+ */
 public class UserInfo {
 	public int getValidated() {
 		return validated;

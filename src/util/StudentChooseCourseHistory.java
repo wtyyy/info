@@ -1,5 +1,9 @@
 package util;
-
+/**
+ * A Bean class that holds a row of StudentChooseCourseHistory table
+ * @author 天一
+ *
+ */
 public class StudentChooseCourseHistory {
 
 	@Override

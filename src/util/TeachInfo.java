@@ -7,7 +7,11 @@ import java.sql.SQLException;
 import jdbc.Conn;
 
 import org.apache.commons.dbutils.BeanProcessor;
- 
+/**
+ * A Bean class that holds a row of TeachInfo table
+ * @author 天一
+ *
+ */
 public class TeachInfo {
 	static public TeachInfo getById(int id) throws SQLException, IOException,
 			ClassNotFoundException {

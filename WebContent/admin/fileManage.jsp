@@ -170,7 +170,7 @@
 		<div class="clr"></div>
 		<div class="footer">
 			<div class="footer_resize">
-				<p class="left">© Copyright wty&yy . All Rights Reserved</p>
+				<p class="leftt">© Copyright wty&yy . All Rights Reserved</p>
       <p class="right"> 当前登录用户：<%=user.getEmail()==null?"您尚未登录":user.getEmail() %><br />
       <%=user.getEmail()==null?"<a href=\"/Test/signin.jsp\">登录</a></p>":"<a href=\"/Test/logout.jsp\">注销</a></p>"%>
 				

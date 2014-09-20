@@ -97,8 +97,8 @@ $(document).ready(function(){
   <div class="header_blog2">
     <div class="header">
       <h2>选课</h2>
-      <p>哈哈哈哈哈哈哈<br />
-        哈哈哈哈哈哈哈</p>
+      <p>添加、删除课程<br />
+        </p>
     </div>
     <div class="clr"></div>
   </div>

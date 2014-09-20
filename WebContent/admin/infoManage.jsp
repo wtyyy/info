@@ -115,7 +115,7 @@
 		<div class="body">
 			<div class="body_resize">
 				<div class="full">
-
+					<a href="fileManage.jsp">你可以使用上传功能上传资源，然后在此发布。</a>
 					<%
 						boolean slideModify = false;
 							SlideNews modifySlide = null;

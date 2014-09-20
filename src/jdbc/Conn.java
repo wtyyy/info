@@ -2,11 +2,27 @@ package jdbc;
 
 import java.sql.DriverManager;
 import java.sql.SQLException;
- 
+
+/**
+ * The sql connector.
+ * 
+ * @author 天一
+ *
+ */
 public class Conn {
-	public static java.sql.Connection getConn() throws SQLException, ClassNotFoundException {
+	/**
+	 * Connect to the predefined Mysql database
+	 * 
+	 * @return the java.sql.Connection instance
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
+	 */
+	public static java.sql.Connection getConn() throws SQLException,
+			ClassNotFoundException {
 		Class.forName("com.mysql.jdbc.Driver");
-		return DriverManager.getConnection(
-				"jdbc:mysql://59.66.133.34:3306/wtyInfo?useUnicode=true&characterEncoding=UTF-8", "scyue", "");
+		return DriverManager
+				.getConnection(
+						"jdbc:mysql://59.66.133.34:3306/wtyInfo?useUnicode=true&characterEncoding=UTF-8",
+						"scyue", "");
 	}
 }

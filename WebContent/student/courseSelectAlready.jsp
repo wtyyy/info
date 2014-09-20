@@ -127,37 +127,10 @@ $(document).ready(function(){
 			return;
 		}
 	%>
+	<h2>已选课程</h2>
 	<form method="post" action="courseSelectDo.jsp">
 		<input type="hidden" name="oper" value="delete">
 		<table id="customers" border="1">
-			<%
-				HashSet<Integer> set = new HashSet<Integer>();
-				if (user.getPrivilege().equals("student"))  {
-					for (; selectedCourseSet.next();) {
-
-						Statement st = con.createStatement();
-						ResultSet thisCourse = st
-								.executeQuery("select * from courses where id='"
-										+ selectedCourseSet.getInt("courseId")
-										+ "'");
-						if (thisCourse.next()) {
-							/*CourseTable.printSingleCourse(
-									(CourseInfo) (new BeanProcessor().toBean(
-											thisCourse, CourseInfo.class)), out,
-									true, true);*/
-						set.add(thisCourse.getInt("id"));
-						} else {
-							out.println("搞错了");
-						}
-					}
-				}
-			%>
-		</table>
-	</form>
-	<h2>可选课程</h2>
-	<form method="post" action="courseSelectDo.jsp">
-		<input type="hidden" name="oper" value="add">
-		 <table id="customers" border="1">
 			<tr>
 				<th>选择</th>
 				<th>课程id</th>
@@ -171,41 +144,41 @@ $(document).ready(function(){
 				<th>更多信息</th> 
 				<th>选课时间</th> 
 			</tr>
-		
-		<%
-			
-			ResultSet allCourse = con
-					.prepareStatement("select * from courses").executeQuery();
-			for (;allCourse.next();) {
-				Statement st = con.createStatement();
-				ResultSet thisCourse = st
-						.executeQuery("select * from courses where id='"
-								+ allCourse.getInt("id")
-								+ "'");
-				if (thisCourse.next() && !set.contains(thisCourse.getInt("id"))) {
-					CourseTable.printSingleCourse(
-							(CourseInfo) (new BeanProcessor().toBean(
-									thisCourse, CourseInfo.class)), out,
-							true, false, true);
-				} 
-			}
+			<%
+				HashSet<Integer> set = new HashSet<Integer>();
+				if (user.getPrivilege().equals("student"))  {
+					for (; selectedCourseSet.next();) {
 
-		%>
+						Statement st = con.createStatement();
+						ResultSet thisCourse = st
+								.executeQuery("select * from courses where id='"
+										+ selectedCourseSet.getInt("courseId")
+										+ "'");
+						if (thisCourse.next()) {
+							CourseTable.printSingleCourse(
+									(CourseInfo) (new BeanProcessor().toBean(
+											thisCourse, CourseInfo.class)), out,
+									true, false, false);
+						set.add(thisCourse.getInt("id"));
+						} else {
+							out.println("搞错了");
+						}
+					}
+				}
+			%>
 		</table>
-		<input type="submit" value="选课" />
+		<input type="submit" value="删除" />
 	</form>
-	
+
       </div>
-          <div class="right">
-    
-    	<table border="1" id="customers" align="center">
-	<tr><td><a>可选课程</a></td></tr>
-	<tr><td><a href="/Test/student/courseSelectAlready.jsp">已选课程</a></td></tr>
+      <div class="right">
+	<table border="1" id="customers" align="center">
+	<tr><td><a href="/Test/student/courseSelect.jsp">可选课程</a></td></tr>
+	<tr><td><a >已选课程</a></td></tr>
 	<tr><td><a href="/Test/student/courseSelectAll.jsp">所有课程</a></td></tr>
 	<tr><td><a href="/Test/student/courseSelectHistory.jsp">历史操作记录</a></td></tr>
 	</table>	
-    </div>
-      
+</div>
     </div>
   </div>
   <div class="clr"></div>
@@ -217,7 +190,6 @@ $(document).ready(function(){
       <div class="clr"></div>
     </div>
     <div class="clr"></div>
-    
   </div>
 </div>
 

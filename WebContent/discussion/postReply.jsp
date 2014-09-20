@@ -20,7 +20,7 @@
 <title>讨论区之
 <%
 String zone = request.getParameter("zone");
-if (zone==null || request.getParameter("topicid")==null) {
+if (zone==null || request.getParameter("topicid")==null || !(zone.equals("cs") || zone.equals("music") || zone.equals("food") || zone.equals("other")&&user.getPrivilege()!=null&&user.getPrivilege().equals("admin"))) {
 	response.sendRedirect("../message.jsp?message="
 			+ URLEncoder.encode("查无此页", "utf-8")
 			+ "&redirect=/Test/discussion/index.jsp");

@@ -154,7 +154,7 @@ $(document).ready(function(){
 			%>
 		</table>
 	</form>
-	<h2>可选课程</h2>
+	<h2>所有课程</h2>
 	<form method="post" action="courseSelectDo.jsp">
 		<input type="hidden" name="oper" value="add">
 		 <table id="customers" border="1">
@@ -186,7 +186,8 @@ $(document).ready(function(){
 					CourseTable.printSingleCourse(
 							(CourseInfo) (new BeanProcessor().toBean(
 									thisCourse, CourseInfo.class)), out,
-							true, false, true);
+							true, false, false);
+				
 				} 
 			}
 
@@ -197,14 +198,13 @@ $(document).ready(function(){
 	
       </div>
           <div class="right">
-    
-    	<table border="1" id="customers" align="center">
-	<tr><td><a>可选课程</a></td></tr>
+	<table border="1" id="customers" align="center">
+	<tr><td><a href="/Test/student/courseSelect.jsp">可选课程</a></td></tr>
 	<tr><td><a href="/Test/student/courseSelectAlready.jsp">已选课程</a></td></tr>
-	<tr><td><a href="/Test/student/courseSelectAll.jsp">所有课程</a></td></tr>
+	<tr><td><a >所有课程</a></td></tr>
 	<tr><td><a href="/Test/student/courseSelectHistory.jsp">历史操作记录</a></td></tr>
 	</table>	
-    </div>
+</div>
       
     </div>
   </div>

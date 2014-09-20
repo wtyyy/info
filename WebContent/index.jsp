@@ -217,7 +217,7 @@ $(document).ready(function(){
 				if (courseDay - DayInWeek <= 2) {
 					%><tr><td>
 					<%=course.getName() %></td><td><%=course.getTeacher() %></td><td>
-					<%switch(courseDay) {
+					<%switch(courseDay%7) {
 					case 0:out.print("星期日");break;
 					case 1:out.print("星期一");break;
 					case 2:out.print("星期二");break;

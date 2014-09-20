@@ -130,6 +130,8 @@ $(document).ready(function(){
 	<form method="post" action="courseSelectDo.jsp">
 		<input type="hidden" name="oper" value="delete">
 		<table id="customers" border="1">
+			<tr>
+			</tr>
 			<%
 				HashSet<Integer> set = new HashSet<Integer>();
 				if (user.getPrivilege().equals("student"))  {
@@ -141,10 +143,6 @@ $(document).ready(function(){
 										+ selectedCourseSet.getInt("courseId")
 										+ "'");
 						if (thisCourse.next()) {
-							/*CourseTable.printSingleCourse(
-									(CourseInfo) (new BeanProcessor().toBean(
-											thisCourse, CourseInfo.class)), out,
-									true, true);*/
 						set.add(thisCourse.getInt("id"));
 						} else {
 							out.println("搞错了");
@@ -154,23 +152,9 @@ $(document).ready(function(){
 			%>
 		</table>
 	</form>
-	<h2>可选课程</h2>
 	<form method="post" action="courseSelectDo.jsp">
 		<input type="hidden" name="oper" value="add">
 		 <table id="customers" border="1">
-			<tr>
-				<th>选择</th>
-				<th>课程id</th>
-				<th>名称</th>
-				<th>教师</th>
-				<th>星期</th>
-				<th>节次</th>
-				<th>容量</th>
-				<th>选课人数</th>
-				<th>所剩课时</th> 
-				<th>更多信息</th> 
-				<th>选课时间</th> 
-			</tr>
 		
 		<%
 			
@@ -183,30 +167,51 @@ $(document).ready(function(){
 								+ allCourse.getInt("id")
 								+ "'");
 				if (thisCourse.next() && !set.contains(thisCourse.getInt("id"))) {
-					CourseTable.printSingleCourse(
-							(CourseInfo) (new BeanProcessor().toBean(
-									thisCourse, CourseInfo.class)), out,
-							true, false, true);
+
+				
 				} 
 			}
 
 		%>
 		</table>
-		<input type="submit" value="选课" />
 	</form>
 	
+	<h2>选课历史纪录</h2>
+	<table id="customers" border="1">
+		<tr>
+			<th>课程id</th>
+			<th>课程名</th>
+			<th>操作</th>
+			<th>时间</th>
+		</tr>
+		<%
+			ResultSet rs = Conn
+					.getConn()
+					.prepareStatement(
+							"select * from studentChooseCourseHistory where studentId ="
+									+ user.getId()).executeQuery();
+			List<StudentChooseCourseHistory> historyList = new BeanProcessor()
+					.toBeanList(rs, StudentChooseCourseHistory.class);
+			for (StudentChooseCourseHistory history : historyList) {
+				out.println("<tr><td>" + history.getCourseId() + "</td><td>"
+						+ CourseInfo.getById(history.getCourseId()).getName()
+						+ "</td><td>" + history.getOperation() + "</td><td>"
+						+ history.getTime() + "</td></tr>");
+			}
+		%>
+	</table>
       </div>
-          <div class="right">
-    
-    	<table border="1" id="customers" align="center">
-	<tr><td><a>可选课程</a></td></tr>
+              <div class="right">
+	<table border="1" id="customers" align="center">
+	<tr><td><a href="/Test/student/courseSelect.jsp">可选课程</a></td></tr>
 	<tr><td><a href="/Test/student/courseSelectAlready.jsp">已选课程</a></td></tr>
 	<tr><td><a href="/Test/student/courseSelectAll.jsp">所有课程</a></td></tr>
-	<tr><td><a href="/Test/student/courseSelectHistory.jsp">历史操作记录</a></td></tr>
+	<tr><td><a >历史操作记录</a></td></tr>
 	</table>	
     </div>
       
     </div>
+    
   </div>
   <div class="clr"></div>
   <div class="footer">
@@ -217,9 +222,9 @@ $(document).ready(function(){
       <div class="clr"></div>
     </div>
     <div class="clr"></div>
+</div>
     
   </div>
-</div>
 
 </body>
 </html>

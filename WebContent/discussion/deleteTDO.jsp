@@ -16,7 +16,7 @@ response.setCharacterEncoding("UTF-8");
 </head>
 <body>
 <%
-
+//delete a topic and redirect to the zone page
 	int id = Integer.valueOf(request.getParameter("id"));
 	Conn.getConn().prepareStatement("delete from discussion where id="+id).execute();
 	Conn.getConn().prepareStatement("delete from discussReply where belongs="+id).execute();

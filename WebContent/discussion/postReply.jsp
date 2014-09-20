@@ -122,7 +122,8 @@ out.println(zoneName);
    	set = st.executeQuery("select * from discussion where id="+topicid+" order by postDate ");
    	
    	int i = 1;
-
+	
+   	// print the topic content
    	while (set.next()) {
    		DiscussionInfo di = ((DiscussionInfo) (new BeanProcessor().toBean(
    				set, DiscussionInfo.class)));
@@ -138,7 +139,8 @@ out.println(zoneName);
    	}
    	
    	set2 = st.executeQuery("select * from discussReply where belongs="+topicid+" order by postDate ");
-
+	
+   	// print the replys
    	while (set2.next()) {
    		DiscussionReplyInfo dri = ((DiscussionReplyInfo) (new BeanProcessor().toBean(
    				set2, DiscussionReplyInfo.class)));
@@ -148,7 +150,6 @@ out.println(zoneName);
    			dri.printContent(out, i++, dri.getUserid()==user.getId(), user.getPrivilege().equals("admin"));
    	}
    	
-   //	session.setAttribute("lastURL", "/Test/discussion/postReply.jsp?topicid="+topicid);       		
    	%>
    	</table>
        <br/>
@@ -192,6 +193,8 @@ out.println(zoneName);
 			if (user.getName()!=null && user.getPrivilege().equals("admin")) {
 				out.println("<tr><td align=\"center\"><a href=\"/Test/discussion/postTopic.jsp?zone=other\">other</a></td></tr>");
 			}
+		
+			// if user is admin, he is able to see the other zone(for test only)
 		%>
 	</table>
 	<br></br>
@@ -206,7 +209,7 @@ out.println(zoneName);
        					rs, DiscussionInfo.class)));
        			out.println("<tr><td>"+di.getTopicPrint()+"</td><td>"+di.getNamePrint()+"</td></tr>");
 			}
-			
+			// the topics with great # of "赞"
 		%>
 	</table>      
 	<br></br>
@@ -222,7 +225,8 @@ out.println(zoneName);
        					rs2, DiscussionInfo.class)));
        			out.println("<tr><td>"+di.getTopicPrint()+"</td><td>"+di.getNamePrint()+"</td></tr>");
 			}
-			
+			// the topics with great # of "踩"
+
 		%>
 		</table> 
 		<br />
@@ -230,6 +234,7 @@ out.println(zoneName);
 		if (user.getName()!=null && user.getPrivilege().equals("admin")) {
 			out.println("管理员权限：<a href=\"/Test/discussion/adminForbidden.jsp\">解封</a>");
 		}
+			//only admin can see deforbid people
 	%>
 	</div>
       <div class="clr"></div>

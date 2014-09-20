@@ -20,6 +20,7 @@ response.setCharacterEncoding("UTF-8");
 </head>
 <body>
 <%
+// add the #cons of a topic
 PreparedStatement st = Conn.getConn().prepareStatement("select * from Discussion where id=?");
 st.setInt(1, Integer.valueOf(request.getParameter("id")));
 ResultSet rs = st.executeQuery();

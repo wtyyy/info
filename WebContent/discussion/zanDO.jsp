@@ -20,6 +20,7 @@ response.setCharacterEncoding("UTF-8");
 </head>
 <body>
 <%
+// add the #pros of a reply
 	PreparedStatement st = Conn.getConn().prepareStatement("select * from DiscussReply where id=?");
 	st.setInt(1, Integer.valueOf(request.getParameter("id")));
 	ResultSet rs = st.executeQuery();
@@ -31,7 +32,6 @@ response.setCharacterEncoding("UTF-8");
 		st2.executeUpdate();
 	}
 	response.sendRedirect("/Test/discussion/postReply.jsp?topicid="+request.getParameter("topicid")+"&zone="+request.getParameter("zone"));
-
 %>
 </body>
 </html>

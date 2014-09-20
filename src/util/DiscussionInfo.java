@@ -6,6 +6,12 @@ import java.sql.Timestamp;
 
 import javax.servlet.jsp.JspWriter;
 
+/**
+ * the data of a topic is recorded in this class
+ * it is in accordance with the table "discussion" in the database
+ * @author yuanyuan
+ *
+ */
 public class DiscussionInfo {
 	
 	int id;
@@ -24,37 +30,65 @@ public class DiscussionInfo {
 	Timestamp lastReplyTime;
 	String lastReplyName;
 
+	/**
+	 * overwrite toString 
+	 * @return the info of the class in String
+	 */
 	public String toString() {
 		return "DiscussionInfoTable=[id="+id+" topic="+topic+" appendixURL="+appendixURL+" userid="
 				+" discussType="+discussType+" pros="+pros+" cons="+cons+ " postDate="+postDate
 				+" belongs="+belongs+" zone="+zone+"]";
 	}
 	
+	/**
+	 * @return the name of the topic and its link
+	 */
 	public String getTopicPrint() {
 		return "<a href="+"/Test/discussion/postReply.jsp?topicid="+id+"&zone="+zone+">"+topic+"</a>";
 	}
 	
+	/**
+	 * @return the name of the person who posts the topic
+	 */
 	public String getNamePrint() {
 		return userName;
 	}
 	
+	/**
+	 * @return the name of the person who is the last one to reply the topic
+	 */
 	public String getLastReplyNamePrint() {
 		return lastReplyName;
 	}
 	
+	/**
+	 * @return "删" with the link
+	 */
 	public String getDeletePrint() {
 		return "<a href="+"/Test/discussion/deleteTDO.jsp?id="+id+"&zone="+zone+">删</a>";
 	}
 	
+	/**
+	 * @return "封" with the link
+	 */
 	public String getForbiddenPrint() {
 		return "<a href="+"/Test/discussion/forbidDO.jsp?userid="+userid+"&topicid="+id+"&zone="+zone+">封</a>";
 	}
 	
+	/**
+	 * @return "赞" & "踩" with the link
+	 */
 	public String getZanCaiPrint() {
 		return "<a href="+"/Test/discussion/zanTDO.jsp?id="+id+"&zone="+zone+">赞("+pros+")</a>"
 				+ " <a href="+"/Test/discussion/caiTDO.jsp?id="+id+"&zone="+zone+">踩("+cons+")</a>";
 	}
 	
+	/**
+	 * print the html in the postTopic.jsp
+	 * @param out
+	 * @param i
+	 * @throws IOException
+	 */
 	public void printTitle(JspWriter out, int i) throws IOException {
 		out.println(
 				"<tr><td>"+i
@@ -65,10 +99,20 @@ public class DiscussionInfo {
 				+ "</tr>");
 	}
 	
+	/**
+	 * @return the content of the topic after process of BBAdapter(img, video ...)
+	 */
 	public String getContentPrint() {
 		return BBAdapter.process(content);
 	} 
 	
+	/**
+	 * print the content shown in postReply.jsp
+	 * @param out
+	 * @param isSelf
+	 * @param isAdmin
+	 * @throws IOException
+	 */
 	public void printContent(JspWriter out, boolean isSelf, boolean isAdmin) throws IOException {
 		out.println(
 				"<th colspan=3>"+topic+"</th>"

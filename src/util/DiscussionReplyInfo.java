@@ -4,7 +4,12 @@ import java.io.IOException;
 import java.sql.Timestamp;
 
 import javax.servlet.jsp.JspWriter;
-
+/**
+ * the data of a topic-reply is recorded in this class
+ * it is in accordance with the table "discussReply" in the database
+ * @author yuanyuan
+ *
+ */
 public class DiscussionReplyInfo {
 	
 	int id;
@@ -19,24 +24,43 @@ public class DiscussionReplyInfo {
 	int belongs;
 	String zone;
 	
+	/**
+	 * @return "删" with the link
+	 */
 	public String getDeletePrint() {
 		return "<a href="+"/Test/discussion/deleteDO.jsp?id="+id+"&topicid="+belongs+"&zone="+zone+">删</a>";
 	}
 	
+	/**
+	 * @return "封" with the link
+	 */
 	public String getForbiddenPrint() {
 		return "<a href="+"/Test/discussion/forbidDO.jsp?userid="+userid+"&id="+id+"&topicid="+belongs+"&zone="+zone+">封</a>";
 	}
 	
+	/**
+	 * @return "赞" & "踩" with the link
+	 */
 	public String getZanCaiPrint() {
 		return "<a href="+"/Test/discussion/zanDO.jsp?id="+id+"&topicid="+belongs+"&zone="+zone+ ">赞("+pros+")</a>"
 				+ " <a href="+"/Test/discussion/caiDO.jsp?id="+id+"&topicid="+belongs+"&zone="+zone+">踩("+cons+")</a>";
 	}
 	
-
+	/**
+	 * @return the content of the topic after process of BBAdapter(img, video ...)
+	 */
 	public String getContentPrint() {
 		return BBAdapter.process(content);
 	}
 	
+	/**
+	 * print the content shown in postReply.jsp
+	 * @param out
+	 * @param floor
+	 * @param isSelf
+	 * @param isAdmin
+	 * @throws IOException
+	 */
 	public void printContent(JspWriter out, int floor, boolean isSelf, boolean isAdmin) throws IOException {
 		out.println(
 				 "<tr><td align=\"center\">"+floor+"</td>"
@@ -50,7 +74,10 @@ public class DiscussionReplyInfo {
 				+ getZanCaiPrint()+"</td>"
 				+ "</td></tr>");
 	}
-	 
+
+	/**
+	 * @return the name of the person who posts the topic
+	 */
 	public String getNamePrint() {
 		return userName;
 	}

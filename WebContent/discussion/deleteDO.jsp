@@ -20,6 +20,7 @@ response.setCharacterEncoding("UTF-8");
 </head>
 <body>
 <%
+// delete a reply
 	int id = Integer.valueOf(request.getParameter("id"));
 	Conn.getConn().prepareStatement("delete from discussReply where id="+id).execute();
 	response.sendRedirect("/Test/discussion/postReply.jsp?topicid="+request.getParameter("topicid")+"&zone="+request.getParameter("zone"));

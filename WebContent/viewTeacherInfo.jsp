@@ -110,12 +110,12 @@ $(document).ready(function(){
 	
 	<table id="customers">
 <%
+// print the info a teacher from tsinghua website
 	ResultSet rs = Conn.getConn().prepareStatement("select * from professorInfo where id=" + $id + " order by name").executeQuery();
 	List<ProfessorInfo> infoList = new BeanProcessor().toBeanList(rs, ProfessorInfo.class);
 	
 	for (ProfessorInfo info : infoList) {
 		out.print(" <img height=200px width=160px src=\"http://www.tsinghua.edu.cn"+info.getDetail().substring(11));
-		
 	}
 %>
 </table>

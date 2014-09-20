@@ -104,6 +104,7 @@ $(document).ready(function(){
 	<h2>教师一览</h2>
 	<table id="customers">
 <%
+	//print the photos and links
 	ResultSet rs = Conn.getConn().prepareStatement("select * from professorInfo order by name").executeQuery();
 	List<ProfessorInfo> infoList = new BeanProcessor().toBeanList(rs, ProfessorInfo.class);
 	int i=0;

@@ -4,6 +4,15 @@ import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.util.Date;
 
+
+/**
+ * to print a time
+ * if this time is today
+ * we print the time without date
+ * otherwise we print only the date
+ * @author yuanyuan
+ *
+ */
 public class DateTimePrint {
 	
 	public static String dateTimePrint(Timestamp ts) {

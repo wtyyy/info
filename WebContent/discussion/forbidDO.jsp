@@ -32,6 +32,7 @@ try {
 			+ "&redirect=admin/infoManage.jsp");
 	return;
 } 
+// if a person has been forbidden, then the one should not be forbidden again
 %>
 <%
 out.println("<script language=\"javascript\">");

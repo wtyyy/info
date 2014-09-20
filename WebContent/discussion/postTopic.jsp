@@ -115,12 +115,14 @@ out.println(zoneName);
        		set = st.executeQuery("select * from discussion where zone='" + zone + "' order by lastReplyTime DESC ");
        		int i = 1;
        		
+       		//print the head of the table
        		out.println("<table id='customers'>");
        		out.println("<tr><th>#</th>"+
        					"<th width=300px >标题</th>" +
        					"<th >发帖人</th>"+
        					"<th width=85px>回复时间</th>"+
        					"<th >回复人</th></tr>");
+       		//print the contents
        		while (set.next()) {
        			if (i<=$page*20 && i>($page-1)*20) {
 	       			DiscussionInfo di = ((DiscussionInfo) (new BeanProcessor().toBean(
@@ -128,9 +130,11 @@ out.println(zoneName);
 	       			di.printTitle(out, i++);
        			} else i++;
        		}
-       		
-       		//session.setAttribute("lastURL", "/Test/discussion/postTopic.jsp?zone="+zone);
        		out.println("</table>");
+       		
+       		
+       		//since we only print 20 topics per page
+       		//"下一页" & "上一页" is requisite
        		i--;
        		int totPage = (i-1)/20+1;
        		if ($page>1) {
@@ -188,6 +192,7 @@ out.println(zoneName);
 			if (user.getName()!=null && user.getPrivilege().equals("admin")) {
 				out.println("<tr><td align=\"center\"><a href=\"/Test/discussion/postTopic.jsp?zone=other\">other</a></td></tr>");
 			}
+			// admin can see the test zone(other)
 		%>
 	</table>
 	<br></br>
@@ -202,7 +207,7 @@ out.println(zoneName);
        					rs, DiscussionInfo.class)));
        			out.println("<tr><td>"+di.getTopicPrint()+"</td><td>"+di.getNamePrint()+"</td></tr>");
 			}
-			
+			// the topics with great # of "赞"
 		%>
 	</table>      
 	<br></br>
@@ -218,7 +223,8 @@ out.println(zoneName);
        					rs2, DiscussionInfo.class)));
        			out.println("<tr><td>"+di.getTopicPrint()+"</td><td>"+di.getNamePrint()+"</td></tr>");
 			}
-			
+			// the topics with great # of "踩"
+
 		%>
 		</table> 
 	<br />
@@ -226,6 +232,7 @@ out.println(zoneName);
 		if (user.getName()!=null && user.getPrivilege().equals("admin")) {
 			out.println("管理员权限：<a href=\"/Test/discussion/adminForbidden.jsp\">解封</a>");
 		}
+		// admin can see deforbid people
 	%>
 	</div>
       <div class="clr"></div>

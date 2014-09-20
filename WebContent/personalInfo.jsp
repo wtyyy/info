@@ -105,6 +105,10 @@
               <label for="qq">QQ号码</label>
 			  <input type="number" id="qq" name="qq" class="text" value="<%=user.getQq() %>" />
             </li>
+			<li>
+              <label for="photo">上传头像</label>
+			  <input type="number" id="qq" name="qq" class="text" value="<%=user.getQq() %>" />
+            </li>
             
             <li class="buttons">
             	<input type="image" name="imageField" id="imageField" src="images/send.gif" class="send" alt="Submit Form" />

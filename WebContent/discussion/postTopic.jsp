@@ -11,11 +11,33 @@
 <%@ page import="java.sql.*"%>
 <%@ page import="java.util.*"%>
 <jsp:useBean id="user" class="util.UserInfo" scope="session" />
+<%@page import="java.net.URLEncoder"%>
+<% try { %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>讨论区之<%out.println((String)session.getAttribute("zone")==null?"other":(String)session.getAttribute("zone")); %></title>
+<title>讨论区之
+<%
+String zone = request.getParameter("zone");
+if (zone==null) {
+	response.sendRedirect("../message.jsp?message="
+			+ URLEncoder.encode("查无此页", "utf-8")
+			+ "&redirect=admin/infoManage.jsp");
+	return;
+} 
+
+String zoneName;
+switch(zone) {
+case "food": zoneName = "想吃美食"; break;
+case "music": zoneName = "音乐之声"; break;
+case "cs": zoneName = "贵系贵系"; break;
+default: zoneName = "测试界面";
+}
+out.println(zoneName); 
+
+%>
+</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link href="style.css" rel="stylesheet" type="text/css" />
 <style type="text/css">
@@ -49,23 +71,6 @@
   background-color:#EAF2D3;
   }
 </style>
-<%
-	String zone;
-	if (request.getParameter("zone")!=null && !request.getParameter("zone").equals("")) {
-		zone = request.getParameter("zone");
-	} else if (session.getAttribute("zone")!=null) {
-		zone = (String)session.getAttribute("zone");
-	} else zone = "other";
-	session.setAttribute("zone", zone);
-	
-	String zoneName;
-	switch(zone) {
-	case "food": zoneName = "想吃美食"; break;
-	case "music": zoneName = "音乐之声"; break;
-	case "cs": zoneName = "贵系贵系"; break;
-	default: zoneName = "other";
-	}
-%>
 </head>
 <body>
 <div class="main">
@@ -124,7 +129,7 @@
        			} else i++;
        		}
        		
-       		session.setAttribute("lastURL", "/Test/discussion/postTopic.jsp?zone="+zone);
+       		//session.setAttribute("lastURL", "/Test/discussion/postTopic.jsp?zone="+zone);
        		out.println("</table>");
        		i--;
        		int totPage = (i-1)/20+1;
@@ -141,10 +146,12 @@
 <form id="contactform" name="form1" method="post" action="postTopicDO.jsp">
   <input name="discussType" type="hidden" value="T"/>
    <input name="belongs" type="hidden" value="0"/>
+   <input name="zone" type="hidden" value="<%out.print(zone); %>"/>
           <ol>
             <li>
               <label for="topic">标  题 </label>
               <input id="name" name="topic" class="text" maxlength="45" size="80"/>
+              
             </li>
             <li>
               <label for="content">内 容 </label>
@@ -236,3 +243,21 @@
 </div>
 </body>
 </html>
+<%
+	} catch (NumberFormatException e) {
+		response.sendRedirect("../message.jsp?message="
+				+ URLEncoder.encode("数字格式错误", "utf-8")
+				+ "&redirect=admin/infoManage.jsp");
+		return;
+	} catch (SQLException e) {
+		response.sendRedirect("../message.jsp?message="
+				+ URLEncoder.encode("SQL操作失败，请检查数据格式", "utf-8")
+				+ "&redirect=admin/infoManage.jsp");
+		return;
+	} catch (Exception e) {
+		response.sendRedirect("../message.jsp?message="
+				+ URLEncoder.encode("操作失败，请检查数据格式", "utf-8")
+				+ "&redirect=admin/infoManage.jsp");
+		return;
+	}
+%>

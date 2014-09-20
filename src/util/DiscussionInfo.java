@@ -31,7 +31,7 @@ public class DiscussionInfo {
 	}
 	
 	public String getTopicPrint() {
-		return "<a href="+"/Test/discussion/postReply.jsp?topicid="+id+">"+topic+"</a>";
+		return "<a href="+"/Test/discussion/postReply.jsp?topicid="+id+"&zone="+zone+">"+topic+"</a>";
 	}
 	
 	public String getNamePrint() {
@@ -43,16 +43,16 @@ public class DiscussionInfo {
 	}
 	
 	public String getDeletePrint() {
-		return "<a href="+"/Test/discussion/deleteTDO.jsp?id="+id+">删</a>";
+		return "<a href="+"/Test/discussion/deleteTDO.jsp?id="+id+"&zone="+zone+">删</a>";
 	}
 	
 	public String getForbiddenPrint() {
-		return "<a href="+"/Test/discussion/forbidDO.jsp?id="+userid+">封</a>";
+		return "<a href="+"/Test/discussion/forbidDO.jsp?userid="+userid+"&topicid="+id+"&zone="+zone+">封</a>";
 	}
 	
 	public String getZanCaiPrint() {
-		return "<a href="+"/Test/discussion/zanTDO.jsp?id="+id+">赞("+pros+")</a>"
-				+ " <a href="+"/Test/discussion/caiTDO.jsp?id="+id+">踩("+cons+")</a>";
+		return "<a href="+"/Test/discussion/zanTDO.jsp?id="+id+"&zone="+zone+">赞("+pros+")</a>"
+				+ " <a href="+"/Test/discussion/caiTDO.jsp?id="+id+"&zone="+zone+">踩("+cons+")</a>";
 	}
 	
 	public void printTitle(JspWriter out, int i) throws IOException {

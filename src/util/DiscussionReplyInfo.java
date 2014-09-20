@@ -20,16 +20,16 @@ public class DiscussionReplyInfo {
 	String zone;
 	
 	public String getDeletePrint() {
-		return "<a href="+"/Test/discussion/deleteDO.jsp?id="+id+">删</a>";
+		return "<a href="+"/Test/discussion/deleteDO.jsp?id="+id+"&topicid="+belongs+"&zone="+zone+">删</a>";
 	}
 	
 	public String getForbiddenPrint() {
-		return "<a href="+"/Test/discussion/forbidDO.jsp?id="+userid+">封</a>";
+		return "<a href="+"/Test/discussion/forbidDO.jsp?userid="+userid+"&id="+id+"&topicid="+belongs+"&zone="+zone+">封</a>";
 	}
 	
 	public String getZanCaiPrint() {
-		return "<a href="+"/Test/discussion/zanDO.jsp?id="+id+">赞("+pros+")</a>"
-				+ " <a href="+"/Test/discussion/caiDO.jsp?id="+id+">踩("+cons+")</a>";
+		return "<a href="+"/Test/discussion/zanDO.jsp?id="+id+"&topicid="+belongs+"&zone="+zone+ ">赞("+pros+")</a>"
+				+ " <a href="+"/Test/discussion/caiDO.jsp?id="+id+"&topicid="+belongs+"&zone="+zone+">踩("+cons+")</a>";
 	}
 	
 

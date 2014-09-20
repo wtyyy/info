@@ -10,7 +10,8 @@
 response.setCharacterEncoding("UTF-8");
 %>
 <jsp:useBean id="user" class="util.UserInfo" scope="session"/>
-   
+<%@page import="java.net.URLEncoder"%>
+<% try { %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -57,7 +58,7 @@ response.setCharacterEncoding("UTF-8");
 	st.setInt(7, 0);
 	st.setTimestamp(8, Timestamp.from(Calendar.getInstance().toInstant()));
 	st.setString(9, request.getParameter("belongs"));
-	st.setString(10, (String)session.getAttribute("zone"));
+	st.setString(10, request.getParameter("zone"));
 	st.setString(11, user.getName());
 	st.setInt(12, user.getId());
 	st.setString(13, user.getName());
@@ -65,10 +66,29 @@ response.setCharacterEncoding("UTF-8");
 	
 	st.executeUpdate();
 	
-	response.sendRedirect("/Test/discussion/postTopic.jsp?zone="+(String)session.getAttribute("zone"));
+	response.sendRedirect("/Test/discussion/postTopic.jsp?zone="+request.getParameter("zone"));
 	//test
 	}
 	}
 %>
 </body>
 </html>
+
+<%
+	} catch (NumberFormatException e) {
+		response.sendRedirect("../message.jsp?message="
+				+ URLEncoder.encode("数字格式错误", "utf-8")
+				+ "&redirect=admin/infoManage.jsp");
+		return;
+	} catch (SQLException e) {
+		response.sendRedirect("../message.jsp?message="
+				+ URLEncoder.encode("SQL操作失败，请检查数据格式", "utf-8")
+				+ "&redirect=admin/infoManage.jsp");
+		return;
+	} catch (Exception e) {
+		response.sendRedirect("../message.jsp?message="
+				+ URLEncoder.encode("操作失败，请检查数据格式", "utf-8")
+				+ "&redirect=admin/infoManage.jsp");
+		return;
+	}
+%>

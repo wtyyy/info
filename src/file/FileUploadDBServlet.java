@@ -3,9 +3,7 @@ package file;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.servlet.ServletException;
@@ -15,13 +13,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
-import javax.websocket.Session;
 
-import org.apache.catalina.User;
-
-import util.UserInfo;
-import util.UserTable;
 import jdbc.Conn;
+import util.UserInfo;
 
 @WebServlet(name = "uploadServlet", urlPatterns = { "/uploadServlet" })
 @MultipartConfig(maxFileSize = 16177215)
@@ -43,9 +37,9 @@ public class FileUploadDBServlet extends HttpServlet {
 	/**
 	 * Handle post request
 	 */
+	@Override
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		
 
 		UserInfo user = (UserInfo) request.getSession().getAttribute("user");
 
@@ -58,14 +52,14 @@ public class FileUploadDBServlet extends HttpServlet {
 					request, response);
 			return;
 		}
-		
+
 		if (checkResult != null) {
 			request.setAttribute("message", checkResult);
 			getServletContext().getRequestDispatcher("/message.jsp").forward(
 					request, response);
 			return;
 		}
-		
+
 		String name = request.getParameter("name");
 		if (name == null || "".equals(name)) {
 			request.setAttribute("message", "文件名不能为空");
@@ -74,7 +68,7 @@ public class FileUploadDBServlet extends HttpServlet {
 			return;
 		}
 
-		InputStream inputStream = null; 
+		InputStream inputStream = null;
 
 		Part filePart = request.getPart("file");
 
@@ -121,10 +115,10 @@ public class FileUploadDBServlet extends HttpServlet {
 				message = "文件上传失败";
 			}
 		} catch (SQLException ex) {
-			message = "ERROR: " + ex.getMessage();
+			message = "错误，有可能是文件名重复 " + ex.getMessage();
 			ex.printStackTrace();
 		} catch (ClassNotFoundException ex) {
-			message = "ERROR: " + ex.getMessage();
+			message = "没有找到需要的class" + ex.getMessage();
 			ex.printStackTrace();
 		} finally {
 			if (conn != null) {

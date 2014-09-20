@@ -10,51 +10,77 @@ import org.apache.commons.dbutils.BeanProcessor;
 
 /**
  * A Bean class that holds a row of SlideNews table
+ * 
  * @author 天一
  *
  */
 public class SlideNews {
+	/**
+	 * @return the id
+	 */
+	public int getId() {
+		return id;
+	}
+
+	/**
+	 * @param id
+	 *            the id to set
+	 */
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	/**
+	 * @return the image
+	 */
+	public String getImage() {
+		return image;
+	}
+
+	/**
+	 * @param image
+	 *            the image to set
+	 */
+	public void setImage(String image) {
+		this.image = image;
+	}
+
+	/**
+	 * @return the href
+	 */
+	public String getHref() {
+		return href;
+	}
+
+	/**
+	 * @param href
+	 *            the href to set
+	 */
+	public void setHref(String href) {
+		this.href = href;
+	}
+
 	static public SlideNews getById(int id) throws SQLException, IOException,
 			ClassNotFoundException {
 		ResultSet rs = Conn.getConn()
 				.prepareStatement("select * from slideInfo where id=" + id)
 				.executeQuery();
 		if (rs.next()) {
-			return (SlideNews) new BeanProcessor()
-					.toBean(rs, SlideNews.class);
+			return (SlideNews) new BeanProcessor().toBean(rs, SlideNews.class);
 		} else {
 			throw new SQLException();
 		}
 	}
- 
+
+	/**
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 		return "SlideInfo [id=" + id + ", image=" + image + ", href=" + href
 				+ "]";
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getImage() {
-		return image;
-	}
-
-	public void setImage(String image) {
-		this.image = image;
-	}
-
-	public String getHref() {
-		return href;
-	}
-
-	public void setHref(String href) {
-		this.href = href;
 	}
 
 	int id;

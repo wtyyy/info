@@ -8,37 +8,269 @@ import java.util.regex.Pattern;
 import jdbc.Conn;
 
 import org.apache.commons.dbutils.BeanProcessor;
+
 /**
  * A Bean class that holds a row of UserInfo table
+ * 
  * @author 天一
  *
  */
 public class UserInfo {
+
+	/**
+	 * @return the id
+	 */
+	public int getId() {
+		return id;
+	}
+
+	/**
+	 * @param id
+	 *            the id to set
+	 */
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	/**
+	 * @return the email
+	 */
+	public String getEmail() {
+		return email;
+	}
+
+	/**
+	 * @param email
+	 *            the email to set
+	 */
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	/**
+	 * @return the password
+	 */
+	public String getPassword() {
+		return password;
+	}
+
+	/**
+	 * @param password
+	 *            the password to set
+	 */
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * @param name
+	 *            the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	/**
+	 * @return the gender
+	 */
+	public String getGender() {
+		return gender;
+	}
+
+	/**
+	 * @param gender
+	 *            the gender to set
+	 */
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+	/**
+	 * @return the dateBorn
+	 */
+	public String getDateBorn() {
+		return dateBorn;
+	}
+
+	/**
+	 * @param dateBorn
+	 *            the dateBorn to set
+	 */
+	public void setDateBorn(String dateBorn) {
+		this.dateBorn = dateBorn;
+	}
+
+	/**
+	 * @return the tel
+	 */
+	public String getTel() {
+		return tel;
+	}
+
+	/**
+	 * @param tel
+	 *            the tel to set
+	 */
+	public void setTel(String tel) {
+		this.tel = tel;
+	}
+
+	/**
+	 * @return the emergencyContactName
+	 */
+	public String getEmergencyContactName() {
+		return emergencyContactName;
+	}
+
+	/**
+	 * @param emergencyContactName
+	 *            the emergencyContactName to set
+	 */
+	public void setEmergencyContactName(String emergencyContactName) {
+		this.emergencyContactName = emergencyContactName;
+	}
+
+	/**
+	 * @return the emergencyContactTel
+	 */
+	public String getEmergencyContactTel() {
+		return emergencyContactTel;
+	}
+
+	/**
+	 * @param emergencyContactTel
+	 *            the emergencyContactTel to set
+	 */
+	public void setEmergencyContactTel(String emergencyContactTel) {
+		this.emergencyContactTel = emergencyContactTel;
+	}
+
+	/**
+	 * @return the address
+	 */
+	public String getAddress() {
+		return address;
+	}
+
+	/**
+	 * @param address
+	 *            the address to set
+	 */
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	/**
+	 * @return the qq
+	 */
+	public String getQq() {
+		return qq;
+	}
+
+	/**
+	 * @param qq
+	 *            the qq to set
+	 */
+	public void setQq(String qq) {
+		this.qq = qq;
+	}
+
+	/**
+	 * @return the blocked
+	 */
+	public int getBlocked() {
+		return blocked;
+	}
+
+	/**
+	 * @param blocked
+	 *            the blocked to set
+	 */
+	public void setBlocked(int blocked) {
+		this.blocked = blocked;
+	}
+
+	/**
+	 * @return the privilege
+	 */
+	public String getPrivilege() {
+		return privilege;
+	}
+
+	/**
+	 * @param privilege
+	 *            the privilege to set
+	 */
+	public void setPrivilege(String privilege) {
+		this.privilege = privilege;
+	}
+
+	/**
+	 * @return the validated
+	 */
 	public int getValidated() {
 		return validated;
 	}
 
+	/**
+	 * @param validated
+	 *            the validated to set
+	 */
 	public void setValidated(int validated) {
 		this.validated = validated;
-	} 
+	}
 
-	static public UserInfo getById(int userId) throws SQLException, IOException, ClassNotFoundException {
-		ResultSet rs = Conn.getConn().prepareStatement("select * from users where id=" + userId).executeQuery();
+	/**
+	 * get a piece of user by its unique id
+	 * 
+	 * @param userId
+	 * @return the UserInfo instance
+	 * @throws SQLException
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 */
+	static public UserInfo getById(int userId) throws SQLException,
+			IOException, ClassNotFoundException {
+		ResultSet rs = Conn.getConn()
+				.prepareStatement("select * from users where id=" + userId)
+				.executeQuery();
 		if (rs.next()) {
-			return (UserInfo)new BeanProcessor().toBean(rs, UserInfo.class);
-		}else {
+			return (UserInfo) new BeanProcessor().toBean(rs, UserInfo.class);
+		} else {
 			throw new SQLException();
 		}
 	}
-	static public UserInfo getByEmail(String email) throws SQLException, IOException, ClassNotFoundException {
-		ResultSet rs = Conn.getConn().prepareStatement("select * from users where email='" + email+"'").executeQuery();
+
+	/**
+	 * get a piece of user by its unique email
+	 * 
+	 * @param email
+	 * @return the UserInfo instance
+	 * @throws SQLException
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 */
+	static public UserInfo getByEmail(String email) throws SQLException,
+			IOException, ClassNotFoundException {
+		ResultSet rs = Conn
+				.getConn()
+				.prepareStatement(
+						"select * from users where email='" + email + "'")
+				.executeQuery();
 		if (rs.next()) {
-			return (UserInfo)new BeanProcessor().toBean(rs, UserInfo.class);
-		}else {
+			return (UserInfo) new BeanProcessor().toBean(rs, UserInfo.class);
+		} else {
 			throw new SQLException();
 		}
 	}
-	
+
 	int id;
 
 	String email;
@@ -64,101 +296,14 @@ public class UserInfo {
 	int blocked;
 
 	String privilege;
-	
+
 	int validated;
 
-	public String getAddress() {
-		return address;
-	}
-
-	public int getBlocked() {
-		return blocked;
-	}
-
-	public String getDateBorn() {
-		return dateBorn;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public String getEmergencyContactName() {
-		return emergencyContactName;
-	}
-
-	public String getEmergencyContactTel() {
-		return emergencyContactTel;
-	}
-
-	public String getGender() {
-		return gender;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public String getPrivilege() {
-		return privilege;
-	}
-
-	public String getQq() {
-		return qq;
-	}
-
-	public String getTel() {
-		return tel;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	public void setBlocked(int blocked) {
-		this.blocked = blocked;
-	}
-	public void setDateBorn(String dateBorn) {
-		this.dateBorn = dateBorn;
-	}
-	public void setEmail(String email) {
-		this.email = email;
-	}
-	public void setEmergencyContactName(String emergencyContactName) {
-		this.emergencyContactName = emergencyContactName;
-	}
-	public void setEmergencyContactTel(String emergencyContactTel) {
-		this.emergencyContactTel = emergencyContactTel;
-	}
-	public void setGender(String gender) {
-		this.gender = gender;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public void setPassword(String password) {
-		this.password = password;
-	}
-	public void setPrivilege(String privilege) {
-		this.privilege = privilege;
-	}
-	public void setQq(String qq) {
-		this.qq = qq;
-	}
-	public void setTel(String tel) {
-		this.tel = tel;
-	}
+	/**
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 		return "UserInfo [id=" + id + ", email=" + email + ", password="
@@ -169,10 +314,16 @@ public class UserInfo {
 				+ address + ", qq=" + qq + ", blocked=" + blocked
 				+ ", privilege=" + privilege + ", validated=" + validated + "]";
 	}
+
+	/**
+	 * @return whether the userInfo is valid
+	 */
 	public String checkValid() {
-		Pattern emailPattern = Pattern.compile("^[a-zA-Z0-9\\-_\\.]+@[a-zA-Z0-9\\-_]+\\.[a-zA-Z0-9\\-_]+");
+		Pattern emailPattern = Pattern
+				.compile("^[a-zA-Z0-9\\-_\\.]+@[a-zA-Z0-9\\-_]+\\.[a-zA-Z0-9\\-_]+");
 		Pattern genderPattern = Pattern.compile("^(male)|(female)$");
-		Pattern dateBornPattern = Pattern.compile("^[0-9]{4}-[0-9]{2}-[0-9]{2}$");
+		Pattern dateBornPattern = Pattern
+				.compile("^[0-9]{4}-[0-9]{2}-[0-9]{2}$");
 		Pattern telPattern = Pattern.compile("^[0-9]{1,15}$");
 		Pattern qqPattern = Pattern.compile("^[0-9]{1,15}$");
 		if (!emailPattern.matcher(email).matches()) {

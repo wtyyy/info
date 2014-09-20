@@ -1,3 +1,4 @@
+<%@page import="java.net.URLEncoder"%>
 <%@page import="util.StudentChooseCourseHistory"%>
 <%@page import="util.CourseInfo"%>
 <%@page import="org.apache.commons.dbutils.BeanProcessor"%>
@@ -8,6 +9,7 @@
 	pageEncoding="UTF-8"%>
 <%@ page import="java.sql.*"%>
 <%@ page import="java.util.*"%>
+<%try{ %>
 <jsp:useBean id="user" class="util.UserInfo" scope="session" />
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -116,3 +118,21 @@
 </div>
 </body>
 </html>
+<%
+	} catch (NumberFormatException e) {
+		response.sendRedirect("/Test/message.jsp?message="
+				+ URLEncoder.encode("数字格式错误", "utf-8")
+				+ "&redirect=" +request.getRequestURL());
+		return;
+	} catch (SQLException e) {
+		response.sendRedirect("/Test/message.jsp?message="
+				+ URLEncoder.encode("SQL操作失败，请检查数据格式", "utf-8")
+				+ "&redirect=" +request.getRequestURL());
+		return;
+	} catch (Exception e) {
+		response.sendRedirect("/Test/message.jsp?message="
+				+ URLEncoder.encode("操作失败，请检查数据格式", "utf-8")
+				+ "&redirect=" +request.getRequestURL());
+		return;
+	}
+%>

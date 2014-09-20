@@ -60,7 +60,7 @@
 		out.println("location.href=\"/Test/signin.jsp\";");
 		out.println("</script></body>");		
 		*/
-		 response.sendRedirect("message.jsp?message="+URLEncoder.encode("密码错误", "utf-8") + "&redirect=/Test/signin.jsp");
+		 response.sendRedirect("message.jsp?message="+URLEncoder.encode("用户名或密码错误", "utf-8") + "&redirect=/Test/signin.jsp");
 
 	}
 %>

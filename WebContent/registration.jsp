@@ -16,7 +16,6 @@
 	response.setCharacterEncoding("UTF-8");
 %>
 <jsp:useBean id="user" class="util.UserInfo" scope="session" />
-<<<<<<< HEAD
 <jsp:useBean id="tempUser" class="util.UserInfo" scope="page" />
 <jsp:setProperty name="tempUser" property="*" />
 <% 

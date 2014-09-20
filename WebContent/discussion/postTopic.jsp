@@ -53,8 +53,8 @@ out.println(zoneName);
   font-size:1em;
   border:1px solid #53868B;
   padding:3px 7px 2px 7px;
+  max-width:500px;
   }
-
 #customers th 
   {
   font-size:1.1em;
@@ -255,17 +255,17 @@ out.println(zoneName);
 	} catch (NumberFormatException e) {
 		response.sendRedirect("../message.jsp?message="
 				+ URLEncoder.encode("数字格式错误", "utf-8")
-				+ "&redirect=admin/infoManage.jsp");
+				+ "&redirect=/Test/discussion/index.jsp");
 		return;
 	} catch (SQLException e) {
 		response.sendRedirect("../message.jsp?message="
 				+ URLEncoder.encode("SQL操作失败，请检查数据格式", "utf-8")
-				+ "&redirect=admin/infoManage.jsp");
+				+ "&redirect=/Test/discussion/index.jsp");
 		return;
 	} catch (Exception e) {
 		response.sendRedirect("../message.jsp?message="
 				+ URLEncoder.encode("操作失败，请检查数据格式", "utf-8")
-				+ "&redirect=admin/infoManage.jsp");
+				+ "&redirect=/Test/discussion/index.jsp");
 		return;
 	}
 %>

@@ -290,8 +290,8 @@
 						<button name="oper" type="submit" value="delete">删除</button>
 						<button name="oper" type="submit" value="modify">修改</button>
 					</form>
-
-
+					<br/>
+					<br/>
 					<h2>添加/修改动态展示板：</h2>
 					<form method="get" action="infoManage.jsp" name="addForm"
 						id="contactform">

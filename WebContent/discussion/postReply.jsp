@@ -56,6 +56,7 @@ out.println(zoneName);
   font-size:1em;
   border:1px solid #53868B;
   padding:3px 7px 2px 7px;
+  max-width:500px;
   }
 
 #customers th 
@@ -66,6 +67,10 @@ out.println(zoneName);
   padding-bottom:4px;
   background-color:#53868B;
   color:#ffffff;
+  }
+#customers img 
+  {
+  max-width:500px
   }
 
 #customers tr.alt td 

@@ -5,18 +5,21 @@ import java.util.Map;
 
 /**
  * A tool that converts BBcode text to html text
+ * 
  * @author 天一
  *
  */
 public class BBAdapter {
 	/**
-	 * The main bbcode convert method 
-	 * @param text BBcode text 
-	 * @return
+	 * The main bbcode convert method
+	 * 
+	 * @param text
+	 *            BBcode text
+	 * @return The decoded html text
 	 */
 	public static String process(String text) {
 		String html = text;
- 
+
 		Map<String, String> bbMap = new HashMap<String, String>();
 
 		bbMap.put("(\r\n|\r|\n|\n\r)", "<br/>");
@@ -53,10 +56,14 @@ public class BBAdapter {
 				"\\[youtube\\](.+?)\\[/youtube\\]",
 				"<object width='640' height='380'><param name='movie' value='http://www.youtube.com/v/$1'></param><embed src='http://www.youtube.com/v/$1' type='application/x-shockwave-flash' width='640' height='380'></embed></object>");
 		bbMap.put("\\[video\\](.+?)\\[/video\\]", "<video src='$1' />");
-		bbMap.put("\\[flash\\](.+?)\\[/flash\\]", "<embed src=\"$1\" allowFullScreen=\"true\" quality=\"high\" width=\"480\" height=\"400\" align=\"middle\" allowScriptAccess=\"always\" type=\"application/x-shockwave-flash\"></embed>");
-		bbMap.put("\\[youku\\](.+?)\\[/youku\\]", "<embed src=\"$1\" allowFullScreen=\"true\" quality=\"high\" width=\"480\" height=\"400\" align=\"middle\" allowScriptAccess=\"always\" type=\"application/x-shockwave-flash\"></embed>");
-		bbMap.put("\\[sound\\](.+?)\\[/sound\\]", "<audio src=\"$1\" controls=\"controls\"></audio>");
-		
+		bbMap.put(
+				"\\[flash\\](.+?)\\[/flash\\]",
+				"<embed src=\"$1\" allowFullScreen=\"true\" quality=\"high\" width=\"480\" height=\"400\" align=\"middle\" allowScriptAccess=\"always\" type=\"application/x-shockwave-flash\"></embed>");
+		bbMap.put(
+				"\\[youku\\](.+?)\\[/youku\\]",
+				"<embed src=\"$1\" allowFullScreen=\"true\" quality=\"high\" width=\"480\" height=\"400\" align=\"middle\" allowScriptAccess=\"always\" type=\"application/x-shockwave-flash\"></embed>");
+		bbMap.put("\\[sound\\](.+?)\\[/sound\\]",
+				"<audio src=\"$1\" controls=\"controls\"></audio>");
 
 		for (Map.Entry entry : bbMap.entrySet()) {
 			html = html.replaceAll(entry.getKey().toString(), entry.getValue()

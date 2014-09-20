@@ -1,10 +1,11 @@
 package util;
 
-import javax.servlet.jsp.JspWriter;
-
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.List;
+
+import javax.servlet.jsp.JspWriter;
+
 /**
  * Helper class that helps to print a table about users
  * 
@@ -14,6 +15,7 @@ import java.util.*;
 public class UserTable {
 	/**
 	 * Print info about a single user
+	 * 
 	 * @param userInfo
 	 * @param out
 	 * @param showOper
@@ -30,7 +32,7 @@ public class UserTable {
 		out.println("<td>" + userInfo.getId() + "</td>");
 		out.println("<td>" + userInfo.getEmail() + "</td>");
 		out.println("<td>" + userInfo.getName() + "</td>");
-		out.println("<td>" + userInfo.getGender()+ "</td>");
+		out.println("<td>" + userInfo.getGender() + "</td>");
 		out.println("<td>" + userInfo.getDateBorn() + "</td>");
 		out.println("<td>" + userInfo.getTel() + "</td>");
 		out.println("<td>" + userInfo.getEmergencyContactName() + "</td>");
@@ -41,9 +43,10 @@ public class UserTable {
 		out.println("<td>" + userInfo.getPrivilege() + "</td>");
 		out.print("</tr>");
 	}
- 
+
 	/**
-	 * print info about a list of users
+	 * print info about a list of users，操操操
+	 * 
 	 * @param userInfoList
 	 * @param out
 	 * @param showOper
@@ -52,8 +55,9 @@ public class UserTable {
 	 */
 	public static void printUsers(List<UserInfo> userInfoList, JspWriter out,
 			boolean showOper) throws IOException, SQLException {
-		out.println("<table id=\"customers\"><tr>" + (showOper ? "<td>选择</td>" : "")
-				+ "<td>id</td>" + "<td>邮箱</td>" + "<td>名字</td>" + "<td>性别</td>"
+		out.println("<table id=\"customers\"><tr>"
+				+ (showOper ? "<td>选择</td>" : "") + "<td>id</td>"
+				+ "<td>邮箱</td>" + "<td>名字</td>" + "<td>性别</td>"
 				+ "<td>出生日期</td>" + "<td>电话</td>" + "<td>紧急联系人</td>"
 				+ "<td>紧急联系人电话</td>" + "<td>地址</td>" + "<td>qq</td>"
 				+ "<td>屏蔽</td>" + "<td>权限</td>" + "</tr>");

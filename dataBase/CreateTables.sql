@@ -47,15 +47,17 @@ CREATE TABLE `discussReply` (
   `zone` enum('cs','food','music','other') COLLATE utf8_bin DEFAULT 'other',
   `userName` varchar(45) COLLATE utf8_bin DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=68 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=69 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 CREATE TABLE `files` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
   `content` longblob NOT NULL,
   `uploaderId` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name_UNIQUE` (`name`),
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `Forbidden` (
   `id` int(11) NOT NULL,
@@ -126,3 +128,35 @@ CREATE TABLE `users` (
   UNIQUE KEY `id_UNIQUE` (`id`),
   UNIQUE KEY `email_UNIQUE` (`email`)
 ) ENGINE=InnoDB AUTO_INCREMENT=63 DEFAULT CHARSET=utf8;
+
+
+INSERT INTO `wtyInfo`.`users`
+(`id`,
+`email`,
+`password`,
+`name`,
+`gender`,
+`dateBorn`,
+`tel`,
+`emergencyContactName`,
+`emergencyContactTel`,
+`address`,
+`qq`,
+`blocked`,
+`privilege`,
+`validated`)
+VALUES
+(0,
+'admin@admin.com',
+'admin',
+'admin',
+'male',
+'2014-01-01',
+'13012345678',
+'TianyiWang',
+'110',
+'Tsinghua univ.',
+'',
+0,
+'student',
+'1');

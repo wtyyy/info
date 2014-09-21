@@ -1,0 +1,4 @@
+"C:\Program Files\MySQL\MySQL Server 5.6\bin\mysql" -uroot --default-character-set=utf8
+CREATE DATABASE IF NOT EXISTS wtyInfo default charset utf8 COLLATE utf8_general_ci
+use wtyInfo
+source wtyinfo.sql

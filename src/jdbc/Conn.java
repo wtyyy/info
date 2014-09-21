@@ -23,6 +23,6 @@ public class Conn {
 		return DriverManager
 				.getConnection(
 						"jdbc:mysql://localhost:3306/wtyInfo?useUnicode=true&characterEncoding=UTF-8",
-						"scyue", "");
+						"root", "");
 	}
 }

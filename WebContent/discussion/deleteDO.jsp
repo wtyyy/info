@@ -14,7 +14,7 @@ response.setCharacterEncoding("UTF-8");
 <%
 int id = Integer.valueOf(request.getParameter("id"));
 
- ResultSet set = Conn.getConn().prepareStatement("select from discussReply where id="+id).executeQuery();
+ ResultSet set = Conn.getConn().prepareStatement("select * from discussReply where id="+id).executeQuery();
  if (!set.next()) {
 	 response.sendRedirect("/Test/discussion/postReply.jsp?topicid="+request.getParameter("topicid")+"&zone="+request.getParameter("zone"));
 	 return;
@@ -41,10 +41,12 @@ int id = Integer.valueOf(request.getParameter("id"));
 </body>
 </html>
 <%
-	}catch (Exception e) {
+	}catch (Exception e) { 
+		
 		response.sendRedirect("../message.jsp?message="
 				+ URLEncoder.encode("操作失败，请检查数据格式", "utf-8")
 				+ "&redirect=" + URLEncoder.encode("/Test/discussion/postReply.jsp?topicid="+request.getParameter("topicid")+"&zone="+request.getParameter("zone"),"utf-8"));
+		
 		return;
 	}
 %>

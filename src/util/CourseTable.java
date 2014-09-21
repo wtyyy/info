@@ -145,8 +145,11 @@ public class CourseTable {
 			if (!isAdmin
 					&& (nowDate.before(selectStartDate.getTime()) || nowDate
 							.after(selectEndDate.getTime()))) {
-				if (ableOnly)
+				if (ableOnly) {
+					out.println("</tr>");
 					return;
+				}
+
 				out.println("<td>-</td>");
 			} else {
 				out.println("<td><input type=\"radio\" checked=\"true\" name=\"courseId\" value=\""

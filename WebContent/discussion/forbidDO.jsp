@@ -22,7 +22,7 @@
 	<%
 		try {
 			int id = Integer.valueOf(request.getParameter("userid"));
-			if ("admin".equals(user.getPrivilege())) {
+			if (!"admin".equals(user.getPrivilege())) {
 				response.sendRedirect("/Test/discussion/postReply.jsp?topicid="
 						+ request.getParameter("topicid") + "&zone="
 						+ request.getParameter("zone"));
@@ -33,6 +33,14 @@
 					.prepareStatement(
 							"insert into Forbidden(id) values(" + id + ")")
 					.execute();
+			out.println("<script language=\"javascript\">");
+			out.println("alert(\"封人成功！\");");
+			out.println("location.href=\"/Test/discussion/postReply.jsp?topicid="
+					+ request.getParameter("topicid")
+					+ "&zone="
+					+ request.getParameter("zone"));
+			out.println("</script>");
+
 		} catch (Exception e) {
 			response.sendRedirect("../message.jsp?message="
 					+ URLEncoder.encode("操作失败，请检查数据格式", "utf-8")
@@ -43,14 +51,6 @@
 		}
 		// if a person has been forbidden, then the one should not be forbidden again
 	%>
-	<%
-		out.println("<script language=\"javascript\">");
-		out.println("alert(\"封人成功！\");");
-		out.println("location.href=\"/Test/discussion/postReply.jsp?topicid="
-				+ request.getParameter("topicid")
-				+ "&zone="
-				+ request.getParameter("zone"));
-		out.println("</script>");
-	%>
+
 </body>
 </html>

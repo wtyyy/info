@@ -59,7 +59,7 @@ html { padding:0; margin:0;}
 #contactform input.text { width:450px; border:1px solid #e1e1e1; margin:2px 0; padding:5px 2px; height:16px; background:#fff; float:right; }
 #contactform textarea { width:450px; border:1px solid #e1e1e1; margin:2px 0; padding:2px; background:#fff; float:right; }
 #contactform li.buttons input { padding:3px 0 3px 480px; margin:10px 0 0 0; border:0; color:#FFF; float:left; }
-#speicialLink {color:#247ca4; text-decoration:none; font: bold 14px Arial, Helvetica, sans-serif;}
+#specialLink {color:#247ca4; text-decoration:none; font: bold 14px Arial, Helvetica, sans-serif;}
 #teachContent {color:#aaa; text-decoration:none; font: bold 10px Arial, Helvetica, sans-serif;}
 /*************footer**********/
 .footer {padding:0;  margin:0; border-top:1px solid #e9e9e9; background:#ececec;}

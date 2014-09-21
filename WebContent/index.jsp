@@ -164,7 +164,7 @@ $(document).ready(function(){
 	}
 	List<PublicInfo> infoList = new BeanProcessor().toBeanList(rs, PublicInfo.class);
 	for (PublicInfo info : infoList) {
-		out.print("<tr><td><a id=\"speicialLink\" href=\"publicResource/viewTeachInfo.jsp?id=" + info.getId()+ "\">" + info.getTitle() + "</a><br/>");
+		out.print("<tr><td><a id=\"specialLink\" href=\"publicResource/viewTeachInfo.jsp?id=" + info.getId()+ "\">" + info.getTitle() + "</a><br/>");
 		out.print("<a id=\"teachContent\">"+info.getText().substring(0, info.getText().length()<40*scaleOfText?info.getText().length():40*scaleOfText)+(info.getText().length()<40*scaleOfText?"":"...")+"</a></td></tr>");
 		ci++;
 		if (ci==5) break;
@@ -177,12 +177,12 @@ $(document).ready(function(){
         <%if("admin".equals(user.getPrivilege())) { %>
       		<h2>管理中心</h2>
       		<table id="customers">
-      		<tr><td><a href="admin/courseManage.jsp">课程管理</a></td></tr>
-      		<tr><td><a href="admin/userManage.jsp">用户管理</a></td></tr>
-      		<tr><td><a href="admin/infoManage.jsp">公共资源管理</a></td></tr>
-      		<tr><td><a href="admin/teachInfoManage.jsp">教务信息管理</a></td></tr>
-      		<tr><td><a href="discussion/adminForbidden.jsp">讨论区发言管理</a></td></tr>
-      		<tr><td><a href="admin/fileManage.jsp">上传文件管理</a></td></tr>
+      		<tr><td><h3><a href="admin/courseManage.jsp" id="specialLink">课程管理</a></h3></td></tr>
+      		<tr><td><h3><a href="admin/userManage.jsp" id="specialLink">用户管理</a></h3></td></tr>
+      		<tr><td><h3><a href="admin/infoManage.jsp" id="specialLink">公共资源管理</a></h3></td></tr>
+      		<tr><td><h3><a href="admin/teachInfoManage.jsp" id="specialLink">教务信息管理</a></h3></td></tr>
+      		<tr><td><h3><a href="discussion/adminForbidden.jsp" id="specialLink">讨论区发言管理</a></h3></td></tr>
+      		<tr><td><h3><a href="admin/fileManage.jsp" id="specialLink">上传文件管理</a></h3></td></tr>
       		</table>
       	<%} else if("student".equals(user.getPrivilege())){ %>
         <h2>你的课表</h2>

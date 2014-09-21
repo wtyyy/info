@@ -10,7 +10,6 @@ response.setCharacterEncoding("UTF-8");
 %>
 <%@page import="java.net.URLEncoder"%>
 <% try { %>
-
 <jsp:useBean id="user" class="util.UserInfo" scope="session"/>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>

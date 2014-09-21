@@ -17,6 +17,166 @@ import jdbc.Conn;
  *
  */
 public class DiscussionReplyInfo {
+	/**
+	 * @return the name of the person who posts the topic
+	 */
+	public String getNamePrint() {
+		return userName;
+	}
+
+	/**
+	 * @return the id
+	 */
+	public int getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	/**
+	 * @return the content
+	 */
+	public String getContent() {
+		return content;
+	}
+
+	/**
+	 * @param content the content to set
+	 */
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	/**
+	 * @return the appendixURL
+	 */
+	public String getAppendixURL() {
+		return appendixURL;
+	}
+
+	/**
+	 * @param appendixURL the appendixURL to set
+	 */
+	public void setAppendixURL(String appendixURL) {
+		this.appendixURL = appendixURL;
+	}
+
+	/**
+	 * @return the userid
+	 */
+	public int getUserid() {
+		return userid;
+	}
+
+	/**
+	 * @param userid the userid to set
+	 */
+	public void setUserid(int userid) {
+		this.userid = userid;
+	}
+
+	/**
+	 * @return the userName
+	 */
+	public String getUserName() {
+		return userName;
+	}
+
+	/**
+	 * @param userName the userName to set
+	 */
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	/**
+	 * @return the discussType
+	 */
+	public String getDiscussType() {
+		return discussType;
+	}
+
+	/**
+	 * @param discussType the discussType to set
+	 */
+	public void setDiscussType(String discussType) {
+		this.discussType = discussType;
+	}
+
+	/**
+	 * @return the pros
+	 */
+	public int getPros() {
+		return pros;
+	}
+
+	/**
+	 * @param pros the pros to set
+	 */
+	public void setPros(int pros) {
+		this.pros = pros;
+	}
+
+	/**
+	 * @return the cons
+	 */
+	public int getCons() {
+		return cons;
+	}
+
+	/**
+	 * @param cons the cons to set
+	 */
+	public void setCons(int cons) {
+		this.cons = cons;
+	}
+
+	/**
+	 * @return the postDate
+	 */
+	public Timestamp getPostDate() {
+		return postDate;
+	}
+
+	/**
+	 * @param postDate the postDate to set
+	 */
+	public void setPostDate(Timestamp postDate) {
+		this.postDate = postDate;
+	}
+
+	/**
+	 * @return the belongs
+	 */
+	public int getBelongs() {
+		return belongs;
+	}
+
+	/**
+	 * @param belongs the belongs to set
+	 */
+	public void setBelongs(int belongs) {
+		this.belongs = belongs;
+	}
+
+	/**
+	 * @return the zone
+	 */
+	public String getZone() {
+		return zone;
+	}
+
+	/**
+	 * @param zone the zone to set
+	 */
+	public void setZone(String zone) {
+		this.zone = zone;
+	}
 
 	int id;
 	String content;
@@ -118,100 +278,4 @@ public class DiscussionReplyInfo {
 			out.println("<%response.sendRedirect(\"/Test/message.jsp?message=\"	+ URLEncoder.encode(\"操作失败，请检查数据格式\" + request.getRequestURL(), \"utf-8\") + \"&redirect=\" +request.getRequestURL());%>");
 		}
 	}
-
-	/**
-	 * @return the name of the person who posts the topic
-	 */
-	public String getNamePrint() {
-		return userName;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getContent() {
-		return content;
-	}
-
-	public void setContent(String content) {
-		this.content = content;
-	}
-
-	public String getAppendixURL() {
-		return appendixURL;
-	}
-
-	public void setAppendixURL(String appendixURL) {
-		this.appendixURL = appendixURL;
-	}
-
-	public int getUserid() {
-		return userid;
-	}
-
-	public void setUserid(int userid) {
-		this.userid = userid;
-	}
-
-	public String getUserName() {
-		return userName;
-	}
-
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-
-	public String getDiscussType() {
-		return discussType;
-	}
-
-	public void setDiscussType(String discussType) {
-		this.discussType = discussType;
-	}
-
-	public int getPros() {
-		return pros;
-	}
-
-	public void setPros(int pros) {
-		this.pros = pros;
-	}
-
-	public int getCons() {
-		return cons;
-	}
-
-	public void setCons(int cons) {
-		this.cons = cons;
-	}
-
-	public Timestamp getPostDate() {
-		return postDate;
-	}
-
-	public void setPostDate(Timestamp postDate) {
-		this.postDate = postDate;
-	}
-
-	public int getBelongs() {
-		return belongs;
-	}
-
-	public void setBelongs(int belongs) {
-		this.belongs = belongs;
-	}
-
-	public String getZone() {
-		return zone;
-	}
-
-	public void setZone(String zone) {
-		this.zone = zone;
-	}
-
 }

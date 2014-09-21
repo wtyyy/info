@@ -21,7 +21,7 @@
 <style type="text/css">
 #customers
   {
-  font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;
+  font-family:"Trebuchet MS", Arial, Helvetica, sans-serif; word-break:break-all; word-wrap:break-all;
   width:100%;
   border-collapse:collapse;
   }

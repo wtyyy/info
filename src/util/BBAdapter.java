@@ -16,10 +16,16 @@ public class BBAdapter {
 	 * @param text
 	 * @return encoded text
 	 */
-	public static String encode(String text) {
-
-		return null;
-	}
+	/*
+	 * public static String encode(String text) { String html = text;
+	 * Map<String, String> bbMap = new HashMap<String, String>();
+	 * bbMap.put("<br/>", "[br]"); for (Map.Entry entry : bbMap.entrySet()) {
+	 * html = html.replaceAll(entry.getKey().toString(), entry.getValue()
+	 * .toString()); } bbMap = new HashMap<String, String>(); bbMap.put("<",
+	 * "&lt;"); bbMap.put(">", "&gt;"); for (Map.Entry entry : bbMap.entrySet())
+	 * { html = html.replaceAll(entry.getKey().toString(), entry.getValue()
+	 * .toString()); } return html; }
+	 */
 
 	/**
 	 * The main bbcode convert method
@@ -29,11 +35,16 @@ public class BBAdapter {
 	 * @return The decoded html text
 	 */
 	public static String process(String text) {
+		// System.out.println(text);
 		String html = text;
 
+		html = html.replaceAll("<br/>", "[br]");
+		html = html.replaceAll("<", "&lt;");
+		html = html.replaceAll(">", "&gt;");
+
 		Map<String, String> bbMap = new HashMap<String, String>();
-		bbMap.put("<", "&lt;");
-		bbMap.put(">", "&gt;");
+
+		bbMap.put("\\[br\\]", "<br/>");
 		bbMap.put("(\r\n|\r|\n|\n\r)", "<br/>");
 		bbMap.put("\\[b\\](.+?)\\[/b\\]", "<strong>$1</strong>");
 		bbMap.put("\\[i\\](.+?)\\[/i\\]",
@@ -81,7 +92,6 @@ public class BBAdapter {
 			html = html.replaceAll(entry.getKey().toString(), entry.getValue()
 					.toString());
 		}
-
 		return html;
 	}
 }

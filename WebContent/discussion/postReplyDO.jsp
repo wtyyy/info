@@ -89,18 +89,19 @@ if ( ! ("cs".equals(request.getParameter("zone")) || "food".equals(request.getPa
 <%
 	} catch (NumberFormatException e) {
 		response.sendRedirect("../message.jsp?message="
-				+ URLEncoder.encode("数字格式错误", "utf-8")
-				+ URLEncoder.encode("&redirect=/Test/discussion/postReply.jsp?topicid="+Integer.valueOf(request.getParameter("belongs"))+"&zone="+request.getParameter("zone"), "utf-8"));
+				+ URLEncoder.encode("操作失败，请检查数据格式", "utf-8")+
+				"&redirect="+ URLEncoder.encode("/Test/discussion/postReply.jsp?topicid="+Integer.valueOf(request.getParameter("belongs"))+"&zone="+request.getParameter("zone"), "utf-8"));
 		return;
 	} catch (SQLException e) {
 		response.sendRedirect("../message.jsp?message="
-				+ URLEncoder.encode("SQL操作失败，请检查数据格式", "utf-8")
-				+ URLEncoder.encode("&redirect=/Test/discussion/postReply.jsp?topicid="+Integer.valueOf(request.getParameter("belongs"))+"&zone="+request.getParameter("zone"), "utf-8"));
+				+ URLEncoder.encode("操作失败，请检查数据格式", "utf-8")+
+				"&redirect="+ URLEncoder.encode("/Test/discussion/postReply.jsp?topicid="+Integer.valueOf(request.getParameter("belongs"))+"&zone="+request.getParameter("zone"), "utf-8"));
 		return;
 	} catch (Exception e) {
 		response.sendRedirect("../message.jsp?message="
-				+ URLEncoder.encode("操作失败，请检查数据格式", "utf-8")
-				+ URLEncoder.encode("&redirect=/Test/discussion/postReply.jsp?topicid="+Integer.valueOf(request.getParameter("belongs"))+"&zone="+request.getParameter("zone"), "utf-8"));
+				+ URLEncoder.encode("操作失败，请检查数据格式", "utf-8")+
+				"&redirect="+ URLEncoder.encode("/Test/discussion/postReply.jsp?topicid="+Integer.valueOf(request.getParameter("belongs"))+"&zone="+request.getParameter("zone"), "utf-8"));
+		
 		return;
 	}
 %>

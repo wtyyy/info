@@ -33,13 +33,6 @@
 					.prepareStatement(
 							"insert into Forbidden(id) values(" + id + ")")
 					.execute();
-		} catch (SQLException e) {
-			response.sendRedirect("../message.jsp?message="
-					+ URLEncoder.encode("此人已被封过", "utf-8")
-					+ "&redirect=" + URLEncoder.encode("/Test/discussion/postReply.jsp?topicid="
-					+ request.getParameter("topicid") + "&zone="
-					+ request.getParameter("zone"), "utf-8"));
-			return;
 		} catch (Exception e) {
 			response.sendRedirect("../message.jsp?message="
 					+ URLEncoder.encode("操作失败，请检查数据格式", "utf-8")

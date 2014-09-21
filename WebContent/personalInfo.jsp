@@ -87,7 +87,7 @@ Connection conn = null;
             <li>
               <label for="password">新密码(不修改密码请不填)<span class="red">*</span></label>
               <input type="password" name="password" class="text" value=""/>
-            </li>
+            </li> 
             <li>
               <label for="name">姓名<span class="red">*</span></label>
               <input id="name" name="name" class="text" value="<%=user.getName() %>"/>

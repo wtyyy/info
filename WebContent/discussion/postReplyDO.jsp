@@ -12,7 +12,12 @@ response.setCharacterEncoding("UTF-8");
 <jsp:useBean id="user" class="util.UserInfo" scope="session"/>
 <%@page import="java.net.URLEncoder"%>
 <% try { %>
-
+<%
+if ( ! ("cs".equals(request.getParameter("zone")) || "food".equals(request.getParameter("zone")) || "music".equals(request.getParameter("zone")) || "other".equals(request.getParameter("zone")) )) {
+	response.sendRedirect("/Test/discussion/index.jsp");
+	return;
+}
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -42,7 +47,7 @@ response.setCharacterEncoding("UTF-8");
 	if (rs.next()) {
 		out.println("<script language=\"javascript\">");
 		out.println("alert(\"你已被禁言，尚不能发言\");");
-		out.println("location.href=\"/Test/discussion/postReply.jsp?topicid="+(int)session.getAttribute("topicid")+"\";");
+		out.println("location.href=\"/Test/discussion/postReply.jsp?topicid="+Integer.valueOf(request.getParameter("belongs"))+"&zone="+request.getParameter("zone"));
 		out.println("</script>");
 	} else {
 	
@@ -85,17 +90,17 @@ response.setCharacterEncoding("UTF-8");
 	} catch (NumberFormatException e) {
 		response.sendRedirect("../message.jsp?message="
 				+ URLEncoder.encode("数字格式错误", "utf-8")
-				+ "&redirect=/Test/discussion/postReply.jsp?topicid="+Integer.valueOf(request.getParameter("belongs"))+"&zone="+request.getParameter("zone"));
+				+ URLEncoder.encode("&redirect=/Test/discussion/postReply.jsp?topicid="+Integer.valueOf(request.getParameter("belongs"))+"&zone="+request.getParameter("zone"), "utf-8"));
 		return;
 	} catch (SQLException e) {
 		response.sendRedirect("../message.jsp?message="
 				+ URLEncoder.encode("SQL操作失败，请检查数据格式", "utf-8")
-				+ "&redirect=/Test/discussion/postReply.jsp?topicid="+Integer.valueOf(request.getParameter("belongs"))+"&zone="+request.getParameter("zone"));
+				+ URLEncoder.encode("&redirect=/Test/discussion/postReply.jsp?topicid="+Integer.valueOf(request.getParameter("belongs"))+"&zone="+request.getParameter("zone"), "utf-8"));
 		return;
 	} catch (Exception e) {
 		response.sendRedirect("../message.jsp?message="
 				+ URLEncoder.encode("操作失败，请检查数据格式", "utf-8")
-				+ "&redirect=/Test/discussion/postReply.jsp?topicid="+Integer.valueOf(request.getParameter("belongs"))+"&zone="+request.getParameter("zone"));
+				+ URLEncoder.encode("&redirect=/Test/discussion/postReply.jsp?topicid="+Integer.valueOf(request.getParameter("belongs"))+"&zone="+request.getParameter("zone"), "utf-8"));
 		return;
 	}
 %>

@@ -13,9 +13,18 @@ response.setCharacterEncoding("UTF-8");
 <% try { %>
 <%
 int id = Integer.valueOf(request.getParameter("id"));
-if ("admin".equals(user.getPrivilege())) {
-	
-}
+
+ ResultSet set = Conn.getConn().prepareStatement("select from discussReply where id="+id).executeQuery();
+ if (!set.next()) {
+	 response.sendRedirect("/Test/discussion/postReply.jsp?topicid="+request.getParameter("topicid")+"&zone="+request.getParameter("zone"));
+	 return;
+ } else {
+	 if ( (set.getInt("userid")!=user.getId()) && (!"admin".equals(user.getPrivilege())) ) {
+		 response.sendRedirect("/Test/discussion/postReply.jsp?topicid="+request.getParameter("topicid")+"&zone="+request.getParameter("zone"));
+		 return;
+	 }
+ }
+
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -35,17 +44,17 @@ if ("admin".equals(user.getPrivilege())) {
 	} catch (NumberFormatException e) {
 		response.sendRedirect("../message.jsp?message="
 				+ URLEncoder.encode("数字格式错误", "utf-8")
-				+ "&redirect=/Test/discussion/postReply.jsp?topicid="+request.getParameter("topicid")+"&zone="+request.getParameter("zone"));
+				+ URLEncoder.encode("&redirect=/Test/discussion/postReply.jsp?topicid="+request.getParameter("topicid")+"&zone="+request.getParameter("zone"),"utf-8"));
 		return;
 	} catch (SQLException e) {
 		response.sendRedirect("../message.jsp?message="
 				+ URLEncoder.encode("SQL操作失败，请检查数据格式", "utf-8")
-				+ "&redirect=/Test/discussion/postReply.jsp?topicid="+request.getParameter("topicid")+"&zone="+request.getParameter("zone"));
+				+ URLEncoder.encode("&redirect=/Test/discussion/postReply.jsp?topicid="+request.getParameter("topicid")+"&zone="+request.getParameter("zone"),"utf-8"));
 		return;
 	} catch (Exception e) {
 		response.sendRedirect("../message.jsp?message="
 				+ URLEncoder.encode("操作失败，请检查数据格式", "utf-8")
-				+ "&redirect=/Test/discussion/postReply.jsp?topicid="+request.getParameter("topicid")+"&zone="+request.getParameter("zone"));
+				+ URLEncoder.encode("&redirect=/Test/discussion/postReply.jsp?topicid="+request.getParameter("topicid")+"&zone="+request.getParameter("zone"),"utf-8"));
 		return;
 	}
 %>

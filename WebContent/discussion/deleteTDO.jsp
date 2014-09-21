@@ -18,6 +18,18 @@ response.setCharacterEncoding("UTF-8");
 <%
 //delete a topic and redirect to the zone page
 	int id = Integer.valueOf(request.getParameter("id"));
+
+ResultSet set = Conn.getConn().prepareStatement("select from discuss where id="+id).executeQuery();
+if (!set.next()) {
+	 response.sendRedirect("/Test/discussion/postReply.jsp?topicid="+request.getParameter("topicid")+"&zone="+request.getParameter("zone"));
+	 return;
+} else {
+	 if ( (set.getInt("userid")!=user.getId()) && (!"admin".equals(user.getPrivilege())) ) {
+		 response.sendRedirect("/Test/discussion/postReply.jsp?topicid="+request.getParameter("topicid")+"&zone="+request.getParameter("zone"));
+		 return;
+	 }
+}
+
 	Conn.getConn().prepareStatement("delete from discussion where id="+id).execute();
 	Conn.getConn().prepareStatement("delete from discussReply where belongs="+id).execute();
 	response.sendRedirect("/Test/discussion/postTopic.jsp?zone="+request.getParameter("zone"));
@@ -29,17 +41,17 @@ response.setCharacterEncoding("UTF-8");
 	} catch (NumberFormatException e) {
 		response.sendRedirect("../message.jsp?message="
 				+ URLEncoder.encode("数字格式错误", "utf-8")
-				+ "&redirect=/Test/discussion/postTopic.jsp?zone="+request.getParameter("zone"));
+				+ URLEncoder.encode("&redirect=/Test/discussion/postTopic.jsp?zone="+request.getParameter("zone"),"utf-8"));
 		return;
 	} catch (SQLException e) {
 		response.sendRedirect("../message.jsp?message="
 				+ URLEncoder.encode("SQL操作失败，请检查数据格式", "utf-8")
-				+ "&redirect=/Test/discussion/postTopic.jsp?zone="+request.getParameter("zone"));
+				+ URLEncoder.encode("&redirect=/Test/discussion/postTopic.jsp?zone="+request.getParameter("zone"),"utf-8"));
 		return;
 	} catch (Exception e) {
 		response.sendRedirect("../message.jsp?message="
 				+ URLEncoder.encode("操作失败，请检查数据格式", "utf-8")
-				+ "&redirect=/Test/discussion/postTopic.jsp?zone="+request.getParameter("zone"));
+				+ URLEncoder.encode("&redirect=/Test/discussion/postTopic.jsp?zone="+request.getParameter("zone"),"utf-8"));
 		return;
 	}
 %>

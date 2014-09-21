@@ -22,7 +22,13 @@
 	<%
 		try {
 			int id = Integer.valueOf(request.getParameter("userid"));
+			if ("admin".equals(user.getPrivilege())) {
+				response.sendRedirect("/Test/discussion/postReply.jsp?topicid="
+						+ request.getParameter("topicid") + "&zone="
+						+ request.getParameter("zone"));
+				return;
 
+			}
 			Conn.getConn()
 					.prepareStatement(
 							"insert into Forbidden(id) values(" + id + ")")

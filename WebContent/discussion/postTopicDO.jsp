@@ -11,7 +11,12 @@ response.setCharacterEncoding("UTF-8");
 %>
 <jsp:useBean id="user" class="util.UserInfo" scope="session"/>
 <%@page import="java.net.URLEncoder"%>
-<% try { %>
+<% try { 
+if ( ! ("cs".equals(request.getParameter("zone")) || "food".equals(request.getParameter("zone")) || "music".equals(request.getParameter("zone")) || "other".equals(request.getParameter("zone")) )) {
+	response.sendRedirect("/Test/discussion/index.jsp");
+	return;
+}
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -30,7 +35,7 @@ response.setCharacterEncoding("UTF-8");
 		out.println("}");
 		out.println("else");
 		out.println("{");
-		out.println("location.href=\"/Test/discussion/postTopic.jsp"+"\";");
+		out.println("location.href=\"/Test/discussion/postTopic.jsp?zone="+request.getParameter("zone")+"\";");
 		out.println("}</script>");
 		
 	} else {
@@ -78,17 +83,17 @@ response.setCharacterEncoding("UTF-8");
 	} catch (NumberFormatException e) {
 		response.sendRedirect("../message.jsp?message="
 				+ URLEncoder.encode("数字格式错误", "utf-8")
-				+ "&redirect=/Test/discussion/postTopic.jsp?zone="+request.getParameter("zone"));
+				+ URLEncoder.encode("&redirect=/Test/discussion/postTopic.jsp?zone="+request.getParameter("zone"), "utf-8"));
 		return;
 	} catch (SQLException e) {
 		response.sendRedirect("../message.jsp?message="
 				+ URLEncoder.encode("SQL操作失败，请检查数据格式", "utf-8")
-				+ "&redirect=/Test/discussion/postTopic.jsp?zone="+request.getParameter("zone"));
+				+ URLEncoder.encode("&redirect=/Test/discussion/postTopic.jsp?zone="+request.getParameter("zone"), "utf-8"));
 		return;
 	} catch (Exception e) {
 		response.sendRedirect("../message.jsp?message="
 				+ URLEncoder.encode("操作失败，请检查数据格式", "utf-8")
-				+ "&redirect=/Test/discussion/postTopic.jsp?zone="+request.getParameter("zone"));
+				+ URLEncoder.encode("&redirect=/Test/discussion/postTopic.jsp?zone="+request.getParameter("zone"), "utf-8"));
 		return;
 	}
 %>

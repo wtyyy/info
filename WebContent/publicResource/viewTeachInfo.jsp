@@ -11,7 +11,12 @@
 <%@ page import="java.sql.*"%>
 <%@ page import="java.util.*"%>
 <jsp:useBean id="user" class="util.UserInfo" scope="session" />
-<%try{ %>
+<%
+Connection conn = null;
+ try { 
+	 conn = Conn.getConn();
+
+%>
 <%
 	request.setCharacterEncoding("UTF-8");
 	response.setCharacterEncoding("UTF-8");
@@ -139,5 +144,11 @@
 				+ URLEncoder.encode("操作失败，请检查数据格式", "utf-8")
 				+ "&redirect=" +request.getRequestURL());
 		return;
-	}
+	}  finally {
+		try {
+			conn.close();
+		} catch (Exception e) {
+			
+		}
+		}
 %>

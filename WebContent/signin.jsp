@@ -6,6 +6,10 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <jsp:useBean id="user" class="util.UserInfo" scope="session" />
 <%
+
+%>
+
+<%
 	request.setCharacterEncoding("UTF-8");
 	response.setCharacterEncoding("UTF-8");
 %>
@@ -97,7 +101,7 @@
 					: "<a href=\"/Test/logout.jsp\">注销</a></p>"%>
 					<div class="clr"></div>
 			</div>
-			<div class="clr"></div>
+			<div class="clr"></div> 
 		</div>
 	</div>
 </html>

@@ -12,7 +12,12 @@
 <%@ page import="java.sql.*"%>
 <%@ page import="java.util.*"%>
 <jsp:useBean id="user" class="util.UserInfo" scope="session" />
-<% try { %>
+<%
+Connection conn = null;
+ try { 
+	 conn = Conn.getConn();
+
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -96,12 +101,12 @@
 	}
 	else 
 	{
-		PreparedStatement st = Conn.getConn().prepareStatement("select * from Forbidden");
+		PreparedStatement st = conn.prepareStatement("select * from Forbidden");
 		ResultSet rs = st.executeQuery();
 		ArrayList<UserInfo> users = new ArrayList<UserInfo>();
 		while (rs.next()) {
 			int userid = rs.getInt("id");
-			PreparedStatement st2 = Conn.getConn().prepareStatement("select * from users where id="+userid);
+			PreparedStatement st2 = conn.prepareStatement("select * from users where id="+userid);
 			ResultSet rs2 = st2.executeQuery();
 			while (rs2.next()) {
 				UserInfo ui = ((UserInfo) (new BeanProcessor().toBean(
@@ -139,5 +144,11 @@
 				+ URLEncoder.encode("操作失败，请检查数据格式", "utf-8") 
 				+ "&redirect=" + URLEncoder.encode(request.getRequestURL()+"", "utf-8"));
 		return;
+} finally {
+	try {
+		conn.close();
+	} catch (Exception e) {
+		
+	}
 	}
 %> 

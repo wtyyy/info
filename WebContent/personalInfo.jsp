@@ -5,7 +5,13 @@
 <%@page import="java.util.*" %>
 <%@page import="java.sql.*" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<% try { %>
+<%
+Connection conn = null;
+ try { 
+	 conn = Conn.getConn();
+
+%>
+
 <jsp:useBean id="user" class="util.UserInfo" scope="session" />
 <%
 	request.setCharacterEncoding("UTF-8");
@@ -115,7 +121,7 @@
           </ol>
           <h2>当前头像</h2>
           <%
-          	PreparedStatement stmt = Conn.getConn().prepareStatement("select * from files where name=? and uploaderId=?");
+          	PreparedStatement stmt = conn.prepareStatement("select * from files where name=? and uploaderId=?");
             stmt.setString(1, "avatar-" + user.getId() + ".jpg");
             stmt.setInt(2, user.getId());
             ResultSet rs = stmt.executeQuery();
@@ -166,6 +172,12 @@
 				+ URLEncoder.encode("操作失败，请检查数据格式" + request.getRequestURL(), "utf-8")
 				+ "&redirect=" +request.getRequestURL());
 		return;
-	}
+	}  finally {
+		try {
+			conn.close();
+		} catch (Exception e) {
+			
+		}
+		}
 %>
 

@@ -12,7 +12,12 @@
 <%@ page import="java.util.*"%>
 <jsp:useBean id="user" class="util.UserInfo" scope="session" />
 <%@page import="java.net.URLEncoder"%>
-<% try { %>
+<%
+Connection conn = null;
+ try { 
+	 conn = Conn.getConn();
+
+%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -109,7 +114,7 @@ out.println(zoneName);
        <%
        		int $page = request.getParameter("page")==null?1:Integer.valueOf(request.getParameter("page"));
        		 
-       		Connection con = Conn.getConn();
+       		Connection con = conn;
        		ResultSet set = null;
        		
        		Statement st = con.createStatement();
@@ -201,7 +206,7 @@ out.println(zoneName);
 	<table id="customers">
 	<tr><th colspan="2">精华帖子</th></tr>
 			<%
-			ResultSet rs = Conn.getConn().prepareStatement("select * from Discussion where zone='"+zone +"' order by pros DESC").executeQuery();
+			ResultSet rs = conn.prepareStatement("select * from Discussion where zone='"+zone +"' order by pros DESC").executeQuery();
 			int j=0;
 			
 			while ((j++<8) && rs.next()) {
@@ -217,7 +222,7 @@ out.println(zoneName);
 		<tr><th colspan="2">快来吐槽</th></tr>
 	
 				<%
-			ResultSet rs2 = Conn.getConn().prepareStatement("select * from Discussion where zone='"+zone +"' order by cons DESC").executeQuery();
+			ResultSet rs2 = conn.prepareStatement("select * from Discussion where zone='"+zone +"' order by cons DESC").executeQuery();
 			int jj=0;
 			
 			while ((jj++<8) && rs2.next()) {
@@ -258,6 +263,12 @@ out.println(zoneName);
 		response.sendRedirect("../message.jsp?message="
 				+ URLEncoder.encode("操作失败，请检查数据格式" , "utf-8")
 				+ "&redirect=/Test/discussion/index.jsp");
-		return;
-	}
+		return; 
+	}  finally {
+		try {
+			conn.close();
+		} catch (Exception e) {
+			
+		}
+		}
 %>

@@ -10,7 +10,12 @@ response.setCharacterEncoding("UTF-8");
 %>
 <jsp:useBean id="user" class="util.UserInfo" scope="session"/>
 <%@page import="java.net.URLEncoder"%>
-<% try { %>
+<%
+Connection conn = null;
+ try { 
+	 conn = Conn.getConn();
+
+%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -21,12 +26,12 @@ response.setCharacterEncoding("UTF-8");
 <body>
 <%
 // add #pros of a topic 
-	PreparedStatement st = Conn.getConn().prepareStatement("select * from Discussion where id=?");
+	PreparedStatement st = conn.prepareStatement("select * from Discussion where id=?");
 	st.setInt(1, Integer.valueOf(request.getParameter("id")));
 	ResultSet rs = st.executeQuery();
 	if (rs.next()) {
 		int pros = rs.getInt("pros")+1;
-		PreparedStatement st2 = Conn.getConn().prepareStatement("update Discussion set pros=? where id=?");
+		PreparedStatement st2 = conn.prepareStatement("update Discussion set pros=? where id=?");
 		st2.setInt(1, pros);
 		st2.setInt(2, Integer.valueOf(request.getParameter("id")));
 		st2.executeUpdate();
@@ -41,6 +46,12 @@ response.setCharacterEncoding("UTF-8");
 		response.sendRedirect("../message.jsp?message="
 				+ URLEncoder.encode("操作失败，请检查数据格式", "utf-8")
 				+ "&redirect=" + URLEncoder.encode("/Test/discussion/postReply.jsp?topicid="+request.getParameter("id")+"&zone="+request.getParameter("zone"), "utf-8"));
-		return;
-	}
-%>
+		return; 
+	}  finally {
+		try {
+			conn.close();
+		} catch (Exception e) {
+			
+		}
+		}
+%> 

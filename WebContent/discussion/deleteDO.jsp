@@ -10,11 +10,16 @@ response.setCharacterEncoding("UTF-8");
 %>
 <jsp:useBean id="user" class="util.UserInfo" scope="session"/>
 <%@page import="java.net.URLEncoder"%>
-<% try { %>
+<%
+Connection conn = null;
+ try { 
+	 conn = Conn.getConn();
+
+%>
 <%
 int id = Integer.valueOf(request.getParameter("id"));
 
- ResultSet set = Conn.getConn().prepareStatement("select * from discussReply where id="+id).executeQuery();
+ ResultSet set = conn.prepareStatement("select * from discussReply where id="+id).executeQuery();
  if (!set.next()) {
 	 response.sendRedirect("/Test/discussion/postReply.jsp?topicid="+request.getParameter("topicid")+"&zone="+request.getParameter("zone"));
 	 return;
@@ -35,7 +40,7 @@ int id = Integer.valueOf(request.getParameter("id"));
 <body>
 <%
 // delete a reply
-	Conn.getConn().prepareStatement("delete from discussReply where id="+id).execute();
+	conn.prepareStatement("delete from discussReply where id="+id).execute();
 	response.sendRedirect("/Test/discussion/postReply.jsp?topicid="+request.getParameter("topicid")+"&zone="+request.getParameter("zone"));
 %>
 </body>
@@ -48,5 +53,11 @@ int id = Integer.valueOf(request.getParameter("id"));
 				+ "&redirect=" + URLEncoder.encode("/Test/discussion/postReply.jsp?topicid="+request.getParameter("topicid")+"&zone="+request.getParameter("zone"),"utf-8"));
 		
 		return;
-	}
+	} finally {
+		try {
+			conn.close();
+		} catch (Exception e) {
+			
+		}
+		}
 %>

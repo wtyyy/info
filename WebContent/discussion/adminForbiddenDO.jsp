@@ -9,7 +9,12 @@
 response.setCharacterEncoding("UTF-8");
 %>
 <%@page import="java.net.URLEncoder"%>
-<% try { %>
+<%
+Connection conn = null;
+ try { 
+	 conn = Conn.getConn();
+
+%>
 
 <jsp:useBean id="user" class="util.UserInfo" scope="session"/>
 <%
@@ -27,7 +32,7 @@ response.setCharacterEncoding("UTF-8");
 <body>
 <%
 	int id = Integer.valueOf(request.getParameter("userId"));
-	Conn.getConn().prepareStatement("delete from Forbidden where id="+id).execute();
+	conn.prepareStatement("delete from Forbidden where id="+id).execute();
 	response.sendRedirect("/Test/discussion/adminForbidden.jsp");
 %>
 </body>
@@ -38,5 +43,11 @@ response.setCharacterEncoding("UTF-8");
 				+ URLEncoder.encode("操作失败，请检查数据格式", "utf-8")
 				+ "&redirect=/Test/discussion/adminForbidden.jsp");
 		return;
-	}
+	}  finally {
+		try {
+			conn.close();
+		} catch (Exception e) {
+			
+		}
+		}
 %>

@@ -16,7 +16,10 @@
 <%@ page import="java.sql.*"%>
 <%@ page import="jdbc.*"%>
 <%
-	try {
+Connection conn = null;
+ try { 
+	 conn = Conn.getConn();
+
 %>
 <%
 	request.setCharacterEncoding("UTF-8");
@@ -35,7 +38,7 @@
 		}
 		pwd = MD5Tool.digest(pwd);
 
-		PreparedStatement st = Conn.getConn().prepareStatement(
+		PreparedStatement st = conn.prepareStatement(
 				"select * from users where email=? and password=?");
 		st.setString(1, email);
 		st.setString(2, pwd);
@@ -96,5 +99,11 @@
 				+ URLEncoder.encode("操作失败，请检查数据格式", "utf-8")
 				+ "&redirect=" + request.getRequestURL());
 		return;
-	}
+	}  finally {
+		try {
+			conn.close();
+		} catch (Exception e) {
+			
+		}
+		}
 %>

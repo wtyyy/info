@@ -10,7 +10,13 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="java.sql.*"%>
 <%@ page import="jdbc.*"%>
-<%try{ %>
+<%
+Connection conn = null;
+ try { 
+	 conn = Conn.getConn();
+
+%>
+
 <%
 	request.setCharacterEncoding("UTF-8");
 	response.setCharacterEncoding("UTF-8");
@@ -75,7 +81,7 @@
 	}
 	
 	Class.forName("com.mysql.jdbc.Driver");
-	Connection con = Conn.getConn();
+	Connection con = conn;
 	try {
 		int i = 0;
 		if ("reg".equals(request.getParameter("oper"))) {
@@ -192,5 +198,11 @@
 				+ URLEncoder.encode("操作失败，请检查数据格式", "utf-8"));
 		throw e;
 		//return;
-	}
+	}  finally {
+		try {
+			conn.close();
+		} catch (Exception e) {
+			
+		}
+		}
 %>

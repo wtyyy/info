@@ -11,7 +11,12 @@
 <%@ page import="java.sql.*"%>
 <%@ page import="java.util.*"%>
 <jsp:useBean id="user" class="util.UserInfo" scope="session" />
-<%try{ %>
+<%
+Connection conn = null;
+ try { 
+	 conn = Conn.getConn();
+
+%>
 <%
 	request.setCharacterEncoding("UTF-8");
 	response.setCharacterEncoding("UTF-8");
@@ -95,7 +100,7 @@
         	<h2>教务信息</h2>
 	<table id="customers">
 <%
-	ResultSet rs = Conn.getConn().prepareStatement("select * from teachInfo").executeQuery();
+	ResultSet rs = conn.prepareStatement("select * from teachInfo").executeQuery();
 	List<PublicInfo> infoList = new BeanProcessor().toBeanList(rs, PublicInfo.class);
 	for (PublicInfo info : infoList) {
 		out.print("<tr><td><a href=\"/Test/publicResource/viewTeachInfo.jsp?id=" + info.getId()+ "\">" + info.getTitle() + "</a></td></tr>");
@@ -136,5 +141,11 @@
 				+ URLEncoder.encode("操作失败，请检查数据格式", "utf-8")
 				+ "&redirect=" +request.getRequestURL());
 		return;
-	}
+	}  finally {
+		try {
+			conn.close();
+		} catch (Exception e) {
+			
+		}
+		}
 %>

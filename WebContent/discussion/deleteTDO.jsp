@@ -10,7 +10,12 @@ response.setCharacterEncoding("UTF-8");
 %>
 <jsp:useBean id="user" class="util.UserInfo" scope="session"/>
 <%@page import="java.net.URLEncoder"%>
-<% try { %>
+<%
+Connection conn = null;
+ try { 
+	 conn = Conn.getConn();
+
+%>
 
 <title>Insert title here</title>
 </head>
@@ -19,7 +24,7 @@ response.setCharacterEncoding("UTF-8");
 //delete a topic and redirect to the zone page
 	int id = Integer.valueOf(request.getParameter("id"));
 
-ResultSet set = Conn.getConn().prepareStatement("select * from discussion where id="+id).executeQuery();
+ResultSet set = conn.prepareStatement("select * from discussion where id="+id).executeQuery();
 if (!set.next()) {
 	 response.sendRedirect("/Test/discussion/postReply.jsp?topicid="+request.getParameter("topicid")+"&zone="+request.getParameter("zone"));
 	 return;
@@ -30,8 +35,8 @@ if (!set.next()) {
 	 }
 }
 
-	Conn.getConn().prepareStatement("delete from discussion where id="+id).execute();
-	Conn.getConn().prepareStatement("delete from discussReply where belongs="+id).execute();
+	conn.prepareStatement("delete from discussion where id="+id).execute();
+	conn.prepareStatement("delete from discussReply where belongs="+id).execute();
 	response.sendRedirect("/Test/discussion/postTopic.jsp?zone="+request.getParameter("zone"));
 	
 %>
@@ -43,5 +48,11 @@ if (!set.next()) {
 				+ URLEncoder.encode("操作失败，请检查数据格式", "utf-8")
 				+ "&redirect=" + URLEncoder.encode("/Test/discussion/postTopic.jsp?zone="+request.getParameter("zone"),"utf-8"));
 		return;
-	}
+	}  finally {
+		try {
+			conn.close();
+		} catch (Exception e) {
+			
+		}
+		}
 %>

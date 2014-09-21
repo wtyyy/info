@@ -81,13 +81,13 @@
 					<img src="images/team_1.gif" alt="" width="54" height="55"
 						class="floated" />
 					<p>
-						<strong>王天一</strong><br /> 住在116
+						<strong>王天一</strong><br /> 2012011282
 					</p>
 					<p>&nbsp;</p>
 					<img src="images/team_2.gif" alt="" width="54" height="55"
 						class="floated" />
 					<p>
-						<strong>袁源 </strong><br /> 住在113
+						<strong>袁源 </strong><br /> 2012011294
 					</p>
 					<p>&nbsp;</p>
 

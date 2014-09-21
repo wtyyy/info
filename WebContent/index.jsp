@@ -6,7 +6,12 @@
 <%@page import="java.sql.*" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <jsp:useBean id="user" class="util.UserInfo" scope="session" />
-<% try { %>
+<%
+Connection conn = null;
+ try { 
+	 conn = Conn.getConn();
+
+%>
 <%
 	request.setCharacterEncoding("UTF-8");
 	response.setCharacterEncoding("UTF-8");
@@ -91,7 +96,7 @@ $(document).ready(function(){
       <!-- start slideshow -->
       <div id="slideshow">
       	<%
-      		List<SlideNews> slideInfoList = new BeanProcessor().toBeanList(Conn.getConn().prepareStatement("select * from slideInfo").executeQuery(), SlideNews.class);
+      		List<SlideNews> slideInfoList = new BeanProcessor().toBeanList(conn.prepareStatement("select * from slideInfo").executeQuery(), SlideNews.class);
       	      		for (SlideNews info: slideInfoList) {
       	%>
       			<div class="slider-item"><a href="<%=info.getHref()%>"><img src="<%=info.getImage()%>" alt="" width="960" height="341" border="0" /></a></div>
@@ -151,7 +156,7 @@ $(document).ready(function(){
         	<h2>教务信息</h2>
 	<table id="customers">
 <%
-	ResultSet rs = Conn.getConn().prepareStatement("select * from teachInfo").executeQuery();
+	ResultSet rs = conn.prepareStatement("select * from teachInfo").executeQuery();
 	List<PublicInfo> infoList = new BeanProcessor().toBeanList(rs, PublicInfo.class);
 	for (PublicInfo info : infoList) {
 		out.print("<tr><td><a href=\"publicResource/viewTeachInfo.jsp?id=" + info.getId()+ "\">" + info.getTitle() + "</a></td></tr>");
@@ -271,5 +276,11 @@ $(document).ready(function(){
 				+ URLEncoder.encode("操作失败，请检查数据格式", "utf-8")
 				+ "&redirect=" +request.getRequestURL());
 		return;
-	}
+	}  finally {
+		try {
+			conn.close();
+		} catch (Exception e) {
+			
+		}
+		}
 %>

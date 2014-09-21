@@ -11,7 +11,11 @@ response.setCharacterEncoding("UTF-8");
 %>
 <jsp:useBean id="user" class="util.UserInfo" scope="session"/>
 <%@page import="java.net.URLEncoder"%>
-<% try { 
+<%
+Connection conn = null;
+ try { 
+	 conn = Conn.getConn();
+
 if ( ! ("cs".equals(request.getParameter("zone")) || "food".equals(request.getParameter("zone")) || "music".equals(request.getParameter("zone")) || "other".equals(request.getParameter("zone")) )) {
 	response.sendRedirect("/Test/discussion/index.jsp");
 	return;
@@ -40,7 +44,7 @@ if ( ! ("cs".equals(request.getParameter("zone")) || "food".equals(request.getPa
 		
 	} else {
 	
-	PreparedStatement st =  Conn.getConn().prepareStatement("select * from Forbidden where id=?");
+	PreparedStatement st =  conn.prepareStatement("select * from Forbidden where id=?");
 	st.setInt(1, user.getId());
 	ResultSet rs = st.executeQuery();
 	if (rs.next()) {
@@ -49,7 +53,7 @@ if ( ! ("cs".equals(request.getParameter("zone")) || "food".equals(request.getPa
 		out.println("location.href=\"/Test/discussion/postTopic.jsp"+"\";");
 		out.println("</script>");
 	} else {
-	st = Conn.getConn().prepareStatement(
+	st = conn.prepareStatement(
 		"insert into discussion(topic, content, appendixURL, userid, discussType, pros, cons, postDate, belongs, zone, " +
 		"userName, lastReplyId, lastReplyName, lastReplyTime) "
 				+ "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
@@ -87,5 +91,11 @@ if ( ! ("cs".equals(request.getParameter("zone")) || "food".equals(request.getPa
 				+ URLEncoder.encode("操作失败，请检查数据格式", "utf-8")
 				+ "&redirect=" + URLEncoder.encode("/Test/discussion/postTopic.jsp?zone="+request.getParameter("zone"), "utf-8"));
 		return;
-	}
+	}  finally {
+		try {
+			conn.close();
+		} catch (Exception e) {
+			
+		}
+		}
 %>

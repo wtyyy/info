@@ -10,7 +10,12 @@
 	pageEncoding="UTF-8"%>
 <%@ page import="java.sql.*"%>
 <%@ page import="java.util.*"%>
-<%try{ %>
+<%
+Connection conn = null;
+ try { 
+	 conn = Conn.getConn();
+
+%>
 <jsp:useBean id="user" class="util.UserInfo" scope="session" />
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML a1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -116,7 +121,7 @@ $(document).ready(function(){
 	<h2>资源列表</h2>
 	<table id="customers">
 <%
-	ResultSet rs = Conn.getConn().prepareStatement("select * from publicInfo where type="+$type).executeQuery();
+	ResultSet rs = conn.prepareStatement("select * from publicInfo where type="+$type).executeQuery();
 	List<PublicInfo> infoList = new BeanProcessor().toBeanList(rs, PublicInfo.class);
 	for (PublicInfo info : infoList) {
 		out.print("<tr><td height=25><a href=\"viewInfo.jsp?id=" + info.getId()+ "\">" + info.getTitle() + "</a></td></tr>");
@@ -165,5 +170,11 @@ $(document).ready(function(){
 				+ URLEncoder.encode("操作失败，请检查数据格式", "utf-8")
 				+ "&redirect=/Test/publicResource/index.jsp");
 		return;
-	}
+	}  finally {
+		try {
+			conn.close();
+		} catch (Exception e) {
+			
+		}
+		}
 %>

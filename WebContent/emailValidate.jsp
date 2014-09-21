@@ -9,7 +9,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="java.sql.*"%>
-<% try { %>
+<%
+Connection conn = null;
+ try { 
+	 conn = Conn.getConn();
+
+%>
 <%
 	request.setCharacterEncoding("UTF-8");
 	response.setCharacterEncoding("UTF-8");
@@ -30,7 +35,7 @@
 	int code = Integer.parseInt(request.getParameter("code"));
 	UserInfo user = UserInfo.getById(id);
 	if (user.getEmail().hashCode() == code) {
-		Conn.getConn().prepareStatement("update users set validated=1 where id=" + id).execute();
+		conn.prepareStatement("update users set validated=1 where id=" + id).execute();
 		response.sendRedirect("message.jsp?message="+URLEncoder.encode("验证email成功，可以登录了", "utf-8") + "&redirect=/Test/signin.jsp");
 	} else {
 		response.sendRedirect("message.jsp?message=" + URLEncoder.encode("验证码错误", "utf-8") + "&redirect=index.jsp");
@@ -55,5 +60,11 @@
 				+ URLEncoder.encode("操作失败，请检查数据格式", "utf-8")
 				+ "&redirect=" +request.getRequestURL());
 		return;
-	}
+	}  finally {
+		try {
+			conn.close();
+		} catch (Exception e) {
+			
+		}
+		}
 %>

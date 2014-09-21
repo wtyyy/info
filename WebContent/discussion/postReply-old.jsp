@@ -16,7 +16,7 @@ response.setCharacterEncoding("UTF-8");
 <body>
 <%	int topicid = Integer.parseInt(request.getParameter("topicid"));	
 
-	Connection con = Conn.getConn();
+	Connection con = null;
 	ResultSet set = null, set2 = null;
 	session.setAttribute("topicid", topicid);
 	Statement st = con.createStatement();

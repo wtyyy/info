@@ -11,7 +11,12 @@ response.setCharacterEncoding("UTF-8");
 %>
 <jsp:useBean id="user" class="util.UserInfo" scope="session"/>
 <%@page import="java.net.URLEncoder"%>
-<% try { %>
+<%
+Connection conn = null;
+ try { 
+	 conn = Conn.getConn();
+
+%>
 <%
 if ( ! ("cs".equals(request.getParameter("zone")) || "food".equals(request.getParameter("zone")) || "music".equals(request.getParameter("zone")) || "other".equals(request.getParameter("zone")) )) {
 	response.sendRedirect("/Test/discussion/index.jsp");
@@ -41,7 +46,7 @@ if ( ! ("cs".equals(request.getParameter("zone")) || "food".equals(request.getPa
 		out.println("}</script>");
 	} else {
 	
-	PreparedStatement st =  Conn.getConn().prepareStatement("select * from Forbidden where id=?");
+	PreparedStatement st =  conn.prepareStatement("select * from Forbidden where id=?");
 	st.setInt(1, user.getId());
 	ResultSet rs = st.executeQuery();
 	if (rs.next()) {
@@ -51,7 +56,7 @@ if ( ! ("cs".equals(request.getParameter("zone")) || "food".equals(request.getPa
 		out.println("</script>");
 	} else {
 	
-	st = Conn.getConn().prepareStatement(
+	st = conn.prepareStatement(
 		"insert into discussReply(content, appendixURL, userid, discussType, pros, cons, postDate, belongs, zone, userName)"
 				+ " values(?,?,?,?,?,?,?,?,?,?)");
 	
@@ -93,5 +98,11 @@ if ( ! ("cs".equals(request.getParameter("zone")) || "food".equals(request.getPa
 				"&redirect="+ URLEncoder.encode("/Test/discussion/postReply.jsp?topicid="+Integer.valueOf(request.getParameter("belongs"))+"&zone="+request.getParameter("zone"), "utf-8"));
 		
 		return;
-	}
+	} finally {
+		try {
+			conn.close();
+		} catch (Exception e) {
+			
+		}
+		}
 %>

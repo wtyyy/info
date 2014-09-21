@@ -20,7 +20,12 @@
 </head>
 <body>
 	<%
-		try {
+Connection conn = null;
+ try { 
+	 conn = Conn.getConn();
+
+
+
 			int id = Integer.valueOf(request.getParameter("userid"));
 			if (!"admin".equals(user.getPrivilege())) {
 				response.sendRedirect("/Test/discussion/postReply.jsp?topicid="
@@ -29,7 +34,7 @@
 				return;
 
 			}
-			Conn.getConn()
+			conn
 					.prepareStatement(
 							"insert into Forbidden(id) values(" + id + ")")
 					.execute();
@@ -48,7 +53,13 @@
 					+ request.getParameter("topicid") + "&zone="
 					+ request.getParameter("zone"), "utf-8"));
 			return;
-		}
+		}  finally {
+			try {
+				conn.close();
+			} catch (Exception e) {
+				
+			}
+			}
 		// if a person has been forbidden, then the one should not be forbidden again
 	%>
 

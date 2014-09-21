@@ -53,8 +53,10 @@ if ( ! ("cs".equals(request.getParameter("zone")) || "food".equals(request.getPa
 		"insert into discussion(topic, content, appendixURL, userid, discussType, pros, cons, postDate, belongs, zone, " +
 		"userName, lastReplyId, lastReplyName, lastReplyTime) "
 				+ "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
-	
-	st.setString(1, request.getParameter("topic"));
+	String myTopic = request.getParameter("topic");
+	myTopic = myTopic.replaceAll("<", "&lt;");
+	myTopic = myTopic.replaceAll(">", "&gt;");
+	st.setString(1, myTopic);
 	st.setString(2, request.getParameter("content"));
 	st.setString(3, request.getParameter("appendixURL"));
 	st.setInt(4, user.getId());

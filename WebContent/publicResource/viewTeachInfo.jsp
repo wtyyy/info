@@ -104,7 +104,7 @@ Connection conn = null;
         	<h2>教务信息列表</h2>
 	<table id="customers">
 <%
-	ResultSet rs = Conn.getConn().prepareStatement("select * from teachInfo").executeQuery();
+	ResultSet rs = conn.prepareStatement("select * from teachInfo").executeQuery();
 	List<TeachInfo> infoList = new BeanProcessor().toBeanList(rs, TeachInfo.class);
 	for (TeachInfo info2 : infoList) {
 		out.print("<tr><td height=25><a href=\"viewTeachInfo.jsp?id=" + info2.getId()+ "\">" + info2.getTitle() + "</a></td></tr>");

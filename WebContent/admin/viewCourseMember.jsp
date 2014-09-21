@@ -176,7 +176,7 @@ $(document).ready(function(){
 					.printUsers(
 							new BeanProcessor()
 									.toBeanList(
-											Conn.getConn()
+											con
 													.prepareStatement(
 															"select * from users where privilege='student'")
 													.executeQuery(),

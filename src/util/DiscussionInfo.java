@@ -1,6 +1,7 @@
 package util;
 
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
@@ -367,10 +368,12 @@ public class DiscussionInfo {
 	 */
 	public void printContent(JspWriter out, boolean isSelf, boolean isAdmin)
 			throws IOException {
+		Connection con = null;
 		try {
+			con = Conn.getConn();
 			String img;
-			PreparedStatement stmt = Conn.getConn().prepareStatement(
-					"select * from files where name=? and uploaderId=?");
+			PreparedStatement stmt = con
+					.prepareStatement("select * from files where name=? and uploaderId=?");
 			stmt.setString(1, "avatar-" + userid + ".jpg");
 			stmt.setInt(2, userid);
 			ResultSet rs = stmt.executeQuery();
@@ -394,6 +397,12 @@ public class DiscussionInfo {
 					+ getZanCaiPrint() + "</td>" + "</tr>");
 		} catch (Exception e) {
 			out.println("<%response.sendRedirect(\"/Test/message.jsp?message=\"	+ URLEncoder.encode(\"操作失败，请检查数据格式\" + request.getRequestURL(), \"utf-8\") + \"&redirect=\" +request.getRequestURL());%>");
+		} finally {
+			try {
+				con.close();
+			} catch (Exception e) {
+
+			}
 		}
 	}
 

@@ -53,7 +53,6 @@
         <p>这是java小学期的作业</p>
         <h2>我们的目标</h2>
         <p>实现全部要求项和加分项</p>
-        <img src="images/about_1.jpg" alt="" width="581" height="136" />
         <h2>我们是谁 ?</h2>
         <p>计二二班学生<br />
           </p>

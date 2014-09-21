@@ -231,7 +231,7 @@ try {
 					<h2>
 						<b>添加/修改动态展示板</b>
 					</h2>
-					<form method="get" action="infoManage.jsp" name="addForm"
+					<form method="get" action="infoShowManage.jsp" name="addForm"
 						id="contactform">
 						<input type="hidden" name="oper" value="addSlide">
 						<ol>
@@ -253,7 +253,7 @@ try {
 					<h2>
 						<b>管理已有展示</b>
 					</h2>
-					<form method="get" action="infoManage.jsp">
+					<form method="get" action="infoShowManage.jsp">
 						<table id="customers">
 							<tr>
 								<td>选择</td>

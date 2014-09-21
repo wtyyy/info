@@ -165,7 +165,6 @@ try {
 									PreparedStatement st = con
 											.prepareStatement("delete from teachInfo where id="
 													+ id);
-									st.executeUpdate();
 									if (st.executeUpdate() > 0) {
 										out.println("操作成功");
 									} else {

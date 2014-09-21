@@ -42,6 +42,7 @@ public class CourseSelect {
 		Connection con = null;
 		try {
 			con = Conn.getConn();
+			con.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
 			con.setAutoCommit(false);
 			ResultSet myCourses = con.prepareStatement(
 					"select * from studentChooseCourse where studentId='"

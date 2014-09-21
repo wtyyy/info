@@ -87,7 +87,7 @@ if ( ! ("cs".equals(request.getParameter("zone")) || "food".equals(request.getPa
 </html>
 
 <%
-	 catch (Exception e) {
+} catch (Exception e) {
 		response.sendRedirect("../message.jsp?message="
 				+ URLEncoder.encode("操作失败，请检查数据格式", "utf-8")+
 				"&redirect="+ URLEncoder.encode("/Test/discussion/postReply.jsp?topicid="+Integer.valueOf(request.getParameter("belongs"))+"&zone="+request.getParameter("zone"), "utf-8"));

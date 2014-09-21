@@ -1,6 +1,7 @@
 package util;
 
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -62,13 +63,19 @@ public class SlideNews {
 
 	static public SlideNews getById(int id) throws SQLException, IOException,
 			ClassNotFoundException {
-		ResultSet rs = Conn.getConn()
-				.prepareStatement("select * from slideInfo where id=" + id)
-				.executeQuery();
-		if (rs.next()) {
-			return (SlideNews) new BeanProcessor().toBean(rs, SlideNews.class);
-		} else {
-			throw new SQLException();
+		Connection con = null;
+		try {
+			con = Conn.getConn();
+			ResultSet rs = con.prepareStatement(
+					"select * from slideInfo where id=" + id).executeQuery();
+			if (rs.next()) {
+				return (SlideNews) new BeanProcessor().toBean(rs,
+						SlideNews.class);
+			} else {
+				throw new SQLException();
+			}
+		} finally {
+			con.close();
 		}
 	}
 

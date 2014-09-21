@@ -1,5 +1,6 @@
 package file;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 
 import jdbc.Conn;
@@ -18,10 +19,11 @@ public class UploadCheck {
 			return "你没有登录";
 		}
 		if ("student".equals(user.getPrivilege())) {
-			Conn.getConn()
-					.prepareStatement(
-							"delete from files where uploaderId="
-									+ user.getId()).executeUpdate();
+			Connection con = Conn.getConn();
+			con.prepareStatement(
+					"delete from files where uploaderId=" + user.getId())
+					.executeUpdate();
+			con.close();
 		}
 		return null;
 	}

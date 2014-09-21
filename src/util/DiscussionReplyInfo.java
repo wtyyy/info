@@ -1,8 +1,10 @@
 package util;
 
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 
 import javax.servlet.jsp.JspWriter;
@@ -32,7 +34,8 @@ public class DiscussionReplyInfo {
 	}
 
 	/**
-	 * @param id the id to set
+	 * @param id
+	 *            the id to set
 	 */
 	public void setId(int id) {
 		this.id = id;
@@ -46,7 +49,8 @@ public class DiscussionReplyInfo {
 	}
 
 	/**
-	 * @param content the content to set
+	 * @param content
+	 *            the content to set
 	 */
 	public void setContent(String content) {
 		this.content = content;
@@ -60,7 +64,8 @@ public class DiscussionReplyInfo {
 	}
 
 	/**
-	 * @param appendixURL the appendixURL to set
+	 * @param appendixURL
+	 *            the appendixURL to set
 	 */
 	public void setAppendixURL(String appendixURL) {
 		this.appendixURL = appendixURL;
@@ -74,7 +79,8 @@ public class DiscussionReplyInfo {
 	}
 
 	/**
-	 * @param userid the userid to set
+	 * @param userid
+	 *            the userid to set
 	 */
 	public void setUserid(int userid) {
 		this.userid = userid;
@@ -88,7 +94,8 @@ public class DiscussionReplyInfo {
 	}
 
 	/**
-	 * @param userName the userName to set
+	 * @param userName
+	 *            the userName to set
 	 */
 	public void setUserName(String userName) {
 		this.userName = userName;
@@ -102,7 +109,8 @@ public class DiscussionReplyInfo {
 	}
 
 	/**
-	 * @param discussType the discussType to set
+	 * @param discussType
+	 *            the discussType to set
 	 */
 	public void setDiscussType(String discussType) {
 		this.discussType = discussType;
@@ -116,7 +124,8 @@ public class DiscussionReplyInfo {
 	}
 
 	/**
-	 * @param pros the pros to set
+	 * @param pros
+	 *            the pros to set
 	 */
 	public void setPros(int pros) {
 		this.pros = pros;
@@ -130,7 +139,8 @@ public class DiscussionReplyInfo {
 	}
 
 	/**
-	 * @param cons the cons to set
+	 * @param cons
+	 *            the cons to set
 	 */
 	public void setCons(int cons) {
 		this.cons = cons;
@@ -144,7 +154,8 @@ public class DiscussionReplyInfo {
 	}
 
 	/**
-	 * @param postDate the postDate to set
+	 * @param postDate
+	 *            the postDate to set
 	 */
 	public void setPostDate(Timestamp postDate) {
 		this.postDate = postDate;
@@ -158,7 +169,8 @@ public class DiscussionReplyInfo {
 	}
 
 	/**
-	 * @param belongs the belongs to set
+	 * @param belongs
+	 *            the belongs to set
 	 */
 	public void setBelongs(int belongs) {
 		this.belongs = belongs;
@@ -172,7 +184,8 @@ public class DiscussionReplyInfo {
 	}
 
 	/**
-	 * @param zone the zone to set
+	 * @param zone
+	 *            the zone to set
 	 */
 	public void setZone(String zone) {
 		this.zone = zone;
@@ -202,12 +215,11 @@ public class DiscussionReplyInfo {
 	 * @return "封" with the link
 	 */
 	public String getForbiddenPrint() {
-
+		Connection con = null;
 		try {
-			ResultSet rs = Conn
-					.getConn()
-					.prepareStatement(
-							"select * from Forbidden where id=" + userid)
+			con = Conn.getConn();
+			ResultSet rs = con.prepareStatement(
+					"select * from Forbidden where id=" + userid)
 					.executeQuery();
 			if (!rs.next()) {
 				return "<a href=" + "/Test/discussion/forbidDO.jsp?userid="
@@ -251,10 +263,12 @@ public class DiscussionReplyInfo {
 	 */
 	public void printContent(JspWriter out, int floor, boolean isSelf,
 			boolean isAdmin) throws IOException {
+		Connection con = null;
 		try {
+			con = Conn.getConn();
 			String img;
-			PreparedStatement stmt = Conn.getConn().prepareStatement(
-					"select * from files where name=? and uploaderId=?");
+			PreparedStatement stmt = con
+					.prepareStatement("select * from files where name=? and uploaderId=?");
 			stmt.setString(1, "avatar-" + userid + ".jpg");
 			stmt.setInt(2, userid);
 			ResultSet rs = stmt.executeQuery();
@@ -276,6 +290,11 @@ public class DiscussionReplyInfo {
 					+ getZanCaiPrint() + "</td>" + "</td></tr>");
 		} catch (Exception e) {
 			out.println("<%response.sendRedirect(\"/Test/message.jsp?message=\"	+ URLEncoder.encode(\"操作失败，请检查数据格式\" + request.getRequestURL(), \"utf-8\") + \"&redirect=\" +request.getRequestURL());%>");
+		} finally {
+			try {
+				con.close();
+			} catch (SQLException e) {
+			}
 		}
 	}
 }

@@ -13,7 +13,7 @@
 <%@ page import="java.text.*"%>
 <%@ page import="util.*"%>
 <%
-Connection con = null;
+	Connection con = null;
 try {
 	con = Conn.getConn();
 %>
@@ -90,8 +90,9 @@ try {
 				<div class="menu">
 					<ul>
 						<li><a href="/Test/index.jsp"><span>登陆首页</span></a></li>
-									<li><a href="/Test/publicResource/teach.jsp" ><span>教务信息 </span></a></li>
-						
+						<li><a href="/Test/publicResource/teach.jsp"><span>教务信息
+							</span></a></li>
+
 						<li><a href="/Test/publicResource/" class="active"><span>公共资源界面
 							</span></a></li>
 						<li><a href="/Test/student/courseSelect.jsp"><span>
@@ -110,7 +111,7 @@ try {
 			<div class="header">
 				<h2>教务信息管理</h2>
 				<p>
-					添加、删除、修改教务信息<br /> 
+					添加、删除、修改教务信息<br />
 				</p>
 			</div>
 			<div class="clr"></div>
@@ -122,60 +123,64 @@ try {
 
 					<%
 						boolean slideModify = false;
-						SlideNews modifySlide = null;
-						boolean isModify = false;
-						TeachInfo modifyInfo = null;
-						String operation = request.getParameter("oper");
-						if (operation != null) {
-							if (operation.equals("add")) {
-								int id = Integer.parseInt(request.getParameter("infoId"));
-								System.out.println(id);
-								String title = request.getParameter("title"), text = request
-										.getParameter("docText");
-								if (title == null) {
-									title = "";
-								}
-								if (text == null) {
-									text = "";
-								}
-								PreparedStatement st = null;
-								if (id == -1) {
-									st = Conn
-											.getConn()
-											.prepareStatement(
-													"insert into teachInfo(title, text) values(?,?)");
-								} else {
-									st = con.prepareStatement(
-											"update teachInfo set title=?,text=? where id="
+							SlideNews modifySlide = null;
+							boolean isModify = false;
+							TeachInfo modifyInfo = null;
+							String operation = request.getParameter("oper");
+							if (operation != null) {
+								if (operation.equals("add")) {
+									int id = Integer.parseInt(request
+											.getParameter("infoId"));
+									System.out.println(id);
+									String title = request.getParameter("title"), text = request
+											.getParameter("docText");
+									if (title == null) {
+										title = "";
+									}
+									if (text == null) {
+										text = "";
+									}
+									PreparedStatement st = null;
+									if (id == -1) {
+										st = con.prepareStatement("insert into teachInfo(title, text) values(?,?)");
+									} else {
+										st = con.prepareStatement("update teachInfo set title=?,text=? where id="
+												+ id);
+									}
+									st.setString(1, title);
+									st.setString(2, text);
+
+									if (st.executeUpdate() > 0) {
+										out.println("操作成功");
+									} else {
+										response.sendRedirect("../message.jsp?message="
+												+ URLEncoder
+														.encode("操作失败，请检查数据格式", "utf-8"));
+										return;
+									}
+
+								} else if (operation.equals("delete")) {
+									int id = Integer.parseInt(request
+											.getParameter("infoId"));
+									PreparedStatement st = con
+											.prepareStatement("delete from teachInfo where id="
 													+ id);
+									st.executeUpdate();
+									if (st.executeUpdate() > 0) {
+										out.println("操作成功");
+									} else {
+										response.sendRedirect("../message.jsp?message="
+												+ URLEncoder
+														.encode("操作失败，请检查数据格式", "utf-8"));
+										return;
+									}
+								} else if (operation.equals("modify")) {
+									isModify = true;
+									int id = Integer.parseInt(request
+											.getParameter("infoId"));
+									modifyInfo = TeachInfo.getById(id);
 								}
-								st.setString(1, title);
-								st.setString(2, text);
-
-								if (st.executeUpdate() > 0) {
-									out.println("操作成功");
-								} else {
-									response.sendRedirect("../message.jsp?message="+URLEncoder.encode("操作失败，请检查数据格式", "utf-8"));
-								 	return;
-								}
-
-							} else if (operation.equals("delete")) {
-								int id = Integer.parseInt(request.getParameter("infoId"));
-								PreparedStatement st = con.prepareStatement(
-										"delete from teachInfo where id=" + id);
-								st.executeUpdate();
-								if (st.executeUpdate() > 0) {
-									out.println("操作成功");
-								} else {
-									response.sendRedirect("../message.jsp?message="+URLEncoder.encode("操作失败，请检查数据格式", "utf-8"));
-								 	return;
-								}
-							} else if (operation.equals("modify")) {
-								isModify = true;
-								int id = Integer.parseInt(request.getParameter("infoId"));
-								modifyInfo = TeachInfo.getById(id);
 							}
-						}
 					%>
 					<body>
 						<h2>添加/修改教务信息：</h2>
@@ -189,10 +194,12 @@ try {
 								<li><label for="title">标题</label> <input type="text"
 									name="title" id="title"
 									value="<%=isModify ? modifyInfo.getTitle() : ""%>" class="text" /></li>
-								<li><label for="docText">内容：</label><textarea name="docText" rows="20" cols="100" id="docText"
+								<li><label for="docText">内容：</label>
+								<textarea name="docText" rows="20" cols="100" id="docText"
 										class="text" class="text" /><%=isModify ? modifyInfo.getText() : ""%></textarea></li>
 
-								<li><label for="submitButton">点击提交更改</label><input type="submit" value="提交" id="submitButton"></li>
+								<li><label for="submitButton">点击提交更改</label><input
+									type="submit" value="提交" id="submitButton"></li>
 							</ol>
 						</form>
 
@@ -204,39 +211,37 @@ try {
 									<td>标题</td>
 								</tr>
 								<%
-									ResultSet rs = con
-											.prepareStatement("select * from teachInfo")
-											.executeQuery();
-									java.util.List<TeachInfo> infoList = new BeanProcessor()
-											.toBeanList(rs, TeachInfo.class);
-									for (TeachInfo info : infoList) {
-										out.print("<tr><td><input type=\"radio\" name=\"infoId\" value=\""
-												+ info.getId()
-												+ "\" checked></td>"
-												+ "<td><a href=\"../publicResource/viewTeachInfo.jsp?id="
-												+ info.getId()
-												+ "\">"
-												+ info.getTitle()
-												+ "</a></td></tr>");
-									}
+									ResultSet rs = con.prepareStatement("select * from teachInfo")
+												.executeQuery();
+										java.util.List<TeachInfo> infoList = new BeanProcessor()
+												.toBeanList(rs, TeachInfo.class);
+										for (TeachInfo info : infoList) {
+											out.print("<tr><td><input type=\"radio\" name=\"infoId\" value=\""
+													+ info.getId()
+													+ "\" checked></td>"
+													+ "<td><a href=\"../publicResource/viewTeachInfo.jsp?id="
+													+ info.getId()
+													+ "\">"
+													+ info.getTitle()
+													+ "</a></td></tr>");
+										}
 								%>
 							</table>
 							<button name="oper" type="submit" value="delete">删除</button>
 							<button name="oper" type="submit" value="modify">修改</button>
 						</form>
-						
-						
-						
 				</div>
 			</div>
 		</div>
 		<div class="clr"></div>
 		<div class="footer">
 			<div class="footer_resize">
-      <p class="leftt">© Copyright wty&yy . All Rights Reserved</p>
-      <p class="right"> 当前登录用户：<%=user.getEmail()==null?"您尚未登录":user.getEmail() %><br />
-      <%=user.getEmail()==null?"<a href=\"/Test/signin.jsp\">登录</a></p>":"<a href=\"/Test/logout.jsp\">注销</a></p>"%>
-      <div class="clr"></div>
+				<p class="leftt">© Copyright wty&yy . All Rights Reserved</p>
+				<p class="right">
+					当前登录用户：<%=user.getEmail() == null ? "您尚未登录" : user.getEmail()%><br />
+					<%=user.getEmail() == null ? "<a href=\"/Test/signin.jsp\">登录</a></p>"
+						: "<a href=\"/Test/logout.jsp\">注销</a></p>"%>
+				<div class="clr"></div>
 				<div class="clr"></div>
 			</div>
 			<div class="clr"></div>
@@ -247,24 +252,24 @@ try {
 <%
 	} catch (NumberFormatException e) {
 		response.sendRedirect("/Test/message.jsp?message="
-				+ URLEncoder.encode("数字格式错误", "utf-8")
-				+ "&redirect=" +request.getRequestURL());
+				+ URLEncoder.encode("数字格式错误", "utf-8") + "&redirect="
+				+ request.getRequestURL());
 		return;
 	} catch (SQLException e) {
 		response.sendRedirect("/Test/message.jsp?message="
 				+ URLEncoder.encode("SQL操作失败，请检查数据格式", "utf-8")
-				+ "&redirect=" +request.getRequestURL());
+				+ "&redirect=" + request.getRequestURL());
 		return;
 	} catch (Exception e) {
 		response.sendRedirect("/Test/message.jsp?message="
 				+ URLEncoder.encode("操作失败，请检查数据格式", "utf-8")
-				+ "&redirect=" +request.getRequestURL());
+				+ "&redirect=" + request.getRequestURL());
 		return;
 	} finally {
 		try {
 			con.close();
 		} catch (Exception e) {
-			
+
 		}
 	}
 %>

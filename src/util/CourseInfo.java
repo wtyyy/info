@@ -1,6 +1,7 @@
 package util;
 
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -199,25 +200,29 @@ public class CourseInfo {
 
 	static public List<CourseInfo> getStudentCourseList(int studentId)
 			throws ClassNotFoundException, SQLException {
-		List<StudentChooseCourse> pairList = new BeanProcessor().toBeanList(
-				Conn.getConn()
-						.prepareStatement(
-								"select * from studentChooseCourse where studentId="
-										+ studentId).executeQuery(),
-				StudentChooseCourse.class);
-		ArrayList<CourseInfo> result = new ArrayList<CourseInfo>();
-		for (StudentChooseCourse pair : pairList) {
-			ResultSet rs = Conn
-					.getConn()
-					.prepareStatement(
-							"select * from Courses where id=" + pair.courseId)
-					.executeQuery();
-			if (rs.next()) {
-				result.add((CourseInfo) new BeanProcessor().toBean(rs,
-						CourseInfo.class));
+		Connection con = null;
+		try {
+			con = Conn.getConn();
+			List<StudentChooseCourse> pairList = new BeanProcessor()
+					.toBeanList(
+							con.prepareStatement(
+									"select * from studentChooseCourse where studentId="
+											+ studentId).executeQuery(),
+							StudentChooseCourse.class);
+			ArrayList<CourseInfo> result = new ArrayList<CourseInfo>();
+			for (StudentChooseCourse pair : pairList) {
+				ResultSet rs = con.prepareStatement(
+						"select * from Courses where id=" + pair.courseId)
+						.executeQuery();
+				if (rs.next()) {
+					result.add((CourseInfo) new BeanProcessor().toBean(rs,
+							CourseInfo.class));
+				}
 			}
+			return result;
+		} finally {
+			con.close();
 		}
-		return result;
 	}
 
 	int id;

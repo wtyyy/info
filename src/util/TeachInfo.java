@@ -1,6 +1,7 @@
 package util;
 
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -71,13 +72,19 @@ public class TeachInfo {
 	 */
 	static public TeachInfo getById(int id) throws SQLException, IOException,
 			ClassNotFoundException {
-		ResultSet rs = Conn.getConn()
-				.prepareStatement("select * from teachInfo where id=" + id)
-				.executeQuery();
-		if (rs.next()) {
-			return (TeachInfo) new BeanProcessor().toBean(rs, TeachInfo.class);
-		} else {
-			throw new SQLException();
+		Connection con = null;
+		try {
+			con = Conn.getConn();
+			ResultSet rs = con.prepareStatement(
+					"select * from teachInfo where id=" + id).executeQuery();
+			if (rs.next()) {
+				return (TeachInfo) new BeanProcessor().toBean(rs,
+						TeachInfo.class);
+			} else {
+				throw new SQLException();
+			}
+		} finally {
+			con.close();
 		}
 	}
 

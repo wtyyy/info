@@ -73,8 +73,7 @@ if ( ! ("cs".equals(request.getParameter("zone")) || "food".equals(request.getPa
 	
 	st.executeUpdate();
 	
-	st = Conn
-			.getConn()
+	st = conn
 			.prepareStatement(
 					"update discussion set lastReplyId=?, lastReplyTime=?, lastReplyName=? where id=?");
 	st.setInt(1, user.getId());

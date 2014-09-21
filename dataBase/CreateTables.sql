@@ -1,18 +1,18 @@
 CREATE TABLE `courses` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL DEFAULT 'default',
   `teacher` varchar(45) NOT NULL DEFAULT 'bin xu',
   `day` int(11) NOT NULL DEFAULT '0',
   `block` int(11) NOT NULL DEFAULT '0',
-  `text` text,
-  `startTime` date DEFAULT NULL,
-  `endTime` date DEFAULT NULL,
-  `capacity` int(11) DEFAULT '100',
-  `selectStartTime` date DEFAULT NULL,
-  `selectEndTime` date DEFAULT NULL,
+  `text` text NOT NULL,
+  `startTime` date NOT NULL,
+  `endTime` date NOT NULL,
+  `capacity` int(11) unsigned NOT NULL DEFAULT '100',
+  `selectStartTime` date NOT NULL,
+  `selectEndTime` date NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name_UNIQUE` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `discussion` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -32,7 +32,7 @@ CREATE TABLE `discussion` (
   `userName` varchar(45) DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=67 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=75 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `discussReply` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -47,7 +47,7 @@ CREATE TABLE `discussReply` (
   `zone` enum('cs','food','music','other') COLLATE utf8_bin DEFAULT 'other',
   `userName` varchar(45) COLLATE utf8_bin DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=69 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=75 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 CREATE TABLE `files` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -57,7 +57,7 @@ CREATE TABLE `files` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `name_UNIQUE` (`name`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `Forbidden` (
   `id` int(11) NOT NULL,
@@ -76,8 +76,9 @@ CREATE TABLE `publicInfo` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` text NOT NULL,
   `text` text NOT NULL,
+  `type` int(11) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `slideInfo` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -91,7 +92,7 @@ CREATE TABLE `studentChooseCourse` (
   `studentId` int(11) DEFAULT NULL,
   `courseId` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=91 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `studentChooseCourseHistory` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -100,14 +101,14 @@ CREATE TABLE `studentChooseCourseHistory` (
   `operation` enum('select','deselect') NOT NULL,
   `time` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=121 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `teachInfo` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` text NOT NULL,
   `text` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `users` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -127,7 +128,8 @@ CREATE TABLE `users` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   UNIQUE KEY `email_UNIQUE` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=63 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=utf8;
+
 
 
 INSERT INTO `wtyInfo`.`users`

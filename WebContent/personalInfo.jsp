@@ -77,7 +77,11 @@ Connection conn = null;
               <input id="email" name="email" class="text" value="<%=user.getEmail() %>" />
             </li>
             <li>
-              <label for="password">密码<span class="red">*</span></label>
+              <label for="oldPassword">旧密码(不修改密码请不填)<span class="red">*</span></label>
+              <input type="password" name="oldPassword" class="text" value=""/>
+            </li>
+            <li>
+              <label for="password">新密码(不修改密码请不填)<span class="red">*</span></label>
               <input type="password" name="password" class="text" value=""/>
             </li>
             <li>

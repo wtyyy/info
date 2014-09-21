@@ -22,7 +22,12 @@ public class Conn {
 		Class.forName("com.mysql.jdbc.Driver");
 		return DriverManager
 				.getConnection(
+<<<<<<< HEAD
 						"jdbc:mysql://59.66.244.34:3306/wtyInfo?useUnicode=true&characterEncoding=UTF-8",
 						"scyue", "");
+=======
+						"jdbc:mysql://localhost:3306/wtyInfo?useUnicode=true&characterEncoding=UTF-8",
+						"root", "");
+>>>>>>> origin/master
 	}
 }

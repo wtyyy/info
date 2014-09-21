@@ -11,31 +11,7 @@ Title=Overview
 
 [FILES]
 overview-summary.html
-file\package-summary.html
-file\FileUploadDBServlet.html
-file\UploadCheck.html
 jdbc\package-summary.html
 jdbc\Conn.html
-util\package-summary.html
-util\BBAdapter.html
-util\CourseInfo.html
-util\CourseSelect.html
-util\CourseTable.html
-util\CourseTime.html
-util\CsProfessorSpider.html
-util\DateTimePrint.html
-util\DBFileGetter.html
-util\DiscussionInfo.html
-util\DiscussionReplyInfo.html
-util\MailUtil.html
-util\MD5Tool.html
-util\ProfessorInfo.html
-util\PublicInfo.html
-util\SlideNews.html
-util\StudentChooseCourse.html
-util\StudentChooseCourseHistory.html
-util\TeachInfo.html
-util\UserInfo.html
-util\UserTable.html
 
 [INFOTYPES]

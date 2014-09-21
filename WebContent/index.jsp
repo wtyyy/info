@@ -158,10 +158,14 @@ $(document).ready(function(){
 <%
 	ResultSet rs = conn.prepareStatement("select * from teachInfo order by id DESC").executeQuery();
 	int ci=0;
+	int scaleOfText=1;
+	if (user.getEmail()==null) {
+		scaleOfText=5;
+	}
 	List<PublicInfo> infoList = new BeanProcessor().toBeanList(rs, PublicInfo.class);
 	for (PublicInfo info : infoList) {
 		out.print("<tr><td><a id=\"speicialLink\" href=\"publicResource/viewTeachInfo.jsp?id=" + info.getId()+ "\">" + info.getTitle() + "</a><br/>");
-		out.print("<a id=\"teachContent\">"+info.getText().substring(0, info.getText().length()<40?info.getText().length():40)+(info.getText().length()<40?"":"...")+"</a></td></tr>");
+		out.print("<a id=\"teachContent\">"+info.getText().substring(0, info.getText().length()<40*scaleOfText?info.getText().length():40*scaleOfText)+(info.getText().length()<40*scaleOfText?"":"...")+"</a></td></tr>");
 		ci++;
 		if (ci==5) break;
 	}

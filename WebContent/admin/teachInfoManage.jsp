@@ -147,7 +147,7 @@ try {
 										st = con.prepareStatement("update teachInfo set title=?,text=? where id="
 												+ id);
 									}
-									st.setString(1, title);
+									st.setString(1, BBAdapter.encode(title));
 									st.setString(2, text);
 
 									if (st.executeUpdate() > 0) {

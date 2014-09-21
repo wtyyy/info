@@ -70,11 +70,11 @@
 
 						st.setInt(9, course.getId());
 					}
-					st.setString(1, course.getName());
-					st.setString(2, course.getTeacher());
+					st.setString(1, BBAdapter.encode(course.getName()));
+					st.setString(2, BBAdapter.encode(course.getTeacher()));
 					st.setInt(3, course.getDay());
 					st.setInt(4, course.getBlock());
-					st.setString(5, course.getText());
+					st.setString(5, BBAdapter.encode(course.getText()));
 					st.setInt(6, course.getCapacity());
 					st.setDate(7, Date.valueOf(course.getStartTime()));
 					st.setDate(8, Date.valueOf(course.getEndTime()));

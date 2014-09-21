@@ -36,8 +36,12 @@ Connection conn = null;
   font-size:1em;
   border:1px solid #53868B;
   padding:3px 7px 2px 7px;
+  
   }
-
+#customers img 
+  {
+  max-width:500px
+  }
 #customers th 
   {
   font-size:1.1em;
@@ -92,10 +96,12 @@ Connection conn = null;
   <div class="body">
     <div class="body_resize">
       <div class="left">
+      <div id="customers">
        <h2><% out.println(info.getTitle()); %></h2><br/>
 			<%
 			out.println(BBAdapter.process(info.getText()));
 				%>
+				</div>
       </div>
           <div class="right">
     
@@ -113,7 +119,7 @@ Connection conn = null;
 	ResultSet rs = conn.prepareStatement("select * from publicInfo where type="+info.getType()).executeQuery();
 	List<PublicInfo> infoList = new BeanProcessor().toBeanList(rs, PublicInfo.class);
 	for (PublicInfo inf : infoList) {
-		out.print("<tr><td><a href=\"/Test/publicResource/viewInfo.jsp?id=" + info.getId()+ "\">" + inf.getTitle() + "</a></td></tr>");
+		out.print("<tr><td><a href=\"/Test/publicResource/viewInfo.jsp?id=" + inf.getId()+ "\">" + inf.getTitle() + "</a></td></tr>");
 	}
 %>
     	</table>

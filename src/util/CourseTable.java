@@ -161,6 +161,7 @@ public class CourseTable {
 						ableOnly);
 				return;
 			}
+			out.println("<tr>");
 			Calendar selectStartDate = Calendar.getInstance();
 			selectStartDate.setTime(new SimpleDateFormat("yyyy-MM-dd")
 					.parse(course.getStartTime()));
@@ -174,82 +175,83 @@ public class CourseTable {
 						&& (nowDate.before(selectStartDate.getTime()) || nowDate
 								.after(selectEndDate.getTime()))) {
 					if (ableOnly) {
+						out.println("</tr>");
 						return;
 					}
-					out.println("<tr>");
+
 					out.println("<td>-</td>");
 				} else {
 					out.println("<td><input type=\"radio\" checked=\"true\" name=\"courseId\" value=\""
 							+ course.getId() + "\" /></td>");
 				}
-			}
-			out.println("<td>" + course.getId() + "</td>");
-			out.println("<td>" + course.getName() + "</td>");
+				out.println("<td>" + course.getId() + "</td>");
+				out.println("<td>" + course.getName() + "</td>");
 
-			PreparedStatement st = conn
-					.prepareStatement("select * from professorInfo where name=?");
+				PreparedStatement st = conn
+						.prepareStatement("select * from professorInfo where name=?");
 
-			st.setString(1, course.getTeacher());
-			ResultSet rs = st.executeQuery();
+				st.setString(1, course.getTeacher());
+				ResultSet rs = st.executeQuery();
 
-			if (rs.next()) {
-				out.println("<td><a href=\"/Test/viewTeacherInfo.jsp?id="
-						+ rs.getInt("id") + "\">" + course.getTeacher()
-						+ "</a></td>");
+				if (rs.next()) {
+					out.println("<td><a href=\"/Test/viewTeacherInfo.jsp?id="
+							+ rs.getInt("id") + "\">" + course.getTeacher()
+							+ "</a></td>");
 
-			} else {
-				out.println("<td>" + course.getTeacher() + "</td>");
-			}
-
-			out.println("<td>" + course.getDay() + "</td>");
-			out.println("<td>" + course.getBlock() + "</td>");
-			out.println("<td>" + course.getCapacity() + "</td>");
-			ResultSet whoChosedThisCourse = conn.createStatement()
-					.executeQuery(
-							"select count(*) from studentChooseCourse where courseId="
-									+ course.getId());
-			int chosedNumber = 0;
-			if (whoChosedThisCourse.next()) {
-				chosedNumber = whoChosedThisCourse.getInt(1);
-			}
-			out.println("<td>" + chosedNumber + "</td>");
-			out.println("<td>" + course.getStartTime() + "</td>");
-			out.println("<td>" + course.getEndTime() + "</td>");
-			// 算所剩课时啦啦啦啦啦啦
-			if (!(course.getStartTime() == null
-					|| course.getStartTime().equals("")
-					|| course.getEndTime() == null || course.getEndTime()
-					.equals(""))) {
-				int remainTime = 0;
-				Calendar startDate = Calendar.getInstance();
-				startDate.setTime(new SimpleDateFormat("yyyy-MM-dd")
-						.parse(course.getStartTime()));
-
-				Calendar endDate = Calendar.getInstance();
-				endDate.setTime(new SimpleDateFormat("yyyy-MM-dd").parse(course
-						.getEndTime()));
-				Calendar nowCalendar = Calendar.getInstance();
-				if (startDate.after(nowCalendar)) {
-					nowCalendar = startDate;
+				} else {
+					out.println("<td>" + course.getTeacher() + "</td>");
 				}
-				for (; nowCalendar.get(GregorianCalendar.DAY_OF_WEEK) - 1 != course
-						.getDay();) {
-					nowCalendar.add(GregorianCalendar.DATE, 1);
-				}
-				for (; !nowCalendar.after(endDate);) {
-					remainTime++;
-					nowCalendar.add(GregorianCalendar.DATE, 7);
-				}
-				out.println("<td>" + remainTime + "</td>");
-			} else {
 
-				out.println("<td>不可用</td>");
+				out.println("<td>" + course.getDay() + "</td>");
+				out.println("<td>" + course.getBlock() + "</td>");
+				out.println("<td>" + course.getCapacity() + "</td>");
+				ResultSet whoChosedThisCourse = conn.createStatement()
+						.executeQuery(
+								"select count(*) from studentChooseCourse where courseId="
+										+ course.getId());
+				int chosedNumber = 0;
+				if (whoChosedThisCourse.next()) {
+					chosedNumber = whoChosedThisCourse.getInt(1);
+				}
+				out.println("<td>" + chosedNumber + "</td>");
+				out.println("<td>" + course.getStartTime() + "</td>");
+				out.println("<td>" + course.getEndTime() + "</td>");
+				// 算所剩课时啦啦啦啦啦啦
+				if (!(course.getStartTime() == null
+						|| course.getStartTime().equals("")
+						|| course.getEndTime() == null || course.getEndTime()
+						.equals(""))) {
+					int remainTime = 0;
+					Calendar startDate = Calendar.getInstance();
+					startDate.setTime(new SimpleDateFormat("yyyy-MM-dd")
+							.parse(course.getStartTime()));
+
+					Calendar endDate = Calendar.getInstance();
+					endDate.setTime(new SimpleDateFormat("yyyy-MM-dd")
+							.parse(course.getEndTime()));
+					Calendar nowCalendar = Calendar.getInstance();
+					if (startDate.after(nowCalendar)) {
+						nowCalendar = startDate;
+					}
+					for (; nowCalendar.get(GregorianCalendar.DAY_OF_WEEK) - 1 != course
+							.getDay();) {
+						nowCalendar.add(GregorianCalendar.DATE, 1);
+					}
+					for (; !nowCalendar.after(endDate);) {
+						remainTime++;
+						nowCalendar.add(GregorianCalendar.DATE, 7);
+					}
+					out.println("<td>" + remainTime + "</td>");
+				} else {
+
+					out.println("<td>不可用</td>");
+				}
+
+				out.println("<td>" + course.getText() + "</td>");
+				out.println("<td>" + course.getSelectStartTime() + "</td>");
+				out.println("<td>" + course.getSelectEndTime() + "</td>");
+				out.println("</tr>");
 			}
-
-			out.println("<td>" + course.getText() + "</td>");
-			out.println("<td>" + course.getSelectStartTime() + "</td>");
-			out.println("<td>" + course.getSelectEndTime() + "</td>");
-			out.println("</tr>");
 		} catch (Exception e) {
 
 		} finally {

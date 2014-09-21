@@ -228,56 +228,32 @@
 								}
 							}
 					%>
-					<br/>
+										<br/>
 					<a href="infoManage.jsp">资源管理</a>
 					<a href="infoShowManage.jsp">展示板管理</a>
 					
-					<h2><b>添加/修改资源</b></h2>
-
-					<form method="post" action="infoManage.jsp" name="addForm"
+					<h2><b>添加/修改动态展示板</b></h2>
+					<form method="get" action="infoManage.jsp" name="addForm"
 						id="contactform">
-						<input type="hidden" name="oper" value="add">
+						<input type="hidden" name="oper" value="addSlide">
 						<ol>
-							<li><label for="infoId">修改ID(-1为添加)</label><input
-								type="text" name="infoId" id="infoId"
-								value="<%=isModify ? modifyInfo.getId() : -1%>" class="text" /></li>
-							<li><label for="title">标题</label> <input type="text"
-								name="title" id="title"
-								value="<%=isModify ? modifyInfo.getTitle() : ""%>" class="text" /></li>
-							<li><label for="docText">内容</label> <textarea id="docText"
-									name="docText" rows="20" cols="100" id="docText" class="text"
-									class="text"><%=isModify ? modifyInfo.getText() : ""%></textarea></li>
-
-							<li><label for="imageUrl">插入图片</label> <input type="text"
-								name="imageUrl" class="text"> <input type="button"
-								onClick="javascript:this.form.docText.value+='[img]'+this.form.imageUrl.value+'[/img]';"
-								value="插入" /></li>
-							<li><label for="flashurl">插入flash视频</label> <input
-								type="text" name="flashUrl" class="text" id="flashUrl" /><input
-								type="button"
-								onClick="javascript:this.form.docText.value+='[flash]'+this.form.flashUrl.value+'[/flash]';"
-								value="插入" /></li>
-							<li><label for="soundUrl">插入声音</label><input type="text"
-								name="soundUrl" id="soundUrl" class="text" /><input
-								type="button"
-								onClick="javascript:this.form.docText.value+='[sound]'+this.form.soundUrl.value+'[/sound]';"
-								value="插入" /></li>
-							<li>
-							<input type="radio" name="type" value="1" checked/><label>视频资源</label>
- 							</li>
- 							<li>
- 							<input type="radio" name="type" value="2" /><label>音频资源</label>
- 							</li>
- 							<li>
- 							<input type="radio" name="type" value="3" /><label>图片资源</label>
-							</li>
+							<li><label for="slideId">修改ID(-1为添加)</label><input
+								type="text" name="slideId" id="slideId"
+								value="<%=slideModify ? modifySlide.getId() : -1%>" class="text" /></li>
+							<li><label for="image">图片路径</label> <input type="text"
+								name="image" id="image"
+								value="<%=slideModify ? modifySlide.getImage() : ""%>"
+								class="text" /></li>
+							<li><label for="href">链接到</label> <input type="text"
+								name="href" id="href"
+								value="<%=slideModify ? modifySlide.getHref() : ""%>"
+								class="text" /></li>
 							<li><label for="submitButton">点击提交更改</label><input
 								type="submit" value="提交" id="submitButton"></li>
-								
-						</ol>
+							
 					</form>
 
-					<h2><b>管理已有资源</b></h2>
+					<h2><b>管理已有展示</b></h2>
 					<form method="get" action="infoManage.jsp">
 						<table id="customers">
 							<tr>
@@ -285,28 +261,28 @@
 								<td>标题</td>
 							</tr>
 							<%
-								ResultSet rs = Conn.getConn()
-											.prepareStatement("select * from publicInfo")
+								ResultSet rs = Conn.getConn().prepareStatement("select * from slideInfo")
 											.executeQuery();
-									java.util.List<PublicInfo> infoList = new BeanProcessor()
-											.toBeanList(rs, PublicInfo.class);
-									for (PublicInfo info : infoList) {
-										out.print("<tr><td><input type=\"radio\" name=\"infoId\" value=\""
+									java.util.List<SlideNews> slideList = new BeanProcessor()
+											.toBeanList(rs, SlideNews.class);
+									for (SlideNews info : slideList) {
+										out.print("<tr><td><input type=\"radio\" name=\"slideId\" value=\""
 												+ info.getId()
 												+ "\" checked></td>"
-												+ "<td><a href=\"../publicResource/viewInfo.jsp?id="
-												+ info.getId()
+												+ "<td><a href=\""
+												+ info.getHref()
+												+ "\"><img src=\""
+												+ info.getImage()
 												+ "\">"
-												+ info.getTitle()
 												+ "</a></td></tr>");
 									}
 							%>
 						</table>
-						<button name="oper" type="submit" value="delete">删除</button>
-						<button name="oper" type="submit" value="modify">修改</button>
+						<button name="oper" type="submit" value="deleteSlide">删除</button>
+						<button name="oper" type="submit" value="modifySlide">修改</button>
 					</form>
-					<br/><a href="fileManage.jsp">你可以使用上传功能上传资源，然后在此发布。</a>
-
+					<br/>					<a href="fileManage.jsp">你可以使用上传功能上传资源，然后在此发布。</a>
+					
 				</div>
 			</div>
 		</div>

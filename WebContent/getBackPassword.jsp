@@ -1,3 +1,4 @@
+<%@page import="util.MailUtil"%>
 <%@page import="util.MD5Tool"%>
 <%@page import="java.net.URLEncoder"%>
 <%@page import="util.UserTable"%>
@@ -16,66 +17,31 @@
 <%@ page import="java.sql.*"%>
 <%@ page import="jdbc.*"%>
 <%
+	request.setCharacterEncoding("UTF-8");
+		response.setCharacterEncoding("UTF-8");
+%>
+<%
 Connection conn = null;
  try { 
 	 conn = Conn.getConn();
 
 %>
-<%
-	request.setCharacterEncoding("UTF-8");
-		response.setCharacterEncoding("UTF-8");
-%>
 <jsp:useBean id="user" class="util.UserInfo" scope="session" />
 <%
-	String email = request.getParameter("uname");
-		String pwd = request.getParameter("pass");
-
-		if (email == null || pwd == null) {
+		String email = request.getParameter("uname");
+		if (email == null || "".equals(email)) {
 			response.sendRedirect("message.jsp?message="
-					+ URLEncoder.encode("无效的用户名密码", "utf-8")
+					+ URLEncoder.encode("无效的email", "utf-8")
 					+ "&redirect=/Test/signin.jsp");
 			return;
 		}
-		pwd = MD5Tool.digest(pwd);
-
-		PreparedStatement st = conn.prepareStatement(
-				"select * from users where email=? and password=?");
-		st.setString(1, email);
-		st.setString(2, pwd);
-		ResultSet rs = st.executeQuery();
-		if (rs.next()) {
-			UserInfo tempUser = (UserInfo) new BeanProcessor().toBean(
-					rs, UserInfo.class);
-			out.println(tempUser);
-			if (tempUser.getBlocked() == 1) {
-				session.setAttribute("user", null);
-				response.sendRedirect("message.jsp?message="
-						+ URLEncoder.encode("你是封禁用户", "utf-8"));
-				return;
-			} else if (tempUser.getValidated() == 0) {
-				session.setAttribute("user", null);
-				response.sendRedirect("message.jsp?message="
-						+ URLEncoder.encode("邮箱没有验证哦", "utf-8"));
-				return;
-			} else {
-				session.setAttribute("user", tempUser);
-				if (request.getParameter("redirect") != null
-						&& !"".equals(request.getParameter("redirect"))) {
-
-					response.sendRedirect(request
-							.getParameter("redirect"));
-				} else {
-					response.sendRedirect("index.jsp");
-				}
-				return;
-			}
-		} else {
-
-			response.sendRedirect("message.jsp?message="
-					+ URLEncoder.encode("用户名或密码错误", "utf-8")
-					+ "&redirect=/Test/signin.jsp");
-			return;
-		}
+		
+		UserInfo tempUser = UserInfo.getByEmail(email);
+		MailUtil.sendTo("找回密码", "用户" + email + "想要找回密码，<a href=\"http://localhost:8080/Test/emailValidate.jsp?oper=getBack&id=" + tempUser.getId() + "&code=" + tempUser.getPassword()+ "\">点击继续</a>\0", email);
+		response.sendRedirect("/Test/message.jsp?message="
+				+ URLEncoder.encode("验证邮件已经发送，请查收", "utf-8"));
+		return;
+	
 	} catch (NumberFormatException e) {
 		response.sendRedirect("/Test/message.jsp?message="
 				+ URLEncoder.encode("数字格式错误", "utf-8") + "&redirect="

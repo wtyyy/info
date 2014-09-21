@@ -86,7 +86,7 @@
 					System.out.print(tempUser);
 					MailUtil.sendTo("邮箱验证",
 							"注册成功，<a href=\"http://localhost:8080/Test/emailValidate.jsp?id="
-									+ tempUser.getId() + "&code="
+									+ tempUser.getId() + "&oper=validate&code="
 									+ tempUser.getEmail().hashCode()
 									+ "\">验证邮箱</a>\0",
 							tempUser.getEmail());
@@ -121,7 +121,7 @@
 					stmt.setInt(1, user.getId());
 					stmt.setString(2, MD5Tool.digest(oldPass));
 					if (stmt.executeQuery().next()) {
-						st = con.prepareStatement("update users set name=?, gender=?, dateBorn=?, tel=?, emergencyContactName=?, emergencyContactTel=?, address=?, qq=?, password=? where id=?");
+						st = con.prepareStatement("update users set name=?, gender=?, dateBorn=?, tel=?, emergencyContactName=?, emergencyContactTel=?, address=?, qq=?, nickName=?, password=? where id=?");
 					} else {
 						response.sendRedirect("message.jsp?message="
 								+ URLEncoder.encode("旧密码错误", "utf-8")
@@ -186,7 +186,8 @@
 		response.sendRedirect("message.jsp?message="
 				+ URLEncoder.encode("格式错误或者email已经使用,严重的错误",
 						"utf-8"));
-		return;
+		throw e;
+		//return;
 	}catch (Exception e) {
 		response.sendRedirect("/Test/message.jsp?message="
 				+ URLEncoder.encode("操作失败，请检查数据格式", "utf-8"));

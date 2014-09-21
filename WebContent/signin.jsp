@@ -6,7 +6,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <jsp:useBean id="user" class="util.UserInfo" scope="session" />
 <%
-
+	
 %>
 
 <%
@@ -34,8 +34,7 @@
 						<li><a href="/Test/publicResource/teach.jsp"><span>教务信息
 							</span></a></li>
 
-						<li><a href="/Test/publicResource/"><span>公共资源页面
-							</span></a></li>
+						<li><a href="/Test/publicResource/"><span>公共资源页面 </span></a></li>
 						<li><a href="/Test/student/courseSelect.jsp"><span>
 									课程管理页面</span></a></li>
 						<li><a href="/Test/discussion/"><span>讨论区</span></a></li>
@@ -84,6 +83,18 @@
 								<div class="clr"></div></li>
 						</ol>
 					</form>
+					<h2>找回密码</h2>
+					<form action="getBackPassword.jsp" method="post" id="contactform">
+
+						<ol>
+							<li><label for="email">电子邮箱地址 <span class="red">*</span></label>
+								<input id="email" name="uname" class="text" /></li>
+							<li class="buttons"><input type="image" name="imageField"
+								id="imageField" src="images/send.gif" class="send"
+								onclick="javascript:document.getElementById('contactform').submit();" />
+								<div class="clr"></div></li>
+						</ol>
+					</form>
 				</div>
 				<div class="right"></div>
 				<div class="clr"></div>
@@ -101,7 +112,7 @@
 					: "<a href=\"/Test/logout.jsp\">注销</a></p>"%>
 					<div class="clr"></div>
 			</div>
-			<div class="clr"></div> 
+			<div class="clr"></div>
 		</div>
 	</div>
 </html>

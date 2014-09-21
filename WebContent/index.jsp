@@ -29,14 +29,14 @@ Connection conn = null;
 
 #customers td, #customers th 
   {
-  font-size:1em;
+  font-size:0.8em;
   border:1px solid #53868B;
   padding:3px 7px 2px 7px;
   }
 
 #customers th 
   {
-  font-size:1.1em;
+  font-size:0.9em;
   text-align:left;
   padding-top:5px;
   padding-bottom:4px;
@@ -156,13 +156,18 @@ $(document).ready(function(){
         	<h2>教务信息</h2>
 	<table id="customers">
 <%
-	ResultSet rs = conn.prepareStatement("select * from teachInfo").executeQuery();
+	ResultSet rs = conn.prepareStatement("select * from teachInfo order by id DESC").executeQuery();
+	int ci=0;
 	List<PublicInfo> infoList = new BeanProcessor().toBeanList(rs, PublicInfo.class);
 	for (PublicInfo info : infoList) {
-		out.print("<tr><td><a href=\"publicResource/viewTeachInfo.jsp?id=" + info.getId()+ "\">" + info.getTitle() + "</a></td></tr>");
+		out.print("<tr><td><a id=\"speicialLink\" href=\"publicResource/viewTeachInfo.jsp?id=" + info.getId()+ "\">" + info.getTitle() + "</a><br/>");
+		out.print("<a id=\"teachContent\">"+info.getText().substring(0, info.getText().length()<40?info.getText().length():40)+(info.getText().length()<40?"":"...")+"</a></td></tr>");
+		ci++;
+		if (ci==5) break;
 	}
 %>
 </table>
+<div align="right"><a href="/Test/publicResource/teach.jsp" id="teachContent" >更多</a></div>
       </div>
       <div class="left">
         <%if("admin".equals(user.getPrivilege())) { %>
@@ -181,7 +186,7 @@ $(document).ready(function(){
         		List<CourseInfo> courseList = CourseInfo.getStudentCourseList(user.getId());
         %>
         <table border="1" id="customers">
-        	<tr><th>节</th><td>星期日</td><th>星期一</th><td>星期二</td><th>星期三</th><td>星期四</td><th>星期五</th><td>星期六</td></tr>
+        	<tr><th>节</th><td width=100px>星期日</td><th width=100px>星期一</th><td width=100px>星期二</td><th width=100px>星期三</th><td width=100px>星期四</td><th width=100px>星期五</th><td width=100px>星期六</td></tr>
         	<%
         		for (int i = 0; i < 5; i ++) {
         			%>
@@ -270,8 +275,7 @@ $(document).ready(function(){
 		response.sendRedirect("/Test/message.jsp?message="
 				+ URLEncoder.encode("SQL操作失败，请检查数据格式", "utf-8")
 				+ "&redirect=" +request.getRequestURL());
-		throw e;
-		//return;
+		return;
 	} catch (Exception e) {
 		response.sendRedirect("/Test/message.jsp?message="
 				+ URLEncoder.encode("操作失败，请检查数据格式", "utf-8")

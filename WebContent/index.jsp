@@ -270,7 +270,8 @@ $(document).ready(function(){
 		response.sendRedirect("/Test/message.jsp?message="
 				+ URLEncoder.encode("SQL操作失败，请检查数据格式", "utf-8")
 				+ "&redirect=" +request.getRequestURL());
-		return;
+		throw e;
+		//return;
 	} catch (Exception e) {
 		response.sendRedirect("/Test/message.jsp?message="
 				+ URLEncoder.encode("操作失败，请检查数据格式", "utf-8")

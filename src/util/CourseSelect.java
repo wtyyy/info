@@ -39,10 +39,10 @@ public class CourseSelect {
 			throws SQLException, IOException, ClassNotFoundException,
 			ParseException {
 
-		Connection con = Conn.getConn();
+		Connection con = null;
 		try {
+			con = Conn.getConn();
 			con.setAutoCommit(false);
-
 			ResultSet myCourses = con.prepareStatement(
 					"select * from studentChooseCourse where studentId='"
 							+ studentId + "'").executeQuery();
@@ -129,27 +129,27 @@ public class CourseSelect {
 
 	public static String deselect(int studentId, int courseId)
 			throws ClassNotFoundException, SQLException {
-		int result = Conn
-				.getConn()
-				.createStatement()
-				.executeUpdate(
-						"delete from studentChooseCourse where studentId='"
-								+ studentId + "' and courseId='" + courseId
-								+ "'");
-		if (result > 0) {
-			PreparedStatement st = Conn
-					.getConn()
-					.prepareStatement(
-							"insert into studentChooseCourseHistory(studentId, courseId, operation,time) values(?,?,?,?)");
-			st.setInt(1, studentId);
-			st.setInt(2, courseId);
-			st.setString(3, "deselect");
-			st.setTimestamp(4,
-					Timestamp.from(Calendar.getInstance().toInstant()));
-			st.executeUpdate();
-			return null;
-		} else {
-			return "你没选这门课";
+		Connection con = null;
+		try {
+			con = Conn.getConn();
+			int result = con.createStatement().executeUpdate(
+					"delete from studentChooseCourse where studentId='"
+							+ studentId + "' and courseId='" + courseId + "'");
+			if (result > 0) {
+				PreparedStatement st = con
+						.prepareStatement("insert into studentChooseCourseHistory(studentId, courseId, operation,time) values(?,?,?,?)");
+				st.setInt(1, studentId);
+				st.setInt(2, courseId);
+				st.setString(3, "deselect");
+				st.setTimestamp(4,
+						Timestamp.from(Calendar.getInstance().toInstant()));
+				st.executeUpdate();
+				return null;
+			} else {
+				return "你没选这门课";
+			}
+		} finally {
+			con.close();
 		}
 
 	}

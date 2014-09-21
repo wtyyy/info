@@ -1,6 +1,7 @@
 package util;
 
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.regex.Pattern;
@@ -238,13 +239,19 @@ public class UserInfo {
 	 */
 	static public UserInfo getById(int userId) throws SQLException,
 			IOException, ClassNotFoundException {
-		ResultSet rs = Conn.getConn()
-				.prepareStatement("select * from users where id=" + userId)
-				.executeQuery();
-		if (rs.next()) {
-			return (UserInfo) new BeanProcessor().toBean(rs, UserInfo.class);
-		} else {
-			throw new SQLException();
+		Connection con = null;
+		try {
+			con = Conn.getConn();
+			ResultSet rs = con.prepareStatement(
+					"select * from users where id=" + userId).executeQuery();
+			if (rs.next()) {
+				return (UserInfo) new BeanProcessor()
+						.toBean(rs, UserInfo.class);
+			} else {
+				throw new SQLException();
+			}
+		} finally {
+			con.close();
 		}
 	}
 
@@ -259,15 +266,20 @@ public class UserInfo {
 	 */
 	static public UserInfo getByEmail(String email) throws SQLException,
 			IOException, ClassNotFoundException {
-		ResultSet rs = Conn
-				.getConn()
-				.prepareStatement(
-						"select * from users where email='" + email + "'")
-				.executeQuery();
-		if (rs.next()) {
-			return (UserInfo) new BeanProcessor().toBean(rs, UserInfo.class);
-		} else {
-			throw new SQLException();
+		Connection con = null;
+		try {
+			con = Conn.getConn();
+			ResultSet rs = con.prepareStatement(
+					"select * from users where email='" + email + "'")
+					.executeQuery();
+			if (rs.next()) {
+				return (UserInfo) new BeanProcessor()
+						.toBean(rs, UserInfo.class);
+			} else {
+				return null;
+			}
+		} finally {
+			con.close();
 		}
 	}
 

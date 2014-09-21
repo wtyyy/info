@@ -1,6 +1,7 @@
 package util;
 
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -88,14 +89,19 @@ public class PublicInfo {
 
 	static public PublicInfo getById(int id) throws SQLException, IOException,
 			ClassNotFoundException {
-		ResultSet rs = Conn.getConn()
-				.prepareStatement("select * from publicInfo where id=" + id)
-				.executeQuery();
-		if (rs.next()) {
-			return (PublicInfo) new BeanProcessor()
-					.toBean(rs, PublicInfo.class);
-		} else {
-			throw new SQLException();
+		Connection con = null;
+		try {
+			con = Conn.getConn();
+			ResultSet rs = con.prepareStatement(
+					"select * from publicInfo where id=" + id).executeQuery();
+			if (rs.next()) {
+				return (PublicInfo) new BeanProcessor().toBean(rs,
+						PublicInfo.class);
+			} else {
+				return null;
+			}
+		} finally {
+			con.close();
 		}
 	}
 

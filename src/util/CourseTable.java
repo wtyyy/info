@@ -132,6 +132,7 @@ public class CourseTable {
 					ableOnly);
 			return;
 		}
+		out.println("<tr>");
 		Calendar selectStartDate = Calendar.getInstance();
 		selectStartDate.setTime(new SimpleDateFormat("yyyy-MM-dd").parse(course
 				.getStartTime()));
@@ -145,9 +146,10 @@ public class CourseTable {
 					&& (nowDate.before(selectStartDate.getTime()) || nowDate
 							.after(selectEndDate.getTime()))) {
 				if (ableOnly) {
+					out.println("</tr>");
 					return;
 				}
-				out.println("<tr>");
+
 				out.println("<td>-</td>");
 			} else {
 				out.println("<td><input type=\"radio\" checked=\"true\" name=\"courseId\" value=\""

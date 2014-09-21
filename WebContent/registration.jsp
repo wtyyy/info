@@ -24,33 +24,6 @@
 <jsp:useBean id="tempUser" class="util.UserInfo" scope="page" />
 <jsp:setProperty name="tempUser" property="*" />
 <%
-	out.println(user);
-		/*
-		 if (user.getEmail() == null || user.getPassword() == null
-		 || user.getName() == null || user.getGender() == null
-		 || user.getDateBorn() == null || user.getTel() == null
-		 || user.getEmergencyContactName() == null
-		 || user.getEmergencyContactTel() == null
-		 || user.getAddress() == null) {
-		 out.println("<script language=\"javascript\">");
-		 out.println("alert(\"格式错误\");");
-		 out.println("location.href=\"/Test/register.jsp;");
-		 out.println("</script>");
-		 } else {
-		 if (user.getEmail().equals("") || user.getPassword().equals("")
-		 || user.getName().equals("")
-		 || user.getGender().equals("")
-		 || user.getDateBorn().equals("")
-		 || user.getTel().equals("")
-		 || user.getEmergencyContactName().equals("")
-		 || user.getEmergencyContactTel().equals("")
-		 || user.getAddress().equals("")) {
-		 out.println("<script language=\"javascript\">");
-		 out.println("alert(\"格式错误\");");
-		 out.println("location.href=\"/Test/register.jsp;");
-		 out.println("</script>");
-		 }
-		 */
 		if (tempUser.getEmail() == null || tempUser.getName() == null
 				|| tempUser.getGender() == null
 				|| tempUser.getDateBorn() == null
@@ -81,9 +54,8 @@
 			return;
 		}
 
-		Class.forName("com.mysql.jdbc.Driver");
 		Connection con = conn;
-		try {
+		//try {
 			int i = 0;
 			if ("reg".equals(request.getParameter("oper"))) {
 				if (tempUser.getPassword() == null
@@ -95,18 +67,19 @@
 				}
 
 				PreparedStatement st = con
-						.prepareStatement("insert into users(email, password, name, gender, dateBorn, tel, emergencyContactName, emergencyContactTel, address, qq) values (?,?,?,?,?,?,?,?,?,?)");
+						.prepareStatement("insert into users(email, password, name, gender, dateBorn, tel, emergencyContactName, emergencyContactTel, address, qq, nickName) values (?,?,?,?,?,?,?,?,?,?,?)");
 				st.setString(1, tempUser.getEmail());
 				st.setString(2, MD5Tool.digest(tempUser.getPassword()));
-				st.setString(3, tempUser.getName());
+				st.setString(3,  BBAdapter.encode(tempUser.getName()));
 				st.setString(4, tempUser.getGender());
 				st.setDate(5,
 						java.sql.Date.valueOf(tempUser.getDateBorn()));
 				st.setString(6, tempUser.getTel());
-				st.setString(7, tempUser.getEmergencyContactName());
+				st.setString(7,  BBAdapter.encode(tempUser.getEmergencyContactName()));
 				st.setString(8, tempUser.getEmergencyContactTel());
-				st.setString(9, tempUser.getAddress());
+				st.setString(9,  BBAdapter.encode(tempUser.getAddress()));
 				st.setString(10, tempUser.getQq());
+				st.setString(11, BBAdapter.encode(tempUser.getName()));
 
 				if (st.executeUpdate() > 0) {
 					tempUser = UserInfo.getByEmail(tempUser.getEmail());
@@ -157,26 +130,27 @@
 					}
 
 				} else {
-					st = con.prepareStatement("update users set name=?, gender=?, dateBorn=?, tel=?, emergencyContactName=?, emergencyContactTel=?, address=?, qq=? where id=?");
+					st = con.prepareStatement("update users set name=?, gender=?, dateBorn=?, tel=?, emergencyContactName=?, emergencyContactTel=?, address=?, qq=?, nickName=? where id=?");
 
 				}
-				st.setString(1, tempUser.getName());
-				st.setString(2, tempUser.getGender());
-				st.setString(3, tempUser.getDateBorn());
-				st.setString(4, tempUser.getTel());
-				st.setString(5, tempUser.getEmergencyContactName());
-				st.setString(6, tempUser.getEmergencyContactTel());
-				st.setString(7, tempUser.getAddress());
-				st.setString(8, tempUser.getQq());
+				st.setString(1, BBAdapter.encode(tempUser.getName()));
+				st.setString(2,  BBAdapter.encode(tempUser.getGender()));
+				st.setString(3,  BBAdapter.encode(tempUser.getDateBorn()));
+				st.setString(4,  BBAdapter.encode(tempUser.getTel()));
+				st.setString(5,  BBAdapter.encode(tempUser.getEmergencyContactName()));
+				st.setString(6,  BBAdapter.encode(tempUser.getEmergencyContactTel()));
+				st.setString(7,  BBAdapter.encode(tempUser.getAddress()));
+				st.setString(8,  BBAdapter.encode(tempUser.getQq()));
+				st.setString(9,  BBAdapter.encode(tempUser.getNickName()));
 				if (tempUser.getPassword() != null
 						&& !"".equals(tempUser.getPassword())) {
 					System.out.println("[" + tempUser.getPassword()
 							+ "]");
-					st.setString(9,
+					st.setString(10,
 							MD5Tool.digest(tempUser.getPassword()));
-					st.setInt(10, user.getId());
+					st.setInt(11, user.getId());
 				} else {
-					st.setInt(9, user.getId());
+					st.setInt(10, user.getId());
 				}
 				if (st.executeUpdate() > 0) {
 
@@ -201,42 +175,22 @@
 									"utf-8")
 							+ "&redirect=/Test/personalInfo.jsp");
 					return;
-					/*
-					out.println("<script language=\"javascript\">");
-					out.println("alert(\"有东西没填或者格式不对或者用户名已经有了\");");
-					out.println("</script>");
-					 */
 				}
 			} else {
 				response.sendRedirect("message.jsp?message="
 						+ URLEncoder.encode("错误的操作类型", "utf-8")
 						+ "&redirect=/Test");
 				return;
-				/*
-				out.println("<script language=\"javascript\">");
-				out.println("alert(\"您想干啥\");");
-				out.println("</script>");
-				 */
 			}
-		} catch (SQLException e) {
-			response.sendRedirect("message.jsp?message="
-					+ URLEncoder.encode("格式错误或者email已经使用,严重的错误",
-							"utf-8"));
-			//return;
-			/*
-			out.println("<script language=\"javascript\">");
-			out.println("alert(\"有东西没填或者格式不对或者用户名已经有了\");");
-			out.println("</script>");
-			}}
-			 */
-		}
-%>
-<%
-	} catch (Exception e) {
+	}  catch (SQLException e) {
+		response.sendRedirect("message.jsp?message="
+				+ URLEncoder.encode("格式错误或者email已经使用,严重的错误",
+						"utf-8"));
+		return;
+	}catch (Exception e) {
 		response.sendRedirect("/Test/message.jsp?message="
 				+ URLEncoder.encode("操作失败，请检查数据格式", "utf-8"));
-		throw e;
-		//return;
+		return;
 	} finally {
 		try {
 			conn.close();

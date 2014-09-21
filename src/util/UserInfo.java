@@ -19,6 +19,21 @@ import org.apache.commons.dbutils.BeanProcessor;
 public class UserInfo {
 
 	/**
+	 * @return the nickName
+	 */
+	public String getNickName() {
+		return nickName;
+	}
+
+	/**
+	 * @param nickName
+	 *            the nickName to set
+	 */
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
+	}
+
+	/**
 	 * @return the id
 	 */
 	public int getId() {
@@ -310,6 +325,8 @@ public class UserInfo {
 	String privilege;
 
 	int validated;
+
+	String nickName;
 
 	/**
 	 * (non-Javadoc)

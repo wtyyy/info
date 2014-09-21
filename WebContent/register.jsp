@@ -63,6 +63,10 @@
               <input id="email" name="email" class="text" />
             </li>
             <li>
+              <label for="nickName">昵称</label>
+              <input id="nickName" name="nickName" class="text" />
+            </li>
+            <li>
               <label for="password">密码<span class="red">*</span></label>
               <input type="password" name="password" class="text" />
             </li>

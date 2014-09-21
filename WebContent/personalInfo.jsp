@@ -77,6 +77,10 @@ Connection conn = null;
               <input id="email" name="email" class="text" value="<%=user.getEmail() %>" />
             </li>
             <li>
+              <label for="nickName">昵称 <span class="red">*</span></label>
+              <input id="nickName" name="nickName" class="text" value="<%=user.getNickName()==null?"":user.getNickName() %>" />
+            </li>
+            <li>
               <label for="oldPassword">旧密码(不修改密码请不填)<span class="red">*</span></label>
               <input type="password" name="oldPassword" class="text" value=""/>
             </li>

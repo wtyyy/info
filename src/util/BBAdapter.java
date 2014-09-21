@@ -10,22 +10,12 @@ import java.util.Map;
  *
  */
 public class BBAdapter {
-	/**
-	 * Encode hypertext
-	 * 
-	 * @param text
-	 * @return encoded text
-	 */
-	/*
-	 * public static String encode(String text) { String html = text;
-	 * Map<String, String> bbMap = new HashMap<String, String>();
-	 * bbMap.put("<br/>", "[br]"); for (Map.Entry entry : bbMap.entrySet()) {
-	 * html = html.replaceAll(entry.getKey().toString(), entry.getValue()
-	 * .toString()); } bbMap = new HashMap<String, String>(); bbMap.put("<",
-	 * "&lt;"); bbMap.put(">", "&gt;"); for (Map.Entry entry : bbMap.entrySet())
-	 * { html = html.replaceAll(entry.getKey().toString(), entry.getValue()
-	 * .toString()); } return html; }
-	 */
+
+	public static String encode(String text) {
+		if (text == null)
+			return "";
+		return text.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+	}
 
 	/**
 	 * The main bbcode convert method

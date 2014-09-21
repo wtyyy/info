@@ -12,7 +12,11 @@
 <%@ page import="java.util.Calendar"%>
 <%@ page import="java.text.*"%>
 <%@ page import="util.*"%>
-<% try{ %>
+<%
+Connection con = null;
+try {
+	con = Conn.getConn();
+%>
 <%
 	request.setCharacterEncoding("UTF-8");
 	response.setCharacterEncoding("UTF-8");
@@ -141,7 +145,7 @@
 											.prepareStatement(
 													"insert into teachInfo(title, text) values(?,?)");
 								} else {
-									st = Conn.getConn().prepareStatement(
+									st = con.prepareStatement(
 											"update teachInfo set title=?,text=? where id="
 													+ id);
 								}
@@ -157,7 +161,7 @@
 
 							} else if (operation.equals("delete")) {
 								int id = Integer.parseInt(request.getParameter("infoId"));
-								PreparedStatement st = Conn.getConn().prepareStatement(
+								PreparedStatement st = con.prepareStatement(
 										"delete from teachInfo where id=" + id);
 								st.executeUpdate();
 								if (st.executeUpdate() > 0) {
@@ -200,7 +204,7 @@
 									<td>标题</td>
 								</tr>
 								<%
-									ResultSet rs = Conn.getConn()
+									ResultSet rs = con
 											.prepareStatement("select * from teachInfo")
 											.executeQuery();
 									java.util.List<TeachInfo> infoList = new BeanProcessor()
@@ -256,5 +260,11 @@
 				+ URLEncoder.encode("操作失败，请检查数据格式", "utf-8")
 				+ "&redirect=" +request.getRequestURL());
 		return;
+	} finally {
+		try {
+			con.close();
+		} catch (Exception e) {
+			
+		}
 	}
 %>

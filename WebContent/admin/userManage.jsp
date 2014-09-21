@@ -12,7 +12,11 @@
 <%@ page import="java.util.Calendar"%>
 <%@ page import="java.text.*"%>
 <%@ page import="util.*"%>
-<% try { %>
+<%
+Connection con = null;
+try {
+	con = Conn.getConn();
+%>
 <jsp:useBean id="user" class="util.UserInfo" scope="session" />
 	<%
 		if (!"admin".equals(user.getPrivilege())) {
@@ -134,7 +138,7 @@ $(document).ready(function(){
 		<table border="1">
 			<%
 				UserTable.printUsers(
-						new BeanProcessor().toBeanList(Conn.getConn()
+						new BeanProcessor().toBeanList(con
 								.prepareStatement("select * from users")
 								.executeQuery(), UserInfo.class), out, true);
 			%>
@@ -175,5 +179,11 @@ $(document).ready(function(){
 				+ URLEncoder.encode("操作失败，请检查数据格式", "utf-8")
 				+ "&redirect=" +request.getRequestURL());
 		return;
+	}finally {
+		try {
+			con.close();
+		} catch (Exception e) {
+			
+		}
 	}
 %>

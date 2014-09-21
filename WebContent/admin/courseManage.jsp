@@ -12,7 +12,11 @@
 <%@ page import="java.util.Calendar"%>
 <%@ page import="java.text.*"%>
 <jsp:useBean id="user" class="util.UserInfo" scope="session" />
-<% try { %>
+<%
+Connection con = null;
+try {
+	con = Conn.getConn();
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML a1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -203,7 +207,7 @@ $(document).ready(function(){
 		<input type="hidden" name="oper" value="delete">
 		<%
 			CourseTable.printTable(
-					new BeanProcessor().toBeanList(Conn.getConn()
+					new BeanProcessor().toBeanList(con
 							.prepareStatement("select * from courses")
 							.executeQuery(), CourseInfo.class), out, true, true);
 		%>
@@ -243,5 +247,11 @@ $(document).ready(function(){
 				+ URLEncoder.encode("操作失败，请检查数据格式", "utf-8")
 				+ "&redirect=" +request.getRequestURL());
 		return;
+	} finally {
+		try {
+			con.close();
+		} catch (Exception e) {
+			
+		}
 	}
 %>

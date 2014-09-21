@@ -97,8 +97,8 @@
     	<table border="1" id="customers" align="center">
     	<th>资源分类</th>
 	<tr><td><a href="/Test/publicResource/viewInfoList.jsp?type=1">视频资源</a></td></tr>
-	<tr><td><a href="/Test/publicResource/viewInfoList.jsp?type=2">图片资源</a></td></tr>
-	<tr><td><a href="/Test/publicResource/viewInfoList.jsp?type=3">音乐资源</a></td></tr>
+	<tr><td><a href="/Test/publicResource/viewInfoList.jsp?type=2">音乐资源</a></td></tr>
+	<tr><td><a href="/Test/publicResource/viewInfoList.jsp?type=3">图片资源</a></td></tr>
 	</table>	
 	
 	<br/>

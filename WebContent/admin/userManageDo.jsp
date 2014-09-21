@@ -7,7 +7,11 @@
 <%@page import="java.util.*"%>
 <%@ page import="java.sql.*"%>
 <%@ page import="jdbc.*"%>
-<% try { %>
+<%
+Connection con = null;
+try {
+	con = Conn.getConn();
+%>
 <%
 	request.setCharacterEncoding("UTF-8");
 	response.setCharacterEncoding("UTF-8");
@@ -28,7 +32,7 @@
 		int userId = Integer.parseInt(request.getParameter("userId"));
 		UserInfo userInfo = UserInfo.getById(userId);
 		if ("delete".equals(request.getParameter("oper"))) {
-			if (Conn.getConn()
+			if (con
 					.prepareStatement(
 							"delete from users where id=" + userId)
 					.executeUpdate() > 0) {
@@ -39,7 +43,7 @@
 			 	return;
 			}
 		} else if ("changeBlock".equals(request.getParameter("oper"))) {
-			PreparedStatement st = Conn.getConn().prepareStatement(
+			PreparedStatement st = con.prepareStatement(
 					"update users set blocked=? where id=" + userId);
 			st.setInt(1, 1 - userInfo.getBlocked());
 			if (st.executeUpdate() > 0) {
@@ -50,7 +54,7 @@
 			 	return;
 			}
 		} else if ("changePrivilege".equals(request.getParameter("oper"))) {
-			PreparedStatement st = Conn.getConn().prepareStatement(
+			PreparedStatement st = con.prepareStatement(
 					"update users set privilege=? where id=" + userId);
 			st.setString(1,
 					userInfo.getPrivilege().equals("admin") ? "student"
@@ -82,5 +86,11 @@
 				+ URLEncoder.encode("操作失败，请检查数据格式", "utf-8")
 				+ "&redirect=" +request.getRequestURL());
 		return;
+	}finally {
+		try {
+			con.close();
+		} catch (Exception e) {
+			
+		}
 	}
 %>

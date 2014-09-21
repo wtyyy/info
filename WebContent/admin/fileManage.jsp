@@ -12,7 +12,11 @@
 <%@ page import="java.sql.*"%>
 <%@ page import="java.util.Calendar"%>
 <%@ page import="java.text.*"%>
-<% try{ %>
+<%
+Connection con = null;
+try {
+	con = Conn.getConn();
+%>
 <jsp:useBean id="user" class="util.UserInfo" scope="session" />
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML a1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -129,7 +133,7 @@
 							}
 						}
 						if (deleteId != -1) {
-							Conn.getConn()
+							con
 									.prepareStatement(
 											"delete from files where id=" + deleteId)
 									.execute();
@@ -146,7 +150,7 @@
 							</tr>
 
 							<%
-								ResultSet rs = Conn.getConn()
+								ResultSet rs = con
 										.prepareStatement("select * from files").executeQuery();
 								for (; rs.next();) {
 							%>
@@ -196,5 +200,11 @@
 				+ URLEncoder.encode("操作失败，请检查数据格式", "utf-8")
 				+ "&redirect=" +request.getRequestURL());
 		return;
+	} finally {
+		try {
+			con.close();
+		} catch (Exception e) {
+			
+		}
 	}
 %>

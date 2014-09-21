@@ -9,7 +9,11 @@
 	request.setCharacterEncoding("UTF-8");
 	response.setCharacterEncoding("UTF-8");
 %>
-<% try { %>
+<%
+Connection con = null;
+try {
+	con = Conn.getConn();
+%>
 <jsp:useBean id="course" class="util.CourseInfo" scope="request" />
 <jsp:setProperty name="course" property="*" />
 <jsp:useBean id="user" class="util.UserInfo" scope="session" />
@@ -28,11 +32,10 @@
 
 			out.println("别拿那种眼神看着我，我知道你想删东西");
 
-			Connection con = Conn.getConn();
 
 			int courseId = Integer.parseInt(request
 					.getParameter("courseId"));
-			Conn.getConn()
+			con
 					.createStatement()
 					.executeUpdate(
 							"delete from studentChooseCourse where courseId='"
@@ -103,7 +106,7 @@
 			out.println("拉人啦!");
 			int studentId = Integer.parseInt(request.getParameter("userId"));
 			int courseId = Integer.parseInt(request.getParameter("courseId"));
-			String errorMessage = CourseSelect.select(studentId, courseId);
+			String errorMessage = CourseSelect.select(studentId, courseId, true);
 			if ( errorMessage == null) {
 				response.sendRedirect(request.getParameter("redirect"));
 			} else {
@@ -142,5 +145,11 @@
 				+ URLEncoder.encode("操作失败，请检查数据格式", "utf-8")
 				+ "&redirect=" +request.getRequestURL());
 		return;
+	} finally {
+		try {
+			con.close();
+		} catch (Exception e) {
+			
+		}
 	}
 %>

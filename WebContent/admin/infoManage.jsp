@@ -18,7 +18,9 @@
 %>
 <jsp:useBean id="user" class="util.UserInfo" scope="session" />
 <%
-	try {
+Connection con = null;
+try {
+	con = Conn.getConn();
 %>
 <%
 	if (!"admin".equals(user.getPrivilege())) {
@@ -125,14 +127,28 @@
 							String operation = request.getParameter("oper");
 							if (operation != null) {
 								if (operation.equals("add")) {
+									if (request
+											.getParameter("infoId") == null || request.getParameter("type") == null ||
+													request.getParameter("title") == null) {
+										response.sendRedirect("../message.jsp?message="
+												+ URLEncoder
+														.encode("缺少必填项", "utf-8")
+												+ "&redirect=" +request.getRequestURL());
+										return;
+									}
 									int id = Integer.parseInt(request
 											.getParameter("infoId"));
+									int type = Integer.parseInt(request.getParameter("type"));
+									if (type <= 0 || type > 3) {
+										response.sendRedirect("../message.jsp?message="
+												+ URLEncoder
+														.encode("类型不正确", "utf-8")
+												+ "&redirect=" +request.getRequestURL());
+										return;
+									}
 									System.out.println(id);
 									String title = request.getParameter("title"), text = request
 											.getParameter("docText");
-									if (title == null) {
-										title = "";
-									}
 									if (text == null) {
 										text = "";
 									}
@@ -141,14 +157,15 @@
 										st = Conn
 												.getConn()
 												.prepareStatement(
-														"insert into publicInfo(title, text) values(?,?)");
+														"insert into publicInfo(title, text, type) values(?,?,?)");
 									} else {
-										st = Conn.getConn().prepareStatement(
-												"update publicInfo set title=?,text=? where id="
+										st = con.prepareStatement(
+												"update publicInfo set title=?,text=?,type=? where id="
 														+ id);
 									}
 									st.setString(1, title);
 									st.setString(2, text);
+									st.setInt(3, type);
 
 									if (st.executeUpdate() > 0) {
 										out.println("操作成功");
@@ -163,7 +180,7 @@
 								} else if (operation.equals("delete")) {
 									int id = Integer.parseInt(request
 											.getParameter("infoId"));
-									PreparedStatement st = Conn.getConn().prepareStatement(
+									PreparedStatement st = con.prepareStatement(
 											"delete from publicInfo where id=" + id);
 									if (st.executeUpdate() > 0) {
 										out.println("操作成功");
@@ -196,7 +213,7 @@
 												.prepareStatement(
 														"insert into slideInfo(image, href) values(?,?)");
 									} else {
-										st = Conn.getConn().prepareStatement(
+										st = con.prepareStatement(
 												"update slideInfo set image=?, href=? where id="
 														+ id);
 									}
@@ -214,7 +231,7 @@
 								} else if (operation.equals("deleteSlide")) {
 									int id = Integer.parseInt(request
 											.getParameter("slideId"));
-									PreparedStatement st = Conn.getConn().prepareStatement(
+									PreparedStatement st = con.prepareStatement(
 											"delete from slideInfo where id=" + id);
 									if (st.executeUpdate() > 0) {
 										out.println("操作成功");
@@ -263,13 +280,13 @@
 								onClick="javascript:this.form.docText.value+='[sound]'+this.form.soundUrl.value+'[/sound]';"
 								value="插入" /></li>
 							<li>
-							<input type="radio" name="type" value="1" checked/><label>视频资源</label>
+							<input type="radio" name="type" value="1" <%=isModify&&modifyInfo.getType()==1?"checked":"" %>/><label>视频资源</label>
  							</li>
  							<li>
- 							<input type="radio" name="type" value="2" /><label>音频资源</label>
+ 							<input type="radio" name="type" value="2" <%=isModify&&modifyInfo.getType()==2?"checked":"" %>/><label>音频资源</label>
  							</li>
  							<li>
- 							<input type="radio" name="type" value="3" /><label>图片资源</label>
+ 							<input type="radio" name="type" value="3" <%=isModify&&modifyInfo.getType()==3?"checked":"" %>/><label>图片资源</label>
 							</li>
 							<li><label for="submitButton">点击提交更改</label><input
 								type="submit" value="提交" id="submitButton"></li>
@@ -285,7 +302,7 @@
 								<td>标题</td>
 							</tr>
 							<%
-								ResultSet rs = Conn.getConn()
+								ResultSet rs = con
 											.prepareStatement("select * from publicInfo")
 											.executeQuery();
 									java.util.List<PublicInfo> infoList = new BeanProcessor()
@@ -340,5 +357,5 @@
 				+ URLEncoder.encode(e.getMessage(), "utf-8")
 				+ "&redirect=" +request.getRequestURL());
 		return;
-	}
+	} 
 %>

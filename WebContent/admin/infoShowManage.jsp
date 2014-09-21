@@ -18,7 +18,9 @@
 %>
 <jsp:useBean id="user" class="util.UserInfo" scope="session" />
 <%
-	try {
+Connection con = null;
+try {
+	con = Conn.getConn();
 %>
 <%
 	if (!"admin".equals(user.getPrivilege())) {
@@ -143,7 +145,7 @@
 												.prepareStatement(
 														"insert into publicInfo(title, text) values(?,?)");
 									} else {
-										st = Conn.getConn().prepareStatement(
+										st = con.prepareStatement(
 												"update publicInfo set title=?,text=? where id="
 														+ id);
 									}
@@ -163,7 +165,7 @@
 								} else if (operation.equals("delete")) {
 									int id = Integer.parseInt(request
 											.getParameter("infoId"));
-									PreparedStatement st = Conn.getConn().prepareStatement(
+									PreparedStatement st = con.prepareStatement(
 											"delete from publicInfo where id=" + id);
 									if (st.executeUpdate() > 0) {
 										out.println("操作成功");
@@ -196,7 +198,7 @@
 												.prepareStatement(
 														"insert into slideInfo(image, href) values(?,?)");
 									} else {
-										st = Conn.getConn().prepareStatement(
+										st = con.prepareStatement(
 												"update slideInfo set image=?, href=? where id="
 														+ id);
 									}
@@ -214,7 +216,7 @@
 								} else if (operation.equals("deleteSlide")) {
 									int id = Integer.parseInt(request
 											.getParameter("slideId"));
-									PreparedStatement st = Conn.getConn().prepareStatement(
+									PreparedStatement st = con.prepareStatement(
 											"delete from slideInfo where id=" + id);
 									if (st.executeUpdate() > 0) {
 										out.println("操作成功");
@@ -261,7 +263,7 @@
 								<td>标题</td>
 							</tr>
 							<%
-								ResultSet rs = Conn.getConn().prepareStatement("select * from slideInfo")
+								ResultSet rs = con.prepareStatement("select * from slideInfo")
 											.executeQuery();
 									java.util.List<SlideNews> slideList = new BeanProcessor()
 											.toBeanList(rs, SlideNews.class);
@@ -316,5 +318,11 @@
 				+ URLEncoder.encode(e.getMessage(), "utf-8")
 				+ "&redirect=" +request.getRequestURL());
 		return;
+	}finally {
+		try {
+			con.close();
+		} catch (Exception e) {
+			
+		}
 	}
 %>

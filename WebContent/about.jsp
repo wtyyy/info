@@ -23,6 +23,8 @@
       <div class="menu">
         <ul>
           <li><a href="/Test/index.jsp"  ><span>登陆首页</span></a></li>
+          			<li><a href="/Test/publicResource/teach.jsp" ><span>教务信息 </span></a></li>
+          
           <li><a href="/Test/publicResource/" ><span>公共资源页面 </span></a></li>
           <li><a href="/Test/student/courseSelect.jsp"><span> 课程管理页面</span></a></li>
           <li><a href="/Test/discussion/"><span>讨论区</span></a></li>
@@ -60,11 +62,11 @@
         <h2>我们的团队</h2>
         <img src="images/team_1.gif" alt="" width="54" height="55" class="floated" />
         <p><strong>王天一</strong><br />
-          住在116 </p>
+          计22  2012011282</p>
         <p>&nbsp;</p>
         <img src="images/team_2.gif" alt="" width="54" height="55" class="floated" />
         <p><strong>袁源 </strong><br />
-          住在113</p>
+          计22 2012011294</p>
         <p>&nbsp;</p>
       
       </div>

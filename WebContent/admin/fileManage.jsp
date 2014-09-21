@@ -85,6 +85,8 @@
 				<div class="menu">
 					<ul>
 						<li><a href="/Test/index.jsp"><span>登陆首页</span></a></li>
+									<li><a href="/Test/publicResource/teach.jsp" ><span>教务信息 </span></a></li>
+						
 						<li><a href="/Test/publicResource/"><span>公共资源页面 </span></a></li>
 						<li><a href="/Test/student/courseSelect.jsp" class="active"><span>
 									课程管理页面</span></a></li>

@@ -1,4 +1,4 @@
-
+<%@page import="java.net.URLEncoder"%>
 <%@page import="util.StudentChooseCourseHistory"%>
 <%@page import="util.CourseInfo"%>
 <%@page import="org.apache.commons.dbutils.BeanProcessor"%>
@@ -11,11 +11,15 @@
 <%@ page import="java.sql.*"%>
 <%@ page import="java.util.*"%>
 <jsp:useBean id="user" class="util.UserInfo" scope="session" />
-<%@page import="java.net.URLEncoder"%>
+<%try{ %>
+<%
+	request.setCharacterEncoding("UTF-8");
+	response.setCharacterEncoding("UTF-8");
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>讨论区</title>
+<title>查看教务信息</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link href="style.css" rel="stylesheet" type="text/css" />
 <style type="text/css">
@@ -36,7 +40,7 @@
 #customers th 
   {
   font-size:1.1em;
-  text-align:center;
+  text-align:left;
   padding-top:5px;
   padding-bottom:4px;
   background-color:#53868B;
@@ -58,11 +62,10 @@
       <div class="menu">
         <ul>
           <li><a href="/Test/index.jsp" ><span>登陆首页</span></a></li>
-          			<li><a href="/Test/publicResource/teach.jsp" ><span>教务信息 </span></a></li>
-          
+          <li><a href="/Test/publicResource/teach.jsp" class="active"><span>教务信息 </span></a></li>
           <li><a href="/Test/publicResource/" ><span>公共资源页面 </span></a></li>
           <li><a href="/Test/student/courseSelect.jsp"><span> 课程管理页面</span></a></li>
-          <li><a href="/Test/discussion/" class="active"><span>讨论区</span></a></li>
+          <li><a href="/Test/discussion/"><span>讨论区</span></a></li>
           <li><a href="/Test/teachers.jsp"><span> 师资力量</span></a></li>
           <li><a href="/Test/about.jsp"><span> 网站简介</span></a></li>
         </ul>
@@ -74,7 +77,9 @@
   <div class="clr"></div>
   <div class="header_blog2">
     <div class="header">
-      <h2>讨论区</h2>
+      <h2>教务信息</h2>
+      <p>教务处<br />
+        在东主楼</p>
     </div>
     <div class="clr"></div>
   </div>
@@ -82,40 +87,27 @@
   <div class="body">
     <div class="body_resize">
       <div class="full">
-        <h2>讨论区</h2>
-        <p>聊贵系八卦？聊周边美食？抑或聊为提升逼格聊音乐？</p>
-        <div class="blog_port"><a href="/Test/discussion/postTopic.jsp?zone=cs"> <img src="images/port_1.jpg" alt="" width="271" height="235" /></a>
-          <div class="clr"></div>
-          <p style="font: normal 14px Arial, Helvetica, sans-serif; color:#2a2a2a;"><a href="/Test/discussion/postTopic.jsp?zone=cs">贵系贵系</a></p>
-          <p>贵系八卦专区哟！ </p>
-          
-          <p>&nbsp;</p>
-        </div>
-        <div class="blog_port"> <a href="/Test/discussion/postTopic.jsp?zone=food"><img src="images/port_2.jpg" alt="" width="271" height="235" /></a>
-          <div class="clr"></div>
-          <p style="font: normal 14px Arial, Helvetica, sans-serif; color:#2a2a2a;"><a href="/Test/discussion/postTopic.jsp?zone=food">想吃美食</a></p>
-          <p>吃吃吃你就只知道吃!! </p>
-          
-          <p>&nbsp;</p>
-        </div>
-        <div class="blog_port"> <a href="/Test/discussion/postTopic.jsp?zone=music"><img src="images/port_3.jpg" alt="" width="271" height="235" /></a>
-          <div class="clr"></div>
-          <p style="font: normal 14px Arial, Helvetica, sans-serif; color:#2a2a2a;"><a href="/Test/discussion/postTopic.jsp?zone=music">音乐之声</a></p>
-          <p>你要聊神马音乐呀..我觉得你会跑题的吧XD</p>
-          
-          <p>&nbsp;</p>
-        </div>
-        <div class="clr"></div>
-        
-        <div class="clr"></div>
+        	<h2>教务信息</h2>
+	<table id="customers">
+<%
+	ResultSet rs = Conn.getConn().prepareStatement("select * from teachInfo").executeQuery();
+	List<PublicInfo> infoList = new BeanProcessor().toBeanList(rs, PublicInfo.class);
+	for (PublicInfo info : infoList) {
+		out.print("<tr><td><a href=\"/Test/publicResource/viewTeachInfo.jsp?id=" + info.getId()+ "\">" + info.getTitle() + "</a></td></tr>");
+	}
+%>
+</table>
+
       </div>
+      <div class="clr"></div>
     </div>
   </div>
   <div class="clr"></div>
   <div class="footer">
     <div class="footer_resize">
-      <p class="leftt">© Copyright websitename . All Rights Reserved</p>
-      <p class="right"> 当前登录用户：<%=user.getEmail()==null?"您尚未登录":user.getEmail() %><br /><a href="../logout.jsp">注销</a></p>
+      <p class="leftt">© Copyright wty&yy . All Rights Reserved</p>
+      <p class="right"> 当前登录用户：<%=user.getEmail()==null?"您尚未登录":user.getEmail() %><br />
+      <%=user.getEmail()==null?"<a href=\"/Test/signin.jsp\">登录</a></p>":"<a href=\"/Test/logout.jsp\">注销</a></p>"%>
       <div class="clr"></div>
     </div>
     <div class="clr"></div>
@@ -123,3 +115,21 @@
 </div>
 </body>
 </html>
+<%
+	} catch (NumberFormatException e) {
+		response.sendRedirect("/Test/message.jsp?message="
+				+ URLEncoder.encode("数字格式错误", "utf-8")
+				+ "&redirect=" +request.getRequestURL());
+		return;
+	} catch (SQLException e) {
+		response.sendRedirect("/Test/message.jsp?message="
+				+ URLEncoder.encode("SQL操作失败，请检查数据格式", "utf-8")
+				+ "&redirect=" +request.getRequestURL());
+		return;
+	} catch (Exception e) {
+		response.sendRedirect("/Test/message.jsp?message="
+				+ URLEncoder.encode("操作失败，请检查数据格式", "utf-8")
+				+ "&redirect=" +request.getRequestURL());
+		return;
+	}
+%>

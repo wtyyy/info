@@ -1,4 +1,4 @@
-<%@page import="java.net.URLEncoder"%>
+
 <%@page import="util.StudentChooseCourseHistory"%>
 <%@page import="util.CourseInfo"%>
 <%@page import="org.apache.commons.dbutils.BeanProcessor"%>
@@ -10,11 +10,21 @@
 	pageEncoding="UTF-8"%>
 <%@ page import="java.sql.*"%>
 <%@ page import="java.util.*"%>
-<%try{ %>
 <jsp:useBean id="user" class="util.UserInfo" scope="session" />
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML a1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<%@page import="java.net.URLEncoder"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+<%
+if ("admin".equals(user.getPrivilege())) {
+	response.sendRedirect("../admin/infoManage.jsp");
+	return;
+}
+
+%>
+<title>公共资源</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link href="style.css" rel="stylesheet" type="text/css" />
 <style type="text/css">
 #customers
   {
@@ -33,7 +43,7 @@
 #customers th 
   {
   font-size:1.1em;
-  text-align:left;
+  text-align:center;
   padding-top:5px;
   padding-bottom:4px;
   background-color:#53868B;
@@ -46,24 +56,6 @@
   background-color:#EAF2D3;
   }
 </style>
-<title>公共资源</title>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link href="style.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="js/jquery.js"></script>
-<script type="text/javascript" src="js/jquery.color.js"></script>
-<script type="text/javascript" charset="utf-8">
-// <![CDATA[
-$(document).ready(function(){
-	$('div.blog_port').hover(
-	  function(){
-		$(this).stop().animate({backgroundColor: "#f7f7f7"}, 300);
-	  }, 
-	  function(){
-		$(this).stop().animate({backgroundColor: "#fefefe"}, 300);
-	  });
-});
-// ]]>
-</script>
 </head>
 <body>
 <div class="main">
@@ -73,7 +65,8 @@ $(document).ready(function(){
       <div class="menu">
         <ul>
           <li><a href="/Test/index.jsp" ><span>登陆首页</span></a></li>
-          <li><a href="/Test/publicResource/" class="active"><span>公共资源页面 </span></a></li>
+          <li><a href="/Test/publicResource/teach.jsp" ><span>教务信息 </span></a></li>
+          <li><a href="/Test/publicResource/"  class="active"><span>公共资源页面 </span></a></li>
           <li><a href="/Test/student/courseSelect.jsp"><span> 课程管理页面</span></a></li>
           <li><a href="/Test/discussion/"><span>讨论区</span></a></li>
           <li><a href="/Test/teachers.jsp"><span> 师资力量</span></a></li>
@@ -87,9 +80,7 @@ $(document).ready(function(){
   <div class="clr"></div>
   <div class="header_blog2">
     <div class="header">
-      <h2>公共资源页面</h2>
-      <p>包括视频资源、音频资源<br />
-        图片资源和文字资源</p>
+      <h2>公共资源</h2>
     </div>
     <div class="clr"></div>
   </div>
@@ -97,31 +88,40 @@ $(document).ready(function(){
   <div class="body">
     <div class="body_resize">
       <div class="full">
-      	<%
-      	
-		if ("admin".equals(user.getPrivilege())) {
-			response.sendRedirect("../admin/infoManage.jsp");
-		}
-	%>
-	<h2>资源列表</h2>
-	<table id="customers">
-<%
-	ResultSet rs = Conn.getConn().prepareStatement("select * from publicInfo").executeQuery();
-	List<PublicInfo> infoList = new BeanProcessor().toBeanList(rs, PublicInfo.class);
-	for (PublicInfo info : infoList) {
-		out.print("<tr><td height=25><a href=\"viewInfo.jsp?id=" + info.getId()+ "\">" + info.getTitle() + "</a></td></tr>");
-	}
-%>
-</table>
+        <h2>公共资源</h2>
+        <p>这里有小视频，小音频和小图片哟~</p>
+        <div class="blog_port"><a href="/Test/publicResource/viewInfoList.jsp?type=1"> <img src="images/pub_1.jpg" alt="" width="271" height="235" /></a>
+          <div class="clr"></div>
+          <p style="font: normal 14px Arial, Helvetica, sans-serif; color:#2a2a2a;"><a href="/Test/publicResource/viewInfoList.jsp?type=1">视频专区</a></p>
+          <p>想看神马？？来这里找吧啦啦啦 </p>
+          
+          <p>&nbsp;</p>
+        </div>
+        <div class="blog_port"> <a href="/Test/publicResource/viewInfoList.jsp?type=2"><img src="images/pub_2.jpg" alt="" width="271" height="235" /></a>
+          <div class="clr"></div>
+          <p style="font: normal 14px Arial, Helvetica, sans-serif; color:#2a2a2a;"><a href="/Test/publicResource/viewInfoList.jsp?type=2">音频专区</a></p>
+          <p>在线听盗版歌曲？来呀 </p>
+          
+          <p>&nbsp;</p>
+        </div>
+        <div class="blog_port"> <a href="/Test/publicResource/viewInfoList.jsp?type=3"><img src="images/pub_3.jpg" alt="" width="271" height="235" /></a>
+          <div class="clr"></div>
+          <p style="font: normal 14px Arial, Helvetica, sans-serif; color:#2a2a2a;"><a href="/Test/publicResource/viewInfoList.jsp?type=3">图片专区</a></p>
+          <p>你懂得！</p>
+          
+          <p>&nbsp;</p>
+        </div>
+        <div class="clr"></div>
+        
+        <div class="clr"></div>
       </div>
     </div>
   </div>
   <div class="clr"></div>
   <div class="footer">
     <div class="footer_resize">
-      <p class="leftt">© Copyright wty&yy . All Rights Reserved</p>
-      <p class="right"> 当前登录用户：<%=user.getEmail()==null?"您尚未登录":user.getEmail() %><br />
-      <%=user.getEmail()==null?"<a href=\"/Test/signin.jsp\">登录</a></p>":"<a href=\"/Test/logout.jsp\">注销</a></p>"%>
+      <p class="leftt">© Copyright websitename . All Rights Reserved</p>
+      <p class="right"> 当前登录用户：<%=user.getEmail()==null?"您尚未登录":user.getEmail() %><br /><a href="../logout.jsp">注销</a></p>
       <div class="clr"></div>
     </div>
     <div class="clr"></div>
@@ -129,21 +129,3 @@ $(document).ready(function(){
 </div>
 </body>
 </html>
-<%
-	} catch (NumberFormatException e) {
-		response.sendRedirect("/Test/message.jsp?message="
-				+ URLEncoder.encode("数字格式错误", "utf-8")
-				+ "&redirect=" +request.getRequestURL());
-		return;
-	} catch (SQLException e) {
-		response.sendRedirect("/Test/message.jsp?message="
-				+ URLEncoder.encode("SQL操作失败，请检查数据格式", "utf-8")
-				+ "&redirect=" +request.getRequestURL());
-		return;
-	} catch (Exception e) {
-		response.sendRedirect("/Test/message.jsp?message="
-				+ URLEncoder.encode("操作失败，请检查数据格式", "utf-8")
-				+ "&redirect=" +request.getRequestURL());
-		return;
-	}
-%>

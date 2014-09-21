@@ -61,6 +61,8 @@
       <div class="menu">
         <ul>
           <li><a href="/Test/index.jsp" ><span>登陆首页</span></a></li>
+          			<li><a href="/Test/publicResource/teach.jsp" ><span>教务信息 </span></a></li>
+          
           <li><a href="/Test/publicResource/" class="active"><span>公共资源页面 </span></a></li>
           <li><a href="/Test/student/courseSelect.jsp"><span> 课程管理页面</span></a></li>
           <li><a href="/Test/discussion/"><span>讨论区</span></a></li>
@@ -90,18 +92,14 @@
 			out.println(BBAdapter.process(info.getText()));
 				%>
       </div>
-      <div class="right">
-        	<h2>资源列表</h2>
-	<table id="customers">
-<%
-	ResultSet rs = Conn.getConn().prepareStatement("select * from publicInfo").executeQuery();
-	List<PublicInfo> infoList = new BeanProcessor().toBeanList(rs, PublicInfo.class);
-	for (PublicInfo info2 : infoList) {
-		out.print("<tr><td height=25><a href=\"viewInfo.jsp?id=" + info2.getId()+ "\">" + info2.getTitle() + "</a></td></tr>");
-	}
-%>
-</table>
-      </div>
+          <div class="right">
+    
+    	<table border="1" id="customers" align="center">
+	<tr><td><a href="/Test/publicResource/viewInfoList.jsp?type=1">视频资源</a></td></tr>
+	<tr><td><a href="/Test/publicResource/viewInfoList.jsp?type=2">图片资源</a></td></tr>
+	<tr><td><a href="/Test/publicResource/viewInfoList.jsp?type=3">音乐资源</a></td></tr>
+	</table>	
+    </div>
       <div class="clr"></div>
     </div>
   </div>

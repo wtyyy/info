@@ -2,18 +2,15 @@
 <%@page import="util.StudentChooseCourseHistory"%>
 <%@page import="util.CourseInfo"%>
 <%@page import="org.apache.commons.dbutils.BeanProcessor"%>
-<%@page import="util.CourseTable"%>
+<%@page import="util.*"%>
 <%@page import="util.CourseTime"%>
 <%@page import="com.sun.crypto.provider.RSACipher"%>
 <%@page import="jdbc.*"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="java.sql.*"%>
-<%@ page import="java.util.Calendar"%>
-<%@ page import="java.text.*"%>
-<%@ page import="util.*"%>
 <%@ page import="java.util.*"%>
-<% try { %>
+<%try{ %>
 <jsp:useBean id="user" class="util.UserInfo" scope="session" />
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML a1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -49,28 +46,7 @@
   background-color:#EAF2D3;
   }
 </style>
-<%
-	boolean isModify = false;
-	if (!"admin".equals(user.getPrivilege())) {
-		response.sendRedirect("../index.jsp");
-	}
-	CourseInfo currentCourse = null;
-	if (request.getParameter("courseId") != null
-			&& !request.getParameter("courseId").equals("")) {
-		ResultSet rs = Conn
-				.getConn()
-				.prepareStatement(
-						"select * from courses where id="
-								+ request.getParameter("courseId"))
-				.executeQuery();
-		if (rs.next()) {
-			isModify = true;
-			currentCourse = (CourseInfo) (new BeanProcessor().toBean(
-					rs, CourseInfo.class));
-		}
-	}
-%>
-<title>课程管理</title>
+<title>公共资源</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link href="style.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="js/jquery.js"></script>
@@ -113,74 +89,49 @@ $(document).ready(function(){
   <div class="clr"></div>
   <div class="header_blog2">
     <div class="header">
-      <h2>课程管理</h2>
-      <p>添加、删除、修改课程<br />
-        为课程添加或删除成员</p>
+      <h2>公共资源页面</h2>
+      <p>包括视频资源、音频资源<br />
+        图片资源和文字资源</p>
     </div>
     <div class="clr"></div>
   </div>
   <div class="clr"></div>
   <div class="body">
     <div class="body_resize">
-      <div class="full">
+      <div class="left">
       	<%
-		if (user.getPrivilege() == null
-				|| !"admin".equals(user.getPrivilege())) {
-			response.sendRedirect("../index.jsp");
+      	int $type = 0;
+      	if (request.getParameter("type")!=null) {
+      		$type = Integer.valueOf(request.getParameter("type"));
+      	}
+      	if ($type>3 || $type<1) {
+      		response.sendRedirect("/Test/publicResource/index.jsp");
+      		return;
+      	}
+		if ("admin".equals(user.getPrivilege())) {
+			response.sendRedirect("../admin/infoManage.jsp");
 			return;
-		}
-		if (request.getParameter("courseId") == null) {
-			response.sendRedirect("courseManage.jsp");
-			return;
-		}
-		int courseId = Integer.parseInt(request.getParameter("courseId"));
-		ResultSet memberPairSet = Conn
-				.getConn()
-				.prepareStatement(
-						"select * from studentChooseCourse where courseId="
-								+ courseId).executeQuery();
-		List<StudentChooseCourse> memberPairList = new BeanProcessor()
-				.toBeanList(memberPairSet, StudentChooseCourse.class);
-		List<UserInfo> memberList = new ArrayList<UserInfo>();
-		for (StudentChooseCourse pair : memberPairList) {
-			ResultSet memberSet = Conn
-					.getConn()
-					.prepareStatement(
-							"select * from users where id="
-									+ pair.getStudentId()).executeQuery();
-			memberList.addAll(new BeanProcessor().toBeanList(memberSet,
-					UserInfo.class));
 		}
 	%>
-	<h2>删除成员:</h2>
-	<form method="post" action="courseManageDo.jsp">
-		<input type="hidden" name="redirect" value="<%=request.getRequestURL().toString() + "?" + request.getQueryString() %>"/>
-		<input type="hidden" name="oper" value="deselect" /> <input
-			type="hidden" name="courseId" value="<%=courseId%>" />
-		<%
-			UserTable.printUsers(memberList, out, true);
-		%>
-		<input type="submit" value="删除" />
-	</form>
-	<h2>添加成员：</h2>
-	<form method="post" action="courseManageDo.jsp">
-		<input type="hidden" name="redirect" value="<%=request.getRequestURL().toString() + "?" + request.getQueryString() %>"/>
-		<input type="hidden" name="oper" value="select" /> <input
-			type="hidden" name="courseId" value="<%=courseId%>" />
-		<%
-			UserTable
-					.printUsers(
-							new BeanProcessor()
-									.toBeanList(
-											Conn.getConn()
-													.prepareStatement(
-															"select * from users where privilege='student'")
-													.executeQuery(),
-											UserInfo.class), out, true);
-		%>
-		<input type="submit" value="添加" />
-	</form>
+	<h2>资源列表</h2>
+	<table id="customers">
+<%
+	ResultSet rs = Conn.getConn().prepareStatement("select * from publicInfo where type="+$type).executeQuery();
+	List<PublicInfo> infoList = new BeanProcessor().toBeanList(rs, PublicInfo.class);
+	for (PublicInfo info : infoList) {
+		out.print("<tr><td height=25><a href=\"viewInfo.jsp?id=" + info.getId()+ "\">" + info.getTitle() + "</a></td></tr>");
+	}
+%>
+</table>
       </div>
+          <div class="right">
+    
+    	<table border="1" id="customers" align="center">
+	<tr><td><a href="/Test/publicResource/viewInfoList.jsp?type=1">视频资源</a></td></tr>
+	<tr><td><a href="/Test/publicResource/viewInfoList.jsp?type=2">图片资源</a></td></tr>
+	<tr><td><a href="/Test/publicResource/viewInfoList.jsp?type=3">音乐资源</a></td></tr>
+	</table>	
+    </div>
     </div>
   </div>
   <div class="clr"></div>
@@ -200,17 +151,17 @@ $(document).ready(function(){
 	} catch (NumberFormatException e) {
 		response.sendRedirect("/Test/message.jsp?message="
 				+ URLEncoder.encode("数字格式错误", "utf-8")
-				+ "&redirect=" +request.getRequestURL());
+				+ "&redirect=/Test/publicResource/index.jsp");
 		return;
 	} catch (SQLException e) {
 		response.sendRedirect("/Test/message.jsp?message="
 				+ URLEncoder.encode("SQL操作失败，请检查数据格式", "utf-8")
-				+ "&redirect=" +request.getRequestURL());
+				+ "&redirect=/Test/publicResource/index.jsp");
 		return;
 	} catch (Exception e) {
 		response.sendRedirect("/Test/message.jsp?message="
 				+ URLEncoder.encode("操作失败，请检查数据格式", "utf-8")
-				+ "&redirect=" +request.getRequestURL());
+				+ "&redirect=/Test/publicResource/index.jsp");
 		return;
 	}
 %>

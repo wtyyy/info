@@ -88,6 +88,8 @@
 				<div class="menu">
 					<ul>
 						<li><a href="/Test/index.jsp"><span>登陆首页</span></a></li>
+									<li><a href="/Test/publicResource/teach.jsp" ><span>教务信息 </span></a></li>
+						
 						<li><a href="/Test/publicResource/" class="active"><span>公共资源页面
 							</span></a></li>
 						<li><a href="/Test/student/courseSelect.jsp"><span>
@@ -243,8 +245,6 @@
 									name="docText" rows="20" cols="100" id="docText" class="text"
 									class="text"><%=isModify ? modifyInfo.getText() : ""%></textarea></li>
 
-							<li><label for="submitButton">点击提交更改</label><input
-								type="submit" value="提交" id="submitButton"></li>
 							<li><label for="imageUrl">插入图片：</label> <input type="text"
 								name="imageUrl" class="text"> <input type="button"
 								onClick="javascript:this.form.docText.value+='[img]'+this.form.imageUrl.value+'[/img]';"
@@ -259,6 +259,18 @@
 								type="button"
 								onClick="javascript:this.form.docText.value+='[sound]'+this.form.soundUrl.value+'[/sound]';"
 								value="插入" /></li>
+							<li>
+							<input type="radio" name="type" value="1" checked/><label>视频资源</label>
+ 							</li>
+ 							<li>
+ 							<input type="radio" name="type" value="2" /><label>音频资源</label>
+ 							</li>
+ 							<li>
+ 							<input type="radio" name="type" value="3" /><label>图片资源</label>
+							</li>
+							<li><label for="submitButton">点击提交更改</label><input
+								type="submit" value="提交" id="submitButton"></li>
+								
 						</ol>
 					</form>
 
@@ -310,7 +322,9 @@
 								class="text" /></li>
 							<li><label for="submitButton">点击提交更改</label><input
 								type="submit" value="提交" id="submitButton"></li>
-
+							
+"<td><input type=\"radio\" checked=\"true\" name=\"courseId\" value=\""
+						+ course.getId() + "\" /></td>"
 						</ol>
 					</form>
 

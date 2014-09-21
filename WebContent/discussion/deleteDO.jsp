@@ -11,7 +11,12 @@ response.setCharacterEncoding("UTF-8");
 <jsp:useBean id="user" class="util.UserInfo" scope="session"/>
 <%@page import="java.net.URLEncoder"%>
 <% try { %>
-
+<%
+int id = Integer.valueOf(request.getParameter("id"));
+if ("admin".equals(user.getPrivilege())) {
+	
+}
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -21,7 +26,6 @@ response.setCharacterEncoding("UTF-8");
 <body>
 <%
 // delete a reply
-	int id = Integer.valueOf(request.getParameter("id"));
 	Conn.getConn().prepareStatement("delete from discussReply where id="+id).execute();
 	response.sendRedirect("/Test/discussion/postReply.jsp?topicid="+request.getParameter("topicid")+"&zone="+request.getParameter("zone"));
 %>

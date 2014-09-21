@@ -186,8 +186,7 @@
 		response.sendRedirect("message.jsp?message="
 				+ URLEncoder.encode("格式错误或者email已经使用,严重的错误",
 						"utf-8"));
-		throw e;
-		//return;
+		return;
 	}catch (Exception e) {
 		response.sendRedirect("/Test/message.jsp?message="
 				+ URLEncoder.encode("操作失败，请检查数据格式", "utf-8"));

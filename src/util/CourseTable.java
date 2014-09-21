@@ -153,6 +153,7 @@ public class CourseTable {
 			ParseException {
 		Connection conn = null;
 
+<<<<<<< HEAD
 		try {
 			conn = Conn.getConn();
 
@@ -182,6 +183,35 @@ public class CourseTable {
 					out.println("<td><input type=\"radio\" checked=\"true\" name=\"courseId\" value=\""
 							+ course.getId() + "\" /></td>");
 				}
+=======
+		if (!isAdmin) {
+			printSingleCourseForStudent(course, out, haveChooser, isAdmin,
+					ableOnly);
+			return;
+		}
+		out.println("<tr>");
+		Calendar selectStartDate = Calendar.getInstance();
+		selectStartDate.setTime(new SimpleDateFormat("yyyy-MM-dd").parse(course
+				.getStartTime()));
+		Calendar selectEndDate = Calendar.getInstance();
+		selectEndDate.setTime(new SimpleDateFormat("yyyy-MM-dd").parse(course
+				.getEndTime()));
+		Date nowDate = new Date();
+
+		if (haveChooser) {
+			if (!isAdmin
+					&& (nowDate.before(selectStartDate.getTime()) || nowDate
+							.after(selectEndDate.getTime()))) {
+				if (ableOnly) {
+					out.println("</tr>");
+					return;
+				}
+
+				out.println("<td>-</td>");
+			} else {
+				out.println("<td><input type=\"radio\" checked=\"true\" name=\"courseId\" value=\""
+						+ course.getId() + "\" /></td>");
+>>>>>>> origin/master
 			}
 			out.println("<td>" + course.getId() + "</td>");
 			out.println("<td>" + course.getName() + "</td>");

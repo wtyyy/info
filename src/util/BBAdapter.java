@@ -21,7 +21,8 @@ public class BBAdapter {
 		String html = text;
 
 		Map<String, String> bbMap = new HashMap<String, String>();
-
+		bbMap.put("<", "&lt;");
+		bbMap.put(">", "&gt;");
 		bbMap.put("(\r\n|\r|\n|\n\r)", "<br/>");
 		bbMap.put("\\[b\\](.+?)\\[/b\\]", "<strong>$1</strong>");
 		bbMap.put("\\[i\\](.+?)\\[/i\\]",

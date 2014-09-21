@@ -11,6 +11,17 @@ import java.util.Map;
  */
 public class BBAdapter {
 	/**
+	 * Encode hypertext
+	 * 
+	 * @param text
+	 * @return encoded text
+	 */
+	public static String encode(String text) {
+
+		return null;
+	}
+
+	/**
 	 * The main bbcode convert method
 	 * 
 	 * @param text

@@ -1,0 +1,44 @@
+
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!--Sitemap 1.0-->
+<META content="AurigaDoc" name="generator">
+</HEAD>
+<BODY>
+<OBJECT type="text/site properties"><param name="ImageType" value="Folder"></OBJECT><UL>
+<LI><OBJECT type="text/sitemap"><param name="Name" value="file"><param name="Local" value="file\package-summary.html"></OBJECT><UL>
+<LI><OBJECT type="text/sitemap"><param name="Name" value="FileUploadDBServlet"><param name="Local" value="file\FileUploadDBServlet.html"></OBJECT></LI>
+<LI><OBJECT type="text/sitemap"><param name="Name" value="UploadCheck"><param name="Local" value="file\UploadCheck.html"></OBJECT></LI>
+</UL>
+</LI>
+<LI><OBJECT type="text/sitemap"><param name="Name" value="jdbc"><param name="Local" value="jdbc\package-summary.html"></OBJECT><UL>
+<LI><OBJECT type="text/sitemap"><param name="Name" value="Conn"><param name="Local" value="jdbc\Conn.html"></OBJECT></LI>
+</UL>
+</LI>
+<LI><OBJECT type="text/sitemap"><param name="Name" value="util"><param name="Local" value="util\package-summary.html"></OBJECT><UL>
+<LI><OBJECT type="text/sitemap"><param name="Name" value="BBAdapter"><param name="Local" value="util\BBAdapter.html"></OBJECT></LI>
+<LI><OBJECT type="text/sitemap"><param name="Name" value="CourseInfo"><param name="Local" value="util\CourseInfo.html"></OBJECT></LI>
+<LI><OBJECT type="text/sitemap"><param name="Name" value="CourseSelect"><param name="Local" value="util\CourseSelect.html"></OBJECT></LI>
+<LI><OBJECT type="text/sitemap"><param name="Name" value="CourseTable"><param name="Local" value="util\CourseTable.html"></OBJECT></LI>
+<LI><OBJECT type="text/sitemap"><param name="Name" value="CourseTime"><param name="Local" value="util\CourseTime.html"></OBJECT></LI>
+<LI><OBJECT type="text/sitemap"><param name="Name" value="CsProfessorSpider"><param name="Local" value="util\CsProfessorSpider.html"></OBJECT></LI>
+<LI><OBJECT type="text/sitemap"><param name="Name" value="DateTimePrint"><param name="Local" value="util\DateTimePrint.html"></OBJECT></LI>
+<LI><OBJECT type="text/sitemap"><param name="Name" value="DBFileGetter"><param name="Local" value="util\DBFileGetter.html"></OBJECT></LI>
+<LI><OBJECT type="text/sitemap"><param name="Name" value="DiscussionInfo"><param name="Local" value="util\DiscussionInfo.html"></OBJECT></LI>
+<LI><OBJECT type="text/sitemap"><param name="Name" value="DiscussionReplyInfo"><param name="Local" value="util\DiscussionReplyInfo.html"></OBJECT></LI>
+<LI><OBJECT type="text/sitemap"><param name="Name" value="MailUtil"><param name="Local" value="util\MailUtil.html"></OBJECT></LI>
+<LI><OBJECT type="text/sitemap"><param name="Name" value="MD5Tool"><param name="Local" value="util\MD5Tool.html"></OBJECT></LI>
+<LI><OBJECT type="text/sitemap"><param name="Name" value="ProfessorInfo"><param name="Local" value="util\ProfessorInfo.html"></OBJECT></LI>
+<LI><OBJECT type="text/sitemap"><param name="Name" value="PublicInfo"><param name="Local" value="util\PublicInfo.html"></OBJECT></LI>
+<LI><OBJECT type="text/sitemap"><param name="Name" value="SlideNews"><param name="Local" value="util\SlideNews.html"></OBJECT></LI>
+<LI><OBJECT type="text/sitemap"><param name="Name" value="StudentChooseCourse"><param name="Local" value="util\StudentChooseCourse.html"></OBJECT></LI>
+<LI><OBJECT type="text/sitemap"><param name="Name" value="StudentChooseCourseHistory"><param name="Local" value="util\StudentChooseCourseHistory.html"></OBJECT></LI>
+<LI><OBJECT type="text/sitemap"><param name="Name" value="TeachInfo"><param name="Local" value="util\TeachInfo.html"></OBJECT></LI>
+<LI><OBJECT type="text/sitemap"><param name="Name" value="UserInfo"><param name="Local" value="util\UserInfo.html"></OBJECT></LI>
+<LI><OBJECT type="text/sitemap"><param name="Name" value="UserTable"><param name="Local" value="util\UserTable.html"></OBJECT></LI>
+</UL>
+</LI>
+</UL>
+</BODY>
+</HTML>

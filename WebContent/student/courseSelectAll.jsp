@@ -184,7 +184,7 @@ $(document).ready(function(){
 						.executeQuery("select * from courses where id='"
 								+ allCourse.getInt("id")
 								+ "'");
-				if (thisCourse.next() && !set.contains(thisCourse.getInt("id"))) {
+				if (thisCourse.next()) {
 					CourseTable.printSingleCourse(
 							(CourseInfo) (new BeanProcessor().toBean(
 									thisCourse, CourseInfo.class)), out,

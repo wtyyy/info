@@ -95,10 +95,23 @@
           <div class="right">
     
     	<table border="1" id="customers" align="center">
+    	<th>资源分类</th>
 	<tr><td><a href="/Test/publicResource/viewInfoList.jsp?type=1">视频资源</a></td></tr>
 	<tr><td><a href="/Test/publicResource/viewInfoList.jsp?type=2">图片资源</a></td></tr>
 	<tr><td><a href="/Test/publicResource/viewInfoList.jsp?type=3">音乐资源</a></td></tr>
 	</table>	
+	
+	<br/>
+    	<table border="1" id="customers" align="center">
+    	<th>资源列表</th>
+<% 
+	ResultSet rs = Conn.getConn().prepareStatement("select * from publicInfo where type="+info.getType()).executeQuery();
+	List<PublicInfo> infoList = new BeanProcessor().toBeanList(rs, PublicInfo.class);
+	for (PublicInfo inf : infoList) {
+		out.print("<tr><td><a href=\"/Test/publicResource/viewInfo.jsp?id=" + info.getId()+ "\">" + inf.getTitle() + "</a></td></tr>");
+	}
+%>
+    	</table>
     </div>
       <div class="clr"></div>
     </div>

@@ -61,6 +61,21 @@ public class PublicInfo {
 	}
 
 	/**
+	 * @return the type
+	 */
+	public int getType() {
+		return type;
+	}
+
+	/**
+	 * @param type
+	 *            the type to set
+	 */
+	public void setType(int type) {
+		this.type = type;
+	}
+
+	/**
 	 * (non-Javadoc)
 	 * 
 	 * @see java.lang.Object#toString()
@@ -87,4 +102,5 @@ public class PublicInfo {
 	int id;
 	String title;
 	String text;
+	int type;
 }

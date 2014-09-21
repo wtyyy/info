@@ -12,8 +12,8 @@
 <%@ page import="java.util.*"%>
 <%
 	Connection con = null;
-try {
-	con = Conn.getConn();
+	try {
+		con = Conn.getConn();
 %>
 <jsp:useBean id="user" class="util.UserInfo" scope="session" />
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML a1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -51,6 +51,11 @@ try {
 	background-color: #53868B;
 	color: #ffffff;
 }
+
+#customers tr.alt td {
+	color: #000000;
+	background-color: #EAF2D3;
+}
 </style>
 <title>选课</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -87,8 +92,7 @@ try {
 						<li><a href="/Test/publicResource/teach.jsp"><span>教务信息
 							</span></a></li>
 
-						<li><a href="/Test/publicResource/"><span>公共资源页面
-							</span></a></li>
+						<li><a href="/Test/publicResource/"><span>公共资源页面 </span></a></li>
 						<li><a href="/Test/student/courseSelect.jsp" class="active"><span>
 									课程管理页面</span></a></li>
 						<li><a href="/Test/discussion/"><span>讨论区</span></a></li>
@@ -115,100 +119,121 @@ try {
 			<div class="body_resize">
 				<div class="left">
 					<%
-						Class.forName("com.mysql.jdbc.Driver");
-							ResultSet selectedCourseSet = null;
-							if (user.getPrivilege() == null) {
-								response.sendRedirect("../index.jsp");
-								return;
-							}
-							if (user.getPrivilege().equals("student")) {
-								String email = user.getEmail();
-								int id = user.getId();
-								Statement st = con.createStatement();
-								selectedCourseSet = st
-										.executeQuery("select * from studentChooseCourse where studentId='"
-												+ id + "'");
-							} else {
-								response.sendRedirect("../admin/courseManage.jsp");
-								return;
-							}
+						if ("student".equals(user.getPrivilege())) {
 					%>
-					<form method="post" action="courseSelectDo.jsp">
-						<input type="hidden" name="oper" value="delete">
-						<table id="customers" border="1">
-							<tr>
-							</tr>
-							<%
-								HashSet<Integer> set = new HashSet<Integer>();
-									if (user.getPrivilege().equals("student")) {
-										for (; selectedCourseSet.next();) {
-
-											Statement st = con.createStatement();
-											ResultSet thisCourse = st
-													.executeQuery("select * from courses where id='"
-															+ selectedCourseSet.getInt("courseId")
-															+ "'");
-											if (thisCourse.next()) {
-												set.add(thisCourse.getInt("id"));
-											} else {
-												out.println("搞错了");
-											}
-										}
-									}
-							%>
-						</table>
-					</form>
-					<form method="post" action="courseSelectDo.jsp">
-						<input type="hidden" name="oper" value="add">
-						<table id="customers" border="1">
-
-							<%
-								ResultSet allCourse = con.prepareStatement(
-											"select * from courses").executeQuery();
-									for (; allCourse.next();) {
-										Statement st = con.createStatement();
-										ResultSet thisCourse = st
-												.executeQuery("select * from courses where id='"
-														+ allCourse.getInt("id") + "'");
-										if (thisCourse.next()
-												&& !set.contains(thisCourse.getInt("id"))) {
-
-										}
-									}
-							%>
-						</table>
-					</form>
-
-					<h2>选课历史纪录</h2>
-					<table id="customers" border="1">
+					<h2>你的课表</h2>
+					<%
+						List<CourseInfo> courseList = CourseInfo
+										.getStudentCourseList(user.getId());
+					%>
+					<table border="1" id="customers">
 						<tr>
-							<th>课程id</th>
-							<th>课程名</th>
-							<th>操作</th>
-							<th>时间</th>
+							<th>节</th>
+							<td width=100px>星期日</td>
+							<th width=100px>星期一</th>
+							<td width=100px>星期二</td>
+							<th width=100px>星期三</th>
+							<td width=100px>星期四</td>
+							<th width=100px>星期五</th>
+							<td width=100px>星期六</td>
 						</tr>
 						<%
-							ResultSet rs = con.prepareStatement(
-										"select * from studentChooseCourseHistory where studentId ="
-												+ user.getId()).executeQuery();
-								List<StudentChooseCourseHistory> historyList = new BeanProcessor()
-										.toBeanList(rs, StudentChooseCourseHistory.class);
-								for (StudentChooseCourseHistory history : historyList) {
-									out.println("<tr><td>"
-											+ history.getCourseId()
-											+ "</td><td>"
-											+ CourseInfo.getById(history.getCourseId())
-													.getName() + "</td><td>"
-											+ history.getOperation() + "</td><td>"
-											+ history.getTime() + "</td></tr>");
+							for (int i = 0; i < 5; i++) {
+						%>
+						<tr>
+							<td><%=i%></td>
+							<%
+								for (int j = 0; j < 7; j++) {
+							%>
+							<td>
+								<%
+									for (CourseInfo course : courseList) {
+														if (course.getDay() == j
+																&& course.getBlock() == i) {
+								%> <%=course.getName()%> <%
+ 	}
+ 					}
+ %>
+							</td>
+							<%
 								}
+							%>
+						</tr>
+						<%
+							}
 						%>
 					</table>
+					<%
+						} else {
+					%>
+
+					<%
+						}
+					%>
+					<%
+						if (user.getEmail() != null
+									&& "student".equals(user.getPrivilege())) {
+								out.println("<br/><h2>两天内你会上的课</h2><table id=\"customers\">");
+								List<CourseInfo> courseList = CourseInfo
+										.getStudentCourseList(user.getId());
+								for (CourseInfo course : courseList) {
+									Calendar now = Calendar.getInstance();
+									int DayInWeek = now.get(Calendar.DAY_OF_WEEK) - 1;
+									int courseDay = course.getDay();
+									if (courseDay < DayInWeek) {
+										courseDay += 7;
+									}
+									System.out.println(course.getName() + courseDay
+											+ DayInWeek);
+									if (courseDay - DayInWeek <= 2) {
+					%><tr>
+						<td><%=course.getName()%></td>
+						<td><%=course.getTeacher()%></td>
+						<td>
+							<%
+								switch (courseDay % 7) {
+												case 0:
+													out.print("星期日");
+													break;
+												case 1:
+													out.print("星期一");
+													break;
+												case 2:
+													out.print("星期二");
+													break;
+												case 3:
+													out.print("星期三");
+													break;
+												case 4:
+													out.print("星期四");
+													break;
+												case 5:
+													out.print("星期五");
+													break;
+												case 6:
+													out.print("星期六");
+													break;
+												default:
+													break;
+												}
+							%>第<%=course.getBlock()%>节
+						</td>
+					</tr>
+					<%
+						}
+
+								}
+								out.println("</table>");
+							}
+					%>
+					<br />
+
 				</div>
 				<div class="right">
+
 					<table border="1" id="customers" align="center">
 						<tr>
-							<td><a href="/Test/student/courseSelect.jsp">可选课程</a></td>
+							<td><a>可选课程</a></td>
 						</tr>
 						<tr>
 							<td><a href="/Test/student/courseSelectAlready.jsp">已选课程</a></td>
@@ -217,7 +242,7 @@ try {
 							<td><a href="/Test/student/courseSelectAll.jsp">所有课程</a></td>
 						</tr>
 						<tr>
-							<td><a>历史操作记录</a></td>
+							<td><a href="/Test/student/courseSelectHistory.jsp">历史操作记录</a></td>
 						</tr>
 						<tr>
 							<td><a href="/Test/student/myTable.jsp">我的课表</a></td>
@@ -226,7 +251,6 @@ try {
 				</div>
 
 			</div>
-
 		</div>
 		<div class="clr"></div>
 		<div class="footer">
@@ -239,8 +263,8 @@ try {
 				<div class="clr"></div>
 			</div>
 			<div class="clr"></div>
-		</div>
 
+		</div>
 	</div>
 
 </body>
@@ -255,7 +279,8 @@ try {
 		response.sendRedirect("/Test/message.jsp?message="
 				+ URLEncoder.encode("SQL操作失败，请检查数据格式", "utf-8")
 				+ "&redirect=" + request.getRequestURL());
-		return;
+		throw e;
+		//return;
 	} catch (Exception e) {
 		response.sendRedirect("/Test/message.jsp?message="
 				+ URLEncoder.encode("操作失败，请检查数据格式", "utf-8")
@@ -264,7 +289,7 @@ try {
 	} finally {
 		try {
 			con.close();
-		} catch (Exception e) {
+		} catch (SQLException e) {
 
 		}
 	}

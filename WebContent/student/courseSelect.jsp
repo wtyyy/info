@@ -11,7 +11,7 @@
 <%@ page import="java.sql.*"%>
 <%@ page import="java.util.*"%>
 <%
-Connection con = null;
+	Connection con = null;
 	try {
 		con = Conn.getConn();
 %>
@@ -92,8 +92,7 @@ Connection con = null;
 						<li><a href="/Test/publicResource/teach.jsp"><span>教务信息
 							</span></a></li>
 
-						<li><a href="/Test/publicResource/"><span>公共资源页面
-							</span></a></li>
+						<li><a href="/Test/publicResource/"><span>公共资源页面 </span></a></li>
 						<li><a href="/Test/student/courseSelect.jsp" class="active"><span>
 									课程管理页面</span></a></li>
 						<li><a href="/Test/discussion/"><span>讨论区</span></a></li>
@@ -220,6 +219,9 @@ Connection con = null;
 						<tr>
 							<td><a href="/Test/student/courseSelectHistory.jsp">历史操作记录</a></td>
 						</tr>
+						<tr>
+							<td><a href="/Test/student/myTable.jsp">我的课表</a></td>
+						</tr>
 					</table>
 				</div>
 
@@ -263,7 +265,7 @@ Connection con = null;
 		try {
 			con.close();
 		} catch (SQLException e) {
-			
+
 		}
 	}
 %>

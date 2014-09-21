@@ -38,7 +38,7 @@
 			out.println("location.href=\"/Test/discussion/postReply.jsp?topicid="
 					+ request.getParameter("topicid")
 					+ "&zone="
-					+ request.getParameter("zone"));
+					+ request.getParameter("zone")+"\";");
 			out.println("</script>");
 
 		} catch (Exception e) {

@@ -19,7 +19,7 @@ response.setCharacterEncoding("UTF-8");
 //delete a topic and redirect to the zone page
 	int id = Integer.valueOf(request.getParameter("id"));
 
-ResultSet set = Conn.getConn().prepareStatement("select * from discuss where id="+id).executeQuery();
+ResultSet set = Conn.getConn().prepareStatement("select * from discussion where id="+id).executeQuery();
 if (!set.next()) {
 	 response.sendRedirect("/Test/discussion/postReply.jsp?topicid="+request.getParameter("topicid")+"&zone="+request.getParameter("zone"));
 	 return;

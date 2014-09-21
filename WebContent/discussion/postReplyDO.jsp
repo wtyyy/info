@@ -37,7 +37,7 @@ if ( ! ("cs".equals(request.getParameter("zone")) || "food".equals(request.getPa
 		out.println("}");
 		out.println("else");
 		out.println("{");
-		out.println("location.href=\"/Test/discussion/postReply.jsp?topicid="+(int)session.getAttribute("topicid")+"\";");
+		out.println("location.href=\"/Test/discussion/postReply.jsp?topicid="+Integer.valueOf(request.getParameter("belongs"))+"&zone="+request.getParameter("zone"));
 		out.println("}</script>");
 	} else {
 	

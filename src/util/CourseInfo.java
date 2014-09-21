@@ -211,11 +211,9 @@ public class CourseInfo {
 							StudentChooseCourse.class);
 			ArrayList<CourseInfo> result = new ArrayList<CourseInfo>();
 			for (StudentChooseCourse pair : pairList) {
-				ResultSet rs = Conn
-						.getConn()
-						.prepareStatement(
-								"select * from Courses where id="
-										+ pair.courseId).executeQuery();
+				ResultSet rs = con.prepareStatement(
+						"select * from Courses where id=" + pair.courseId)
+						.executeQuery();
 				if (rs.next()) {
 					result.add((CourseInfo) new BeanProcessor().toBean(rs,
 							CourseInfo.class));

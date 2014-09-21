@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 
 import javax.servlet.jsp.JspWriter;
@@ -308,11 +309,11 @@ public class DiscussionInfo {
 	 * @return "封" with the link
 	 */
 	public String getForbiddenPrint() {
+		Connection con = null;
 		try {
-			ResultSet rs = Conn
-					.getConn()
-					.prepareStatement(
-							"select * from Forbidden where id=" + userid)
+			con = Conn.getConn();
+			ResultSet rs = con.prepareStatement(
+					"select * from Forbidden where id=" + userid)
 					.executeQuery();
 			if (!rs.next()) {
 				return "<a href=" + "/Test/discussion/forbidDO.jsp?userid="
@@ -321,6 +322,13 @@ public class DiscussionInfo {
 			}
 		} catch (Exception e) {
 			return "";
+		} finally {
+			try {
+				con.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return "<a>已封</a>";
 

@@ -18,7 +18,7 @@
 <%@ page import="jdbc.*"%>
 <%
 	request.setCharacterEncoding("UTF-8");
-		response.setCharacterEncoding("UTF-8");
+	response.setCharacterEncoding("UTF-8");
 %>
 <%
 Connection conn = null;

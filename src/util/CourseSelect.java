@@ -1,31 +1,35 @@
 package util;
 
-import java.util.*;
 import java.io.IOException;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.Calendar;
 
 import jdbc.Conn;
+
 /**
- * Course Selection class.
- * Use Select to force a user to select a class 
+ * Course Selection class. Use Select to force a user to select a class
+ * 
  * @author 天一
  *
  */
 public class CourseSelect {
 	/**
 	 * let a student to select a course
+	 * 
 	 * @param studentId
 	 * @param courseId
-	 * @return	null if succeeds, or error message
+	 * @return null if succeeds, or error message
 	 * @throws SQLException
 	 * @throws IOException
 	 * @throws ClassNotFoundException
 	 */
 	public static String select(int studentId, int courseId)
 			throws SQLException, IOException, ClassNotFoundException {
-		
 
-		
 		Connection con = Conn.getConn();
 		try {
 			con.setAutoCommit(false);
@@ -75,15 +79,17 @@ public class CourseSelect {
 			} else {
 				return "人满";
 			}
-			con.commit();
-			
-			PreparedStatement st = Conn.getConn().prepareStatement("insert into studentChooseCourseHistory(studentId, courseId, operation,time) values(?,?,?,?)");
+
+			PreparedStatement st = con
+					.prepareStatement("insert into studentChooseCourseHistory(studentId, courseId, operation,time) values(?,?,?,?)");
 			st.setInt(1, studentId);
 			st.setInt(2, courseId);
 			st.setString(3, "select");
-			st.setTimestamp(4, Timestamp.from(Calendar.getInstance().toInstant()));
+			st.setTimestamp(4,
+					Timestamp.from(Calendar.getInstance().toInstant()));
 			st.executeUpdate();
-			
+
+			con.commit();
 			return null;
 
 		} catch (SQLException e) {
@@ -92,23 +98,30 @@ public class CourseSelect {
 		}
 	}
 
-	public static String deselect(int studentId, int courseId) throws ClassNotFoundException, SQLException {
-		
-		PreparedStatement st = Conn.getConn().prepareStatement("insert into studentChooseCourseHistory(studentId, courseId, operation,time) values(?,?,?,?)");
-		st.setInt(1, studentId);
-		st.setInt(2, courseId);
-		st.setString(3, "deselect");
-		st.setTimestamp(4, Timestamp.from(Calendar.getInstance().toInstant()));
-		st.executeUpdate();
-		
-		int result = Conn.getConn().createStatement().executeUpdate(
-			"delete from studentChooseCourse where studentId='"
-					+ studentId + "' and courseId='" + courseId + "'");
+	public static String deselect(int studentId, int courseId)
+			throws ClassNotFoundException, SQLException {
+		int result = Conn
+				.getConn()
+				.createStatement()
+				.executeUpdate(
+						"delete from studentChooseCourse where studentId='"
+								+ studentId + "' and courseId='" + courseId
+								+ "'");
 		if (result > 0) {
+			PreparedStatement st = Conn
+					.getConn()
+					.prepareStatement(
+							"insert into studentChooseCourseHistory(studentId, courseId, operation,time) values(?,?,?,?)");
+			st.setInt(1, studentId);
+			st.setInt(2, courseId);
+			st.setString(3, "deselect");
+			st.setTimestamp(4,
+					Timestamp.from(Calendar.getInstance().toInstant()));
+			st.executeUpdate();
 			return null;
-		}else {
+		} else {
 			return "你没选这门课";
 		}
-		
+
 	}
 }

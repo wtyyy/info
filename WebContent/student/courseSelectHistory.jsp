@@ -25,35 +25,29 @@
 	}
 %>
 <style type="text/css">
-#customers
-  {
-  font-family:"Trebuchet MS", Arial, Helvetica, sans-serif; word-break:break-all; word-wrap:break-all;
-  width:100%;
-  border-collapse:collapse;
-  }
+#customers {
+	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+	word-break: break-all;
+	word-wrap: break-all;
+	width: 100%;
+	border-collapse: collapse;
+}
 
-#customers td, #customers th 
-  {
-  font-size:1em;
-  border:1px solid #53868B;
-  padding:3px 7px 2px 7px;
-  }
+#customers td, #customers th {
+	font-size: 0.8em;
+	border: 1px solid #53868B;
+	padding: 3px 7px 2px 7px;
+}
 
-#customers th 
-  {
-  font-size:1.1em;
-  text-align:left;
-  padding-top:5px;
-  padding-bottom:4px;
-  background-color:#53868B;
-  color:#ffffff;
-  }
+#customers th {
+	font-size: 0.9em;
+	text-align: left;
+	padding-top: 5px;
+	padding-bottom: 4px;
+	background-color: #53868B;
+	color: #ffffff;
+}
 
-#customers tr.alt td 
-  {
-  color:#000000;
-  background-color:#EAF2D3;
-  }
 </style>
 <title>选课</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
